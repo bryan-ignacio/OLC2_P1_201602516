@@ -4,10 +4,12 @@
 #include <stdio.h>
 #include <string.h>
 
-Context* nuevoContext(Context* anterior) {
-    Context* nuevo = malloc(sizeof(Context));
+Context *nuevoContext(Context *anterior)
+{
+    Context *nuevo = malloc(sizeof(Context));
     nuevo->anterior = anterior;
-    if (anterior) {
+    if (anterior)
+    {
         nuevo->nombre = anterior->nombre + 1;
     }
     nuevo->ultimoSymbol = NULL;
@@ -15,8 +17,9 @@ Context* nuevoContext(Context* anterior) {
     return nuevo;
 }
 
-Symbol* nuevoVariable(char* nombre, void* valor, TipoDato tipo) {
-    Symbol* nuevo = malloc(sizeof(Symbol));
+Symbol *nuevoVariable(char *nombre, void *valor, TipoDato tipo)
+{
+    Symbol *nuevo = malloc(sizeof(Symbol));
     nuevo->nombre = nombre;
     nuevo->valor = valor;
     nuevo->tipo = tipo;
@@ -24,8 +27,10 @@ Symbol* nuevoVariable(char* nombre, void* valor, TipoDato tipo) {
     return nuevo;
 }
 
-void agregarSymbol(Context* actual, Symbol* symbol) {
-    if (buscarSymbol(actual->ultimoSymbol, symbol->nombre)) {
+void agregarSymbol(Context *actual, Symbol *symbol)
+{
+    if (buscarSymbol(actual->ultimoSymbol, symbol->nombre))
+    {
         printf("La variable de nombre '%s' ya existe.\n", symbol->nombre);
         return;
     }
@@ -33,9 +38,12 @@ void agregarSymbol(Context* actual, Symbol* symbol) {
     actual->ultimoSymbol = symbol;
 }
 
-Symbol* buscarSymbol(Symbol* actual, char* nombre) {
-    while (actual) {
-        if (strcmp(actual->nombre, nombre) == 0) {
+Symbol *buscarSymbol(Symbol *actual, char *nombre)
+{
+    while (actual)
+    {
+        if (strcmp(actual->nombre, nombre) == 0)
+        {
             return actual;
         }
         actual = actual->anterior;
@@ -43,10 +51,13 @@ Symbol* buscarSymbol(Symbol* actual, char* nombre) {
     return NULL;
 }
 
-Symbol* buscarTablaSimbolos(Context* actual, char* nombre) {
-    while (actual) {
-        Symbol* symbolEncontrado = buscarSymbol(actual->ultimoSymbol, nombre);
-        if (symbolEncontrado) {
+Symbol *buscarTablaSimbolos(Context *actual, char *nombre)
+{
+    while (actual)
+    {
+        Symbol *symbolEncontrado = buscarSymbol(actual->ultimoSymbol, nombre);
+        if (symbolEncontrado)
+        {
             return symbolEncontrado;
         }
         actual = actual->anterior;

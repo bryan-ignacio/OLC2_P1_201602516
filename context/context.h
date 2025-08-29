@@ -3,7 +3,8 @@
 
 #include "result.h"
 
-typedef enum {
+typedef enum
+{
     VARIABLE,
     FUNCION,
     STRUCT,
@@ -12,27 +13,29 @@ typedef enum {
 typedef struct Symbol Symbol;
 typedef struct Context Context;
 
-struct Symbol{
-    char* nombre;
-    void* valor;
+struct Symbol
+{
+    char *nombre;
+    void *valor;
     TipoDato tipo;
     Clase clase;
 
-    Symbol* anterior;
+    Symbol *anterior;
 };
 
-struct Context {
+struct Context
+{
     int nombre;
-    Context* anterior;
-    Symbol* ultimoSymbol; //tabla de simbolos
+    Context *anterior;
+    Symbol *ultimoSymbol; // tabla de simbolos
 };
 
-Context* nuevoContext(Context* anterior);
-Symbol* nuevoVariable(char* nombre, void* valor, TipoDato tipo);
-void agregarSymbol(Context* actual, Symbol*);
-Symbol* buscarSymbol(Symbol* actual, char* nombre);
-Symbol* buscarTablaSimbolos(Context* actual, char* nombre);
+Context *nuevoContext(Context *anterior);
+Symbol *nuevoVariable(char *nombre, void *valor, TipoDato tipo);
+void agregarSymbol(Context *actual, Symbol *);
+Symbol *buscarSymbol(Symbol *actual, char *nombre);
+Symbol *buscarTablaSimbolos(Context *actual, char *nombre);
 
-//cambiar la lista de symbol con una tabla hash donde la funcion hash esta dada por el nombre del symbol + la linea + columna inicio + columna final + tipo + clase
+// cambiar la lista de symbol con una tabla hash donde la funcion hash esta dada por el nombre del symbol + la linea + columna inicio + columna final + tipo + clase
 
 #endif

@@ -7,30 +7,43 @@
 
 /* Declaraciones generadas por Bison/Flex */
 int yyparse(void);
-extern FILE* yyin;
+extern FILE *yyin;
 
-AbstractExpresion* ast_root = NULL;
+AbstractExpresion *ast_root = NULL;
 
-int main(int argc, char** argv) {
-    if (argc > 1) {
+int main(int argc, char **argv)
+{
+    if (argc > 1)
+    {
         yyin = fopen(argv[1], "r");
-        if (!yyin) { perror("fopen"); return 1; }
+        if (!yyin)
+        {
+            perror("fopen");
+            return 1;
+        }
     }
 
-    if (yyparse() == 0) {
-        if (ast_root) {
+    if (yyparse() == 0)
+    {
+        if (ast_root)
+        {
             printf("Inicio, cantidad de instrucciones: %ld \n", ast_root->numHijos);
-            Context* contextPadre = nuevoContext(NULL);
+            Context *contextPadre = nuevoContext(NULL);
             ast_root->interpret(ast_root, contextPadre);
             printf("Fin, arhivo validado.\n");
-        } else {
+        }
+        else
+        {
             printf("No input parsed.\n");
         }
-    } else {
+    }
+    else
+    {
         fprintf(stderr, "Parsing failed.\n");
     }
 
-    if (yyin && yyin != stdin) fclose(yyin);
+    if (yyin && yyin != stdin)
+        fclose(yyin);
 
     return 0;
 }
