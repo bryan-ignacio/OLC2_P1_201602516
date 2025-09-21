@@ -1,10 +1,6 @@
 print(2);
 print(1+1+3+(5+5), 6-3, -55, 1.1+1.2);
 
-(*
-asdfkasfñlkajdf //asdfaf
-*)
-
 //falso
 print(2.6564);
 print("hola mundo");
@@ -13,4 +9,31 @@ print(3+3);
 int variable = 10 + 5;
 int variable2 = 10 + 15;
 
-print(variable + variable2);
+if (2 == 3) {
+    print("hola");
+} else if (true) {
+    print("fall");
+    if (2 == 3) {
+        print("hola");
+    } else if (false) {
+        print("fall");
+    } else {
+        print("final");
+    };
+} else {
+    print("final");
+};
+
+if (variable == 15) {
+    print("cierto");
+};
+
+
+int func recursiva(int n) {
+    if (n == 0) {
+        return 1;
+    };
+    return recursiva(n-1) + recursiva(n - 1);
+};
+
+print(recursiva(2));
