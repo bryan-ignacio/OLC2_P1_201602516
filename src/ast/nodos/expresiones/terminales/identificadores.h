@@ -5,10 +5,11 @@
 #include "context/context.h"
 #include "context/result.h"
 
-typedef struct {
+typedef struct
+{
     AbstractExpresion base;
-    char* nombre;
+    char *nombre;
 } IdentificadorExpresion;
 
-Result interpretIdentificadorExpresion(AbstractExpresion*, Context*);
+Result interpretIdentificadorExpresion(AbstractExpresion *, Context *);
 #endif

@@ -5,11 +5,12 @@
 #include "context/context.h"
 #include "context/result.h"
 
-typedef struct {
+typedef struct
+{
     AbstractExpresion base;
     TipoDato tipo;
-    char* valor;
+    char *valor;
 } PrimitivoExpresion;
 
-Result interpretPrimitivoExpresion(AbstractExpresion*, Context*);
+Result interpretPrimitivoExpresion(AbstractExpresion *, Context *);
 #endif

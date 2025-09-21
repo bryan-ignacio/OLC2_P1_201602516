@@ -3,16 +3,16 @@
 #include <stddef.h>
 #include <stdio.h>
 
-char* labelTipoDato[TIPO_COUNT] = {
+char *labelTipoDato[TIPO_COUNT] = {
     [BOOLEAN] = "boolean",
     [CHAR] = "char",
     [INT] = "int",
     [FLOAT] = "float",
     [STRING] = "string",
-    [NULO] = "null"
-};
+    [NULO] = "null"};
 
-Result nuevoValorResultado(void* valor, TipoDato tipo) {
+Result nuevoValorResultado(void *valor, TipoDato tipo)
+{
     Result resultado;
     resultado.tipo = tipo;
     resultado.valor = valor;
@@ -20,7 +20,8 @@ Result nuevoValorResultado(void* valor, TipoDato tipo) {
     return resultado;
 }
 
-Result nuevoValorResultadoVacio() {
+Result nuevoValorResultadoVacio()
+{
     Result resultado;
     resultado.tipo = NULO;
     resultado.valor = NULL;
@@ -28,11 +29,15 @@ Result nuevoValorResultadoVacio() {
     return resultado;
 }
 
-//Sin usar
-TipoDato tipoResultante(Result valor1, Result valor2) {
-    if (valor1.tipo >= valor2.tipo) {
+// Sin usar
+TipoDato tipoResultante(Result valor1, Result valor2)
+{
+    if (valor1.tipo >= valor2.tipo)
+    {
         return valor1.tipo;
-    } else {
+    }
+    else
+    {
         return valor2.tipo;
     }
 }

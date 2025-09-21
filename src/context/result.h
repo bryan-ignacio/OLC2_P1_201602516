@@ -3,7 +3,8 @@
 
 #include <stdbool.h>
 // El orden es la jerarquia del resultado en la operación
-typedef enum {
+typedef enum
+{
     BOOLEAN,
     CHAR,
     INT,
@@ -13,17 +14,18 @@ typedef enum {
     TIPO_COUNT
 } TipoDato;
 
-extern char* labelTipoDato[];
+extern char *labelTipoDato[];
 
-typedef struct {
+typedef struct
+{
     TipoDato tipo;
-    void* valor;
+    void *valor;
     bool isReturn;
 } Result;
 
 TipoDato tipoResultante(Result, Result);
 /*utilizado para devolver un Result*/
-Result nuevoValorResultado(void* valor, TipoDato tipo);
+Result nuevoValorResultado(void *valor, TipoDato tipo);
 /*Utilizado para devolver una repuesta nula */
 Result nuevoValorResultadoVacio(void);
 

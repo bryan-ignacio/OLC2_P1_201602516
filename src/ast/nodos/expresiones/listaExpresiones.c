@@ -10,12 +10,14 @@
     return nuevoValorResultadoVacio();
 } */
 
-AbstractExpresion* nuevoListaExpresiones() {
-    //reservar el espacio en memoria y obtener el puntero a este
-    ListaExpresiones* nodo = malloc(sizeof(ListaExpresiones));
-    if (!nodo) return NULL;
-    //asignar valores
+AbstractExpresion *nuevoListaExpresiones()
+{
+    // reservar el espacio en memoria y obtener el puntero a este
+    ListaExpresiones *nodo = malloc(sizeof(ListaExpresiones));
+    if (!nodo)
+        return NULL;
+    // asignar valores
     buildAbstractExpresion(&nodo->base, NULL);
 
-    return (AbstractExpresion*) nodo;
+    return (AbstractExpresion *)nodo;
 }

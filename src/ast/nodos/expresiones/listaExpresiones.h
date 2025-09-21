@@ -5,10 +5,11 @@
 #include "context/context.h"
 #include "context/result.h"
 
-typedef struct {
+typedef struct
+{
     AbstractExpresion base;
 } ListaExpresiones;
 
-//Result interpretListaExpresiones(AbstractExpresion*, Context*);
+// Result interpretListaExpresiones(AbstractExpresion*, Context*);
 
 #endif

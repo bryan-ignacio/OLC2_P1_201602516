@@ -8,9 +8,10 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-Result compararIntInt(Result izquierda, Result derecha) {
-    bool* res = malloc(sizeof(bool));
-    *res = *((int*) izquierda.valor) == *((int*) derecha.valor);
+Result compararIntInt(Result izquierda, Result derecha)
+{
+    bool *res = malloc(sizeof(bool));
+    *res = *((int *)izquierda.valor) == *((int *)derecha.valor);
     return nuevoValorResultado(res, BOOLEAN);
 }
 
@@ -18,9 +19,10 @@ Operacion tablaOperacionesComparacion[TIPO_COUNT][TIPO_COUNT] = {
     [INT][INT] = compararIntInt,
 };
 
-//builders.h
-AbstractExpresion* nuevoComparacionExpresion(AbstractExpresion* izquierda, AbstractExpresion* derecha) {
-    ExpresionLenguaje* restaExpresion = nuevoExpresionLenguaje(interpretExpresionLenguaje, izquierda, derecha);
+// builders.h
+AbstractExpresion *nuevoComparacionExpresion(AbstractExpresion *izquierda, AbstractExpresion *derecha)
+{
+    ExpresionLenguaje *restaExpresion = nuevoExpresionLenguaje(interpretExpresionLenguaje, izquierda, derecha);
     restaExpresion->tablaOperaciones = &tablaOperacionesComparacion;
-    return (AbstractExpresion*) restaExpresion;
+    return (AbstractExpresion *)restaExpresion;
 }
