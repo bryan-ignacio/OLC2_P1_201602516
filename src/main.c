@@ -39,7 +39,8 @@ int main(int argc, char **argv)
                 printf("Error: No se pudo abrir el archivo.\n");
                 return 1;
             }
-            ast_root->interpret(ast_root, contextPadre);
+            Result resultado = ast_root->interpret(ast_root, contextPadre);
+            (void)resultado; // Suprimir warning de variable no utilizada
             fclose(contextPadre->archivo);
             printf("Fin, arhivo validado.\n");
         }

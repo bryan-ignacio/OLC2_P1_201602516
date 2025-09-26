@@ -16,7 +16,7 @@ typedef enum
 
 extern char *labelTipoDato[];
 
-typedef struct
+typedef struct Result
 {
     TipoDato tipo;
     void *valor;
