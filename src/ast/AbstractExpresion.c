@@ -41,6 +41,10 @@ void liberarAST(AbstractExpresion *raiz)
 
 /*
  * Construye una expresión abstracta con un método interpretar específico.
+- Analiza un nodo del AST
+- @param base: nodo base a construir.
+- @param interpretPuntero: puntero a la función de interpretación.
+Con esto asigna la funcion Interpret y inicializa el array de hijos.
  */
 void buildAbstractExpresion(AbstractExpresion *base, Interpret interpretPuntero)
 {

@@ -18,16 +18,18 @@ typedef void (*Graficar)(AbstractExpresion *);
 // Estructura base para todos los nodos del AST
 struct AbstractExpresion
 {
-    Interpret interpret; // Método interpretar puntero
+    Interpret interpret; // Método interpretar puntero, puntero a funcion de interpretacion.
     // Graficar graficar; //Método graficar puntero
-    AbstractExpresion **hijos; // Array dinámico de hijos
-    size_t numHijos;
+    AbstractExpresion **hijos; // Array dinámico de nodos hijos.
+    size_t numHijos;           // cantidad de hijos.
 };
 
 // Funciones para manejar el AST
 void agregarHijo(AbstractExpresion *padre, AbstractExpresion *hijo);
+
 // liberar AST: liberar memoria del AST
 void liberarAST(AbstractExpresion *raiz);
+
 /// Construir una expresión abstracta con un método interpretar específico.
 void buildAbstractExpresion(AbstractExpresion *base, Interpret interpretPuntero);
 
