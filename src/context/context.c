@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <string.h>
 
+// Crea un nuevo contexto, enlazándolo con un contexto anterior si se proporciona.
 Context *nuevoContext(Context *anterior)
 {
     Context *nuevo = malloc(sizeof(Context));
