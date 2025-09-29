@@ -6,6 +6,9 @@
 
 #include <stdio.h>
 
+//-----Este archivo: contiene las definiciones y funciones para manejar el contexto de ejecución y la tabla de símbolos.
+
+// Clase de símbolo: variable, función, struct
 typedef enum
 {
     VARIABLE,
@@ -13,6 +16,7 @@ typedef enum
     STRUCT,
 } Clase;
 
+// Estructura para un símbolo en la tabla de símbolos.
 struct Symbol
 {
     char *nombre;
@@ -23,6 +27,7 @@ struct Symbol
     Symbol *anterior;
 };
 
+// Estructura para el contexto de ejecución.
 struct Context
 {
     int nombre;
@@ -32,6 +37,7 @@ struct Context
     FILE *archivo;
 };
 
+// Declaraciones de funciones para manejar el contexto y la tabla de símbolos.
 Context *nuevoContext(Context *anterior);
 Symbol *nuevoVariable(char *nombre, void *valor, TipoDato tipo);
 Symbol *nuevaFuncion(char *nombre, TipoDato tipo, AbstractExpresion *nodo);

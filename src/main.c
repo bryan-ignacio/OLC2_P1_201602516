@@ -7,6 +7,7 @@
 
 /* Declaraciones generadas por Bison/Flex */
 int yyparse(void);
+
 extern FILE *yyin;
 
 // Raíz del árbol de sintaxis abstracta (AST)
@@ -23,6 +24,7 @@ int main(int argc, char **argv)
     {
         // abre el archivo de entrada y se lo asigna a yyin para que el analizador léxico lo procese.
         yyin = fopen(argv[1], "r"); // si no se puede abrir el archivo, muestra un mensaje de error y termina el programa.
+        // Se verifica si el archivo se abrió correctamente.
         if (!yyin)
         {
             perror("fopen");

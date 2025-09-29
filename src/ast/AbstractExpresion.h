@@ -7,22 +7,28 @@
 
 #include <stddef.h>
 
-/*
- * Link: https://www.geeksforgeeks.org/c/how-to-create-typedef-for-function-pointer-in-c/
- * typedef return_type (*alias_name)(parameter_types and numbers....);
-*/
-typedef Result (*Interpret)(AbstractExpresion*, Context*);
-typedef void (*Graficar)(AbstractExpresion*);
+// Definen la estructura base para todos los nodos del AST.
 
-struct AbstractExpresion {
+// Definición del tipo de función para interpretar nodos.
+typedef Result (*Interpret)(AbstractExpresion *, Context *);
+
+// Definición del tipo de función para graficar nodos.
+typedef void (*Graficar)(AbstractExpresion *);
+
+// Estructura base para todos los nodos del AST
+struct AbstractExpresion
+{
     Interpret interpret; // Método interpretar puntero
-    //Graficar graficar; //Método graficar puntero
-    AbstractExpresion** hijos; // Array dinámico de hijos
+    // Graficar graficar; //Método graficar puntero
+    AbstractExpresion **hijos; // Array dinámico de hijos
     size_t numHijos;
 };
 
-void agregarHijo(AbstractExpresion* padre, AbstractExpresion* hijo);
-void liberarAST(AbstractExpresion* raiz);
-void buildAbstractExpresion(AbstractExpresion* base, Interpret interpretPuntero);
+// Funciones para manejar el AST
+void agregarHijo(AbstractExpresion *padre, AbstractExpresion *hijo);
+// liberar AST: liberar memoria del AST
+void liberarAST(AbstractExpresion *raiz);
+/// Construir una expresión abstracta con un método interpretar específico.
+void buildAbstractExpresion(AbstractExpresion *base, Interpret interpretPuntero);
 
 #endif

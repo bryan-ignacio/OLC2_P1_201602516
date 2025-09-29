@@ -4,6 +4,10 @@
 #include <stdio.h>
 #include <string.h>
 
+/*
+------ Este archivo: contiene el contexto de ejecucion de variables y funciones.
+*/
+
 // Crea un nuevo contexto, enlazándolo con un contexto anterior si se proporciona.
 Context *nuevoContext(Context *anterior)
 {
@@ -23,6 +27,7 @@ Context *nuevoContext(Context *anterior)
     return nuevo;
 }
 
+// Crea una nueva variable con el nombre, valor y tipo especificados.
 Symbol *nuevoVariable(char *nombre, void *valor, TipoDato tipo)
 {
     Symbol *nuevo = malloc(sizeof(Symbol));
@@ -33,6 +38,7 @@ Symbol *nuevoVariable(char *nombre, void *valor, TipoDato tipo)
     return nuevo;
 }
 
+// Crea una nueva función con el nombre, tipo de retorno y nodo AST especificados.
 Symbol *nuevaFuncion(char *nombre, TipoDato tipo, AbstractExpresion *nodo)
 {
     Symbol *nuevo = malloc(sizeof(Symbol));
@@ -43,6 +49,7 @@ Symbol *nuevaFuncion(char *nombre, TipoDato tipo, AbstractExpresion *nodo)
     return nuevo;
 }
 
+// Agrega un símbolo al contexto actual, verificando si ya existe.
 void agregarSymbol(Context *actual, Symbol *symbol)
 {
     if (buscarSymbol(actual->ultimoSymbol, symbol->nombre))
@@ -54,6 +61,7 @@ void agregarSymbol(Context *actual, Symbol *symbol)
     actual->ultimoSymbol = symbol;
 }
 
+// Busca un símbolo por nombre en la lista de símbolos proporcionada.
 Symbol *buscarSymbol(Symbol *actual, char *nombre)
 {
     while (actual)
@@ -67,6 +75,7 @@ Symbol *buscarSymbol(Symbol *actual, char *nombre)
     return NULL;
 }
 
+// Busca un símbolo por nombre en el contexto actual y sus contextos anteriores.
 Symbol *buscarTablaSimbolos(Context *actual, char *nombre)
 {
     while (actual)
