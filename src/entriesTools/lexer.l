@@ -29,7 +29,7 @@ int yycolumn = 1;
 /* Condiciones de arranque */
 %x COMMENT2 COMMENTLINEA
 
-/* definiciones */
+/* ------------ patrones para los tokens -------------------- */
 white_space       [ \t]*
 digit             [0-9]
 alpha             [A-Za-z_]
@@ -44,6 +44,7 @@ real              ({i}\.{i}?|{i}?\.{i}){exponent}?
 string            \"([^"\n]|\"\")+\"
 bad_string        \"([^"\n]|\"\")+
 
+/* Reconocimiento de comentarios y comentario multilinea. */
 %%
 "//"                     BEGIN(COMMENTLINEA);
 <COMMENTLINEA>[^\n\r]+ 
@@ -65,7 +66,7 @@ int                 return(TOKEN_DINT);
 float               return(TOKEN_DFLOAT);
 String              return(TOKEN_DSTRING);
 true                return(TOKEN_TRUE);
-false               return(TOKEN_FALSE);
+false               return(TOKEN_FALSE);1
 return              return(TOKEN_RETURN);
 
 {unsigned_integer}   {yylval.string = strdup(yytext); return(TOKEN_UNSIGNED_INTEGER);}
