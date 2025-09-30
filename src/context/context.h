@@ -16,25 +16,25 @@ typedef enum
     STRUCT,
 } Clase;
 
-// Estructura para un símbolo en la tabla de símbolos.
-struct Symbol
-{
-    char *nombre;
-    void *valor;
-    TipoDato tipo;
-    Clase clase;
-    AbstractExpresion *nodo;
-    Symbol *anterior;
-};
-
 // Estructura para el contexto de ejecución.
 struct Context
 {
-    int nombre;
-    Context *global; // referencia al contexto global
-    Context *anterior;
-    Symbol *ultimoSymbol; // tabla de simbolos
-    FILE *archivo;
+    int nombre;           // id numérico del contexto.
+    Context *global;      // referencia al contexto global
+    Context *anterior;    // contexto padre (para scoping)
+    Symbol *ultimoSymbol; // tabla de simbolos (lista enlazada)
+    FILE *archivo;        // archivo donde escribir salida
+};
+
+// Estructura para un símbolo en la tabla de símbolos.
+struct Symbol
+{
+    char *nombre;            // Nombre del símbolo
+    void *valor;             // Valor actual (para variables)
+    TipoDato tipo;           // Tipo de dato
+    Clase clase;             // VARIABLE, FUNCION, STRUCT
+    AbstractExpresion *nodo; // Nodo AST (para funciones)
+    Symbol *anterior;        // Lista enlazada
 };
 
 // Declaraciones de funciones para manejar el contexto y la tabla de símbolos.
