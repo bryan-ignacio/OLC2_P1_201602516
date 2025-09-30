@@ -44,13 +44,14 @@ TOKEN_DSTRING TOKEN_UNSIGNED_INTEGER TOKEN_REAL TOKEN_STRING TOKEN_IDENTIFIER TO
 %left NEG
 
 %%
-
+// Regla inicial donde empieza a parsear.
 %start s;
 
+// lista de sentencias a ejecutar.
 s: lSentencia  { ast_root = $1; $$ = $1; }
     //| error '\n'  { yyerrok; }
     ;
-//                                               Padre, hijo;
+// Padre, hijo;
 lSentencia: lSentencia sentencia ';' { agregarHijo($1, $2); $$ = $1;}
     | sentencia ';' {
                         AbstractExpresion* b = nuevoInstruccionesExpresion();
@@ -58,7 +59,7 @@ lSentencia: lSentencia sentencia ';' { agregarHijo($1, $2); $$ = $1;}
                         $$ =  b;
                     }
     ;
-
+// una sentencia puede ser un print, un bloque, una declaración de variable, un if o una función
 sentencia: imprimir {$$ = $1; }
     | bloque {$$ = $1;}
     | declaracion_var {$$ = $1;}
@@ -115,6 +116,8 @@ expr: expr '+' expr   { $$ =  nuevoExpresionLenguaje('+', $1, $3);  }
     ; 
 */
 
+//---------------------- EXPRESIONES ARITMETICAS -------------------------------
+
 expr: expr '+' expr   { $$ =  nuevoSumaExpresion($1, $3);  }
     | expr '-' expr { $$ =  nuevoRestaExpresion($1, $3); }
     | '(' expr ')' { $$ = $2; }
@@ -126,6 +129,7 @@ expr: expr '+' expr   { $$ =  nuevoSumaExpresion($1, $3);  }
     | TOKEN_IDENTIFIER '('')' { /* sin implementar */ }
     ;
 
+//---------------------- EXPRESIONES PRIMITIVAS -------------------------------
 primitivo: TOKEN_UNSIGNED_INTEGER { $$ =  nuevoPrimitivoExpresion($1, INT); }
     | TOKEN_STRING { $$ =  nuevoPrimitivoExpresion($1, STRING); }
     | TOKEN_REAL { $$ =  nuevoPrimitivoExpresion($1, FLOAT); }
