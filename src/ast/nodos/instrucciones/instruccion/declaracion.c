@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
+#include <wchar.h>
 
 Result interpretDeclaracionVariable(AbstractExpresion *nodo, Context *context)
 {
@@ -57,6 +58,13 @@ Result interpretDeclaracionVariable(AbstractExpresion *nodo, Context *context)
         bool *valorBool = malloc(sizeof(bool));
         *valorBool = false; // Valor por defecto para boolean es false
         valorPorDefecto = valorBool;
+        break;
+    }
+    case CHAR:
+    {
+        wchar_t *valorChar = malloc(sizeof(wchar_t));
+        *valorChar = L'\u0000'; // Valor por defecto para char es \u0000
+        valorPorDefecto = valorChar;
         break;
     }
     default:

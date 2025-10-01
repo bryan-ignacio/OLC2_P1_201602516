@@ -122,6 +122,8 @@ real              ({i}\.{i}?|{i}?\.{i}){exponent}?
 float_literal     ({i}\.{i}?|{i}?\.{i}){exponent}?f
 string            \"([^"\n]|\"\")+\"
 bad_string        \"([^"\n]|\"\")+
+char_literal      '([^'\n\\]|\\u[0-9a-fA-F]{4}|\\.)'
+bad_char          '([^'\n\\]|\\u[0-9a-fA-F]{4}|\\.)*
 
 /* Reconocimiento de comentarios y comentario multilinea. */
 %%
@@ -145,6 +147,7 @@ int                 return(TOKEN_DINT); // aqui comienzan las declaraciones de t
 float               return(TOKEN_DFLOAT);
 String              return(TOKEN_DSTRING);
 boolean             return(TOKEN_DBOOLEAN);
+char                return(TOKEN_DCHAR);
 true                return(TOKEN_TRUE);
 false               return(TOKEN_FALSE);
 return              return(TOKEN_RETURN);
@@ -205,6 +208,12 @@ return              return(TOKEN_RETURN);
                         yylval.string[len] = '\0'; /* Agregar terminador nulo */
                         return(TOKEN_STRING);
                     }
+{char_literal}       {
+                        /* Manejar caracteres Unicode correctamente */
+                        yylval.string = strdup(yytext);
+                        return(TOKEN_CHAR);
+                    }
+{bad_char}           yyerror("Unterminated character");
 {bad_string}         yyerror("Unterminated string"); // bad_string se utiliza para cadenas de texto que no fueron terminadas correctamente y lanza un error.
 
 {identifier}         {yylval.string = strdup(yytext); return(TOKEN_IDENTIFIER);} // identifier se utiliza para identificadores y retorna el token correspondiente.

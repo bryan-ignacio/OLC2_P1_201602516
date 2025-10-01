@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
+#include <wchar.h>
 
 Result interpretPrintExpresion(AbstractExpresion *self, Context *context)
 {
@@ -29,6 +30,9 @@ Result interpretPrintExpresion(AbstractExpresion *self, Context *context)
             break;
         case BOOLEAN:
             fprintf(context->global->archivo, "%s\n", *(bool *)result.valor ? "true" : "false");
+            break;
+        case CHAR:
+            fprintf(context->global->archivo, "%lc\n", *(wchar_t *)result.valor);
             break;
         case NULO:
             fprintf(context->global->archivo, "NULL\n");
