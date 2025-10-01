@@ -6,12 +6,18 @@
 #include <stdlib.h>
 #include <limits.h>
 #include <errno.h>
+#include <float.h>
+#include <math.h>
 
 extern void yyerror(const char *s);
 
 /* Rangos para enteros de 32 bits */
 #define INT32_MIN_VALUE -2147483648LL
 #define INT32_MAX_VALUE  2147483647LL
+
+/* Rangos para float de 32 bits */
+#define FLOAT32_MAX_VALUE  3.4028235E38f
+#define FLOAT32_MIN_VALUE  1.4E-45f
 
 /* Función para validar rango de enteros de 32 bits */
 int validar_int32(const char *str) {
@@ -27,6 +33,51 @@ int validar_int32(const char *str) {
     /* Verificar rango de 32 bits */
     if (val < INT32_MIN_VALUE || val > INT32_MAX_VALUE) {
         return 0; /* Fuera de rango */
+    }
+    
+    return 1; /* Válido */
+}
+
+/* Función para validar rango de float de 32 bits */
+int validar_float32(const char *str) {
+    char *endptr;
+    errno = 0;
+    
+    /* Crear una copia del string sin la 'f' al final */
+    int len = strlen(str);
+    if (len == 0 || str[len-1] != 'f') {
+        return 0; /* Debe terminar en 'f' */
+    }
+    
+    char *temp_str = malloc(len);
+    strncpy(temp_str, str, len-1);
+    temp_str[len-1] = '\0';
+    
+    /* Convertir a float */
+    float val = strtof(temp_str, &endptr);
+    free(temp_str);
+    
+    /* Verificar si la conversión fue exitosa */
+    if (errno == ERANGE || *endptr != '\0') {
+        return 0; /* Error de conversión */
+    }
+    
+    /* Verificar si es cero, infinito o NaN (casos especiales) */
+    if (val == 0.0f || isinf(val) || isnan(val)) {
+        return 1;
+    }
+    
+    /* Verificar rango de 32 bits para valores no cero */
+    float abs_val = fabsf(val);
+    
+    /* Ser más tolerante con los límites debido a la precisión flotante */
+    if (abs_val > FLOAT32_MAX_VALUE) {
+        return 0; /* Fuera de rango máximo */
+    }
+    
+    /* Para el límite mínimo, ser más flexible */
+    if (abs_val != 0.0f && abs_val < FLOAT32_MIN_VALUE * 0.1f) {
+        return 0; /* Demasiado pequeño */
     }
     
     return 1; /* Válido */
@@ -65,9 +116,10 @@ identifier        {alpha}{alpha_num}*
 unsigned_integer  {digit}+
 signed_integer    \-{digit}+
 /* hex_integer       ${hex_digit}{hex_digit}* */
-exponent          e[+-]?{digit}+
+exponent          [eE][+-]?{digit}+
 i                 {unsigned_integer}
 real              ({i}\.{i}?|{i}?\.{i}){exponent}?
+float_literal     ({i}\.{i}?|{i}?\.{i}){exponent}?f
 string            \"([^"\n]|\"\")+\"
 bad_string        \"([^"\n]|\"\")+
 
@@ -122,7 +174,28 @@ return              return(TOKEN_RETURN);
                         yylval.string = strdup(yytext); 
                         return(TOKEN_UNSIGNED_INTEGER);
                     }
-{real}               {yylval.string = strdup(yytext); return(TOKEN_REAL);} // real se utiliza para numeros de punto flotante y retorna el token correspondiente.
+{float_literal}      {
+                        /* Validar rango de 32 bits para float con notación explícita 'f' */
+                        if (!validar_float32(yytext)) {
+                            char error_msg[256];
+                            snprintf(error_msg, sizeof(error_msg), 
+                                   "Float fuera de rango de 32 bits: %s. Rango válido: 1.4E-45f a 3.4028235E38f", 
+                                   yytext);
+                            yyerror(error_msg);
+                            return -1; /* Token de error */
+                        }
+                        yylval.string = strdup(yytext); 
+                        return(TOKEN_REAL);
+                    }
+{real}               {
+                        /* Los números sin 'f' al final se tratan como double (no válidos para nuestro float32) */
+                        char error_msg[256];
+                        snprintf(error_msg, sizeof(error_msg), 
+                               "Literal de punto flotante debe terminar en 'f': %s. Ejemplo: %sf", 
+                               yytext, yytext);
+                        yyerror(error_msg);
+                        return -1; /* Token de error */
+                    }
 {string}             {
                         /* Manejar cadenas de texto correctamente */
                         int len = yyleng - 2; /* Quitar comillas */

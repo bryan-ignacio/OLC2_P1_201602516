@@ -1,8 +1,1 @@
-Probando validación de enteros de 32 bits
-Valores válidos:
-2147483647
--2147483648
-0
-1000000
-Probando valores inválidos...
-Prueba completada - solo valores válidos
+0.000000
