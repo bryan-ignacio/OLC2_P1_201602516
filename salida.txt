@@ -1,10 +1,16 @@
-Probando valores por defecto de tipos primitivos
-Valores por defecto:
-0
-0.000000
-
+=== Probando el tipo de dato boolean ===
+Valor por defecto (sin inicializar):
+false
 Valores explícitos:
+Estado true:
+true
+Estado false:
+false
+Comparación con otros tipos:
+Entero:
 42
+Flotante:
 3.140000
-Hola mundo
-Prueba completada
+String:
+Hola boolean
+=== Prueba de boolean completada exitosamente ===

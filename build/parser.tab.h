@@ -70,12 +70,13 @@ extern int yydebug;
     TOKEN_FALSE = 264,             /* TOKEN_FALSE  */
     TOKEN_FUNC = 265,              /* TOKEN_FUNC  */
     TOKEN_DSTRING = 266,           /* TOKEN_DSTRING  */
-    TOKEN_UNSIGNED_INTEGER = 267,  /* TOKEN_UNSIGNED_INTEGER  */
-    TOKEN_REAL = 268,              /* TOKEN_REAL  */
-    TOKEN_STRING = 269,            /* TOKEN_STRING  */
-    TOKEN_IDENTIFIER = 270,        /* TOKEN_IDENTIFIER  */
-    TOKEN_RETURN = 271,            /* TOKEN_RETURN  */
-    NEG = 272                      /* NEG  */
+    TOKEN_DBOOLEAN = 267,          /* TOKEN_DBOOLEAN  */
+    TOKEN_UNSIGNED_INTEGER = 268,  /* TOKEN_UNSIGNED_INTEGER  */
+    TOKEN_REAL = 269,              /* TOKEN_REAL  */
+    TOKEN_STRING = 270,            /* TOKEN_STRING  */
+    TOKEN_IDENTIFIER = 271,        /* TOKEN_IDENTIFIER  */
+    TOKEN_RETURN = 272,            /* TOKEN_RETURN  */
+    NEG = 273                      /* NEG  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -90,7 +91,7 @@ union YYSTYPE
   AbstractExpresion* nodo;
   TipoDato tipoDato;
 
-#line 94 "build/parser.tab.h"
+#line 95 "build/parser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

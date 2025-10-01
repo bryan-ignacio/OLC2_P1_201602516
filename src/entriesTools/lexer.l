@@ -144,6 +144,7 @@ func                return(TOKEN_FUNC);
 int                 return(TOKEN_DINT); // aqui comienzan las declaraciones de tipos primitivos.
 float               return(TOKEN_DFLOAT);
 String              return(TOKEN_DSTRING);
+boolean             return(TOKEN_DBOOLEAN);
 true                return(TOKEN_TRUE);
 false               return(TOKEN_FALSE);
 return              return(TOKEN_RETURN);
