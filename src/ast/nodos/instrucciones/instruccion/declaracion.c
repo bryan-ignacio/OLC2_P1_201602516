@@ -47,10 +47,8 @@ Result interpretDeclaracionVariable(AbstractExpresion *nodo, Context *context)
     }
     case STRING:
     {
-        // Valor por defecto para string es cadena vacía
-        char *valorString = malloc(1);
-        valorString[0] = '\0';
-        valorPorDefecto = valorString;
+        // Valor por defecto para string es null
+        valorPorDefecto = NULL;
         break;
     }
     case BOOLEAN:

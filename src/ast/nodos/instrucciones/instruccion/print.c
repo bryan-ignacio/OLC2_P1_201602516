@@ -20,7 +20,14 @@ Result interpretPrintExpresion(AbstractExpresion *self, Context *context)
         switch (result.tipo)
         {
         case STRING:
-            fprintf(context->global->archivo, "%s\n", (char *)result.valor);
+            if (result.valor == NULL)
+            {
+                fprintf(context->global->archivo, "null\n");
+            }
+            else
+            {
+                fprintf(context->global->archivo, "%s\n", (char *)result.valor);
+            }
             break;
         case INT:
             fprintf(context->global->archivo, "%d\n", *(int *)result.valor);
