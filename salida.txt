@@ -1,1 +1,10 @@
+Probando valores por defecto de tipos primitivos
+Valores por defecto:
+0
 0.000000
+
+Valores explícitos:
+42
+3.140000
+Hola mundo
+Prueba completada
