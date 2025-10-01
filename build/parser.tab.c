@@ -540,11 +540,11 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    50,    50,    54,    55,    62,    63,    64,    65,    66,
-      67,    68,    71,    72,    79,    82,    85,    86,    89,    90,
-      91,    94,    95,   100,   101,   118,   119,   120,   121,   122,
-     123,   124,   125,   126,   129,   130,   131,   132,   133,   136,
-     137,   138
+       0,    51,    51,    55,    56,    63,    64,    65,    66,    67,
+      68,    69,    72,    73,    80,    83,    86,    87,    90,    91,
+      92,    95,    96,   101,   102,   121,   122,   123,   124,   125,
+     126,   127,   128,   129,   133,   134,   135,   136,   137,   140,
+     141,   142
 };
 #endif
 
@@ -1270,19 +1270,19 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* s: lSentencia  */
-#line 50 "src/entriesTools/parser.y"
+#line 51 "src/entriesTools/parser.y"
                { ast_root = (yyvsp[0].nodo); (yyval.nodo) = (yyvsp[0].nodo); }
 #line 1276 "build/parser.tab.c"
     break;
 
   case 3: /* lSentencia: lSentencia sentencia ';'  */
-#line 54 "src/entriesTools/parser.y"
+#line 55 "src/entriesTools/parser.y"
                                      { agregarHijo((yyvsp[-2].nodo), (yyvsp[-1].nodo)); (yyval.nodo) = (yyvsp[-2].nodo);}
 #line 1282 "build/parser.tab.c"
     break;
 
   case 4: /* lSentencia: sentencia ';'  */
-#line 55 "src/entriesTools/parser.y"
+#line 56 "src/entriesTools/parser.y"
                     {
                         AbstractExpresion* b = nuevoInstruccionesExpresion();
                         agregarHijo(b, (yyvsp[-1].nodo));
@@ -1292,55 +1292,55 @@ yyreduce:
     break;
 
   case 5: /* sentencia: imprimir  */
-#line 62 "src/entriesTools/parser.y"
+#line 63 "src/entriesTools/parser.y"
                     {(yyval.nodo) = (yyvsp[0].nodo); }
 #line 1298 "build/parser.tab.c"
     break;
 
   case 6: /* sentencia: bloque  */
-#line 63 "src/entriesTools/parser.y"
+#line 64 "src/entriesTools/parser.y"
              {(yyval.nodo) = (yyvsp[0].nodo);}
 #line 1304 "build/parser.tab.c"
     break;
 
   case 7: /* sentencia: declaracion_var  */
-#line 64 "src/entriesTools/parser.y"
+#line 65 "src/entriesTools/parser.y"
                       {(yyval.nodo) = (yyvsp[0].nodo);}
 #line 1310 "build/parser.tab.c"
     break;
 
   case 8: /* sentencia: sentencia_if  */
-#line 65 "src/entriesTools/parser.y"
+#line 66 "src/entriesTools/parser.y"
                    { (yyval.nodo) = (yyvsp[0].nodo); }
 #line 1316 "build/parser.tab.c"
     break;
 
   case 9: /* sentencia: sentencia_funcion  */
-#line 66 "src/entriesTools/parser.y"
+#line 67 "src/entriesTools/parser.y"
                         { (yyval.nodo) = (yyvsp[0].nodo); }
 #line 1322 "build/parser.tab.c"
     break;
 
   case 10: /* sentencia: TOKEN_RETURN  */
-#line 67 "src/entriesTools/parser.y"
+#line 68 "src/entriesTools/parser.y"
                    { (yyval.nodo) = NULL; }
 #line 1328 "build/parser.tab.c"
     break;
 
   case 11: /* sentencia: TOKEN_RETURN expr  */
-#line 68 "src/entriesTools/parser.y"
+#line 69 "src/entriesTools/parser.y"
                         { (yyval.nodo) = nuevoReturnExpresion((yyvsp[0].nodo)); }
 #line 1334 "build/parser.tab.c"
     break;
 
   case 12: /* lista_Expr: lista_Expr ',' expr  */
-#line 71 "src/entriesTools/parser.y"
+#line 72 "src/entriesTools/parser.y"
                                  { agregarHijo((yyvsp[-2].nodo), (yyvsp[0].nodo)); (yyval.nodo) = (yyvsp[-2].nodo); }
 #line 1340 "build/parser.tab.c"
     break;
 
   case 13: /* lista_Expr: expr  */
-#line 72 "src/entriesTools/parser.y"
+#line 73 "src/entriesTools/parser.y"
            { 
                 AbstractExpresion* b = nuevoListaExpresiones();
                 agregarHijo(b, (yyvsp[0].nodo));
@@ -1350,55 +1350,55 @@ yyreduce:
     break;
 
   case 14: /* imprimir: TOKEN_PRINT '(' lista_Expr ')'  */
-#line 79 "src/entriesTools/parser.y"
+#line 80 "src/entriesTools/parser.y"
                                          { (yyval.nodo) =  nuevoPrintExpresion((yyvsp[-1].nodo)); }
 #line 1356 "build/parser.tab.c"
     break;
 
   case 15: /* bloque: '{' lSentencia '}'  */
-#line 82 "src/entriesTools/parser.y"
+#line 83 "src/entriesTools/parser.y"
                            { (yyval.nodo) =  (yyvsp[-1].nodo); }
 #line 1362 "build/parser.tab.c"
     break;
 
   case 16: /* declaracion_var: tipoPrimitivo TOKEN_IDENTIFIER  */
-#line 85 "src/entriesTools/parser.y"
+#line 86 "src/entriesTools/parser.y"
                                                 { (yyval.nodo) = nuevoDeclaracionVariables((yyvsp[-1].tipoDato), (yyvsp[0].string), NULL); }
 #line 1368 "build/parser.tab.c"
     break;
 
   case 17: /* declaracion_var: tipoPrimitivo TOKEN_IDENTIFIER '=' expr  */
-#line 86 "src/entriesTools/parser.y"
+#line 87 "src/entriesTools/parser.y"
                                               { (yyval.nodo) = nuevoDeclaracionVariables((yyvsp[-3].tipoDato), (yyvsp[-2].string), (yyvsp[0].nodo)); }
 #line 1374 "build/parser.tab.c"
     break;
 
   case 18: /* sentencia_if: TOKEN_IF '(' expr ')' bloque  */
-#line 89 "src/entriesTools/parser.y"
+#line 90 "src/entriesTools/parser.y"
                                            { (yyval.nodo) = nuevoIfExpresion((yyvsp[-2].nodo), (yyvsp[0].nodo)); }
 #line 1380 "build/parser.tab.c"
     break;
 
   case 19: /* sentencia_if: TOKEN_IF '(' expr ')' bloque TOKEN_ELSE bloque  */
-#line 90 "src/entriesTools/parser.y"
+#line 91 "src/entriesTools/parser.y"
                                                      { (yyval.nodo) = nuevoIfElseExpresion((yyvsp[-4].nodo), (yyvsp[-2].nodo), (yyvsp[0].nodo)); }
 #line 1386 "build/parser.tab.c"
     break;
 
   case 20: /* sentencia_if: TOKEN_IF '(' expr ')' bloque TOKEN_ELSE sentencia_if  */
-#line 91 "src/entriesTools/parser.y"
+#line 92 "src/entriesTools/parser.y"
                                                            { (yyval.nodo) = nuevoElseIfExpresion((yyvsp[-4].nodo), (yyvsp[-2].nodo), (yyvsp[0].nodo)); }
 #line 1392 "build/parser.tab.c"
     break;
 
   case 21: /* lista_parametros: lista_parametros ',' declaracion_var  */
-#line 94 "src/entriesTools/parser.y"
+#line 95 "src/entriesTools/parser.y"
                                                        { agregarHijo((yyvsp[-2].nodo), (yyvsp[0].nodo)); (yyval.nodo) = (yyvsp[-2].nodo); }
 #line 1398 "build/parser.tab.c"
     break;
 
   case 22: /* lista_parametros: declaracion_var  */
-#line 95 "src/entriesTools/parser.y"
+#line 96 "src/entriesTools/parser.y"
                       { AbstractExpresion* b = nuevoListaParametros();
                 agregarHijo(b, (yyvsp[0].nodo));
                 (yyval.nodo) =  b; }
@@ -1406,115 +1406,115 @@ yyreduce:
     break;
 
   case 23: /* sentencia_funcion: tipoPrimitivo TOKEN_FUNC TOKEN_IDENTIFIER '(' lista_parametros ')' bloque  */
-#line 100 "src/entriesTools/parser.y"
+#line 101 "src/entriesTools/parser.y"
                                                                                              {  (yyval.nodo) = nuevoFuncionExpresion((yyvsp[-6].tipoDato), (yyvsp[-4].string), (yyvsp[-2].nodo), (yyvsp[0].nodo));}
 #line 1412 "build/parser.tab.c"
     break;
 
   case 24: /* sentencia_funcion: tipoPrimitivo TOKEN_FUNC TOKEN_IDENTIFIER '(' ')' bloque  */
-#line 101 "src/entriesTools/parser.y"
+#line 102 "src/entriesTools/parser.y"
                                                                {  (yyval.nodo) = nuevoFuncionExpresion((yyvsp[-5].tipoDato), (yyvsp[-3].string), NULL, (yyvsp[0].nodo));}
 #line 1418 "build/parser.tab.c"
     break;
 
   case 25: /* expr: expr '+' expr  */
-#line 118 "src/entriesTools/parser.y"
+#line 121 "src/entriesTools/parser.y"
                       { (yyval.nodo) =  nuevoSumaExpresion((yyvsp[-2].nodo), (yyvsp[0].nodo));  }
 #line 1424 "build/parser.tab.c"
     break;
 
   case 26: /* expr: expr '-' expr  */
-#line 119 "src/entriesTools/parser.y"
+#line 122 "src/entriesTools/parser.y"
                     { (yyval.nodo) =  nuevoRestaExpresion((yyvsp[-2].nodo), (yyvsp[0].nodo)); }
 #line 1430 "build/parser.tab.c"
     break;
 
   case 27: /* expr: '(' expr ')'  */
-#line 120 "src/entriesTools/parser.y"
+#line 123 "src/entriesTools/parser.y"
                    { (yyval.nodo) = (yyvsp[-1].nodo); }
 #line 1436 "build/parser.tab.c"
     break;
 
   case 28: /* expr: '-' expr  */
-#line 121 "src/entriesTools/parser.y"
+#line 124 "src/entriesTools/parser.y"
                           { (yyval.nodo) =  nuevoUnarioExpresion((yyvsp[0].nodo));  }
 #line 1442 "build/parser.tab.c"
     break;
 
   case 29: /* expr: expr '=' '=' expr  */
-#line 122 "src/entriesTools/parser.y"
+#line 125 "src/entriesTools/parser.y"
                         { (yyval.nodo) = nuevoComparacionExpresion((yyvsp[-3].nodo), (yyvsp[0].nodo)); }
 #line 1448 "build/parser.tab.c"
     break;
 
   case 30: /* expr: primitivo  */
-#line 123 "src/entriesTools/parser.y"
+#line 126 "src/entriesTools/parser.y"
                 { (yyval.nodo) = (yyvsp[0].nodo); }
 #line 1454 "build/parser.tab.c"
     break;
 
   case 31: /* expr: TOKEN_IDENTIFIER  */
-#line 124 "src/entriesTools/parser.y"
+#line 127 "src/entriesTools/parser.y"
                        { (yyval.nodo) = nuevoIdentificadorExpresion((yyvsp[0].string)); }
 #line 1460 "build/parser.tab.c"
     break;
 
   case 32: /* expr: TOKEN_IDENTIFIER '(' lista_Expr ')'  */
-#line 125 "src/entriesTools/parser.y"
+#line 128 "src/entriesTools/parser.y"
                                           { (yyval.nodo) = nuevoLlamadaExpresion((yyvsp[-3].string), (yyvsp[-1].nodo)); }
 #line 1466 "build/parser.tab.c"
     break;
 
   case 33: /* expr: TOKEN_IDENTIFIER '(' ')'  */
-#line 126 "src/entriesTools/parser.y"
+#line 129 "src/entriesTools/parser.y"
                               { /* sin implementar */ }
 #line 1472 "build/parser.tab.c"
     break;
 
   case 34: /* primitivo: TOKEN_UNSIGNED_INTEGER  */
-#line 129 "src/entriesTools/parser.y"
+#line 133 "src/entriesTools/parser.y"
                                   { (yyval.nodo) =  nuevoPrimitivoExpresion((yyvsp[0].string), INT); }
 #line 1478 "build/parser.tab.c"
     break;
 
   case 35: /* primitivo: TOKEN_STRING  */
-#line 130 "src/entriesTools/parser.y"
+#line 134 "src/entriesTools/parser.y"
                    { (yyval.nodo) =  nuevoPrimitivoExpresion((yyvsp[0].string), STRING); }
 #line 1484 "build/parser.tab.c"
     break;
 
   case 36: /* primitivo: TOKEN_REAL  */
-#line 131 "src/entriesTools/parser.y"
+#line 135 "src/entriesTools/parser.y"
                  { (yyval.nodo) =  nuevoPrimitivoExpresion((yyvsp[0].string), FLOAT); }
 #line 1490 "build/parser.tab.c"
     break;
 
   case 37: /* primitivo: TOKEN_TRUE  */
-#line 132 "src/entriesTools/parser.y"
+#line 136 "src/entriesTools/parser.y"
                  { (yyval.nodo) =  nuevoPrimitivoExpresion("T", BOOLEAN); }
 #line 1496 "build/parser.tab.c"
     break;
 
   case 38: /* primitivo: TOKEN_FALSE  */
-#line 133 "src/entriesTools/parser.y"
+#line 137 "src/entriesTools/parser.y"
                   { (yyval.nodo) =  nuevoPrimitivoExpresion("F", BOOLEAN); }
 #line 1502 "build/parser.tab.c"
     break;
 
   case 39: /* tipoPrimitivo: TOKEN_DINT  */
-#line 136 "src/entriesTools/parser.y"
+#line 140 "src/entriesTools/parser.y"
                           { (yyval.tipoDato) = INT; }
 #line 1508 "build/parser.tab.c"
     break;
 
   case 40: /* tipoPrimitivo: TOKEN_DFLOAT  */
-#line 137 "src/entriesTools/parser.y"
+#line 141 "src/entriesTools/parser.y"
                    { (yyval.tipoDato) = FLOAT; }
 #line 1514 "build/parser.tab.c"
     break;
 
   case 41: /* tipoPrimitivo: TOKEN_DSTRING  */
-#line 138 "src/entriesTools/parser.y"
+#line 142 "src/entriesTools/parser.y"
                     { (yyval.tipoDato) = STRING; }
 #line 1520 "build/parser.tab.c"
     break;
@@ -1718,7 +1718,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 140 "src/entriesTools/parser.y"
+#line 144 "src/entriesTools/parser.y"
 
 
 /* definición de yyerror, usa el yylloc global para ubicación */

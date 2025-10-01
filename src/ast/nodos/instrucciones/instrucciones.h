@@ -5,13 +5,13 @@
 #include "context/result.h"
 #include "context/context.h"
 
-
 /* bloque (lista de instrucciones) */
-typedef struct {
+typedef struct
+{
     AbstractExpresion base;
 } InstruccionesExpresion;
 
-AbstractExpresion* nuevoInstruccionesExpresion(void);
-Result interpretInstrucciones(AbstractExpresion* self, Context* context);
+AbstractExpresion *nuevoInstruccionesExpresion(void);
+Result interpretInstrucciones(AbstractExpresion *self, Context *context);
 
 #endif

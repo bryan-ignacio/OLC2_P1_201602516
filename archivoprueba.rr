@@ -9,6 +9,11 @@ print(3+3);
 int variable = 10 + 5;
 int variable2 = 10 + 15;
 
+
+/* 
+    este es un Comentario multilínea 
+*/
+
 if (2 == 3) {
     print("hola");
 } else if (true) {

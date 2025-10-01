@@ -51,12 +51,12 @@ bad_string        \"([^"\n]|\"\")+
 <COMMENTLINEA><<EOF>>    yyerror("EOF in comment");
 <COMMENTLINEA>[\n\r]     {yycolumn=1; BEGIN(INITIAL);}
 
-"(*"                 BEGIN(COMMENT2);
-<COMMENT2>[^)*\n\r]+
+"/*"                 BEGIN(COMMENT2);
+<COMMENT2>[^*\n\r]+
 <COMMENT2>[\n\r]     {yycolumn=1;}
 <COMMENT2><<EOF>>    yyerror("EOF in comment");
-<COMMENT2>"*)"       BEGIN(INITIAL);
-<COMMENT2>[*)]
+<COMMENT2>"*/"       BEGIN(INITIAL);
+<COMMENT2>[*]
 
 if                  return(TOKEN_IF);
 else                return(TOKEN_ELSE);
@@ -66,7 +66,7 @@ int                 return(TOKEN_DINT);
 float               return(TOKEN_DFLOAT);
 String              return(TOKEN_DSTRING);
 true                return(TOKEN_TRUE);
-false               return(TOKEN_FALSE);1
+false               return(TOKEN_FALSE);
 return              return(TOKEN_RETURN);
 
 {unsigned_integer}   {yylval.string = strdup(yytext); return(TOKEN_UNSIGNED_INTEGER);}

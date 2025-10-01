@@ -1,7 +1,7 @@
 #ifndef CONTEXT_H
 #define CONTEXT_H
 
-#include "context/definiciones.h"
+#include "definiciones.h"
 #include "result.h"
 
 #include <stdio.h>
