@@ -1,0 +1,15 @@
+print("=== Verificación de secuencia de escape \\\\ ===");
+
+print("Test 1 - Una barra invertida:");
+String test1 = "Una\\barra";
+print(test1);
+
+print("Test 2 - Ruta de Windows:");
+String test2 = "C:\\Users";
+print(test2);
+
+print("Test 3 - Múltiples barras:");
+String test3 = "A\\B\\C";
+print(test3);
+
+print("=== Verificación completada ===");

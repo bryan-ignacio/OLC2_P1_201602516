@@ -15,6 +15,7 @@ extern void yyerror(const char *s);
 int validar_int32(const char *str);
 int validar_float32(const char *str);
 int validar_double64(const char *str);
+char* procesar_secuencias_escape(const char* input);
 
 /* Rangos para enteros de 32 bits */
 #define INT32_MIN_VALUE -2147483648LL
@@ -131,6 +132,49 @@ int validar_double64(const char *str) {
     return 1; /* Válido */
 }
 
+/* Función para procesar secuencias de escape en strings */
+char* procesar_secuencias_escape(const char* input) {
+    int len = strlen(input);
+    char* result = malloc(len + 1); /* En el peor caso, mismo tamaño */
+    int i = 0, j = 0;
+    
+    while (i < len) {
+        if (input[i] == '\\' && i + 1 < len) {
+            switch (input[i + 1]) {
+                case '"':
+                    result[j++] = '"';
+                    i += 2;
+                    break;
+                case '\\':
+                    result[j++] = '\\';
+                    i += 2;
+                    break;
+                case 'n':
+                    result[j++] = '\n';
+                    i += 2;
+                    break;
+                case 't':
+                    result[j++] = '\t';
+                    i += 2;
+                    break;
+                case 'r':
+                    result[j++] = '\r';
+                    i += 2;
+                    break;
+                default:
+                    /* Si no es una secuencia reconocida, copiar literal */
+                    result[j++] = input[i++];
+                    break;
+            }
+        } else {
+            result[j++] = input[i++];
+        }
+    }
+    
+    result[j] = '\0';
+    return result;
+}
+
 /* Contador de columna */
 int yycolumn = 1;
 
@@ -168,8 +212,8 @@ exponent          [eE][+-]?{digit}+
 i                 {unsigned_integer}
 real              ({i}\.{i}?|{i}?\.{i}){exponent}?
 float_literal     ({i}\.{i}?|{i}?\.{i}){exponent}?f
-string            \"([^"\n]|\"\")*\"
-bad_string        \"([^"\n]|\"\")*
+string            \"([^"\n\\\\]|\\\\.)*\"
+bad_string        \"([^"\n\\\\]|\\\\.)*
 char_literal      '([^'\n\\]|\\u[0-9a-fA-F]{4}|\\.)'
 bad_char          '([^'\n\\]|\\u[0-9a-fA-F]{4}|\\.)*
 
@@ -254,11 +298,15 @@ return              return(TOKEN_RETURN);
                         return(TOKEN_DOUBLE);
                     }
 {string}             {
-                        /* Manejar cadenas de texto correctamente */
+                        /* Manejar cadenas de texto con secuencias de escape */
                         int len = yyleng - 2; /* Quitar comillas */
-                        yylval.string = malloc(len + 1); /* +1 para terminador nulo */
-                        strncpy(yylval.string, &yytext[1], len); /* Copiar sin comillas */
-                        yylval.string[len] = '\0'; /* Agregar terminador nulo */
+                        char* temp = malloc(len + 1);
+                        strncpy(temp, &yytext[1], len); /* Copiar sin comillas */
+                        temp[len] = '\0';
+                        
+                        /* Procesar secuencias de escape */
+                        yylval.string = procesar_secuencias_escape(temp);
+                        free(temp);
                         return(TOKEN_STRING);
                     }
 {char_literal}       {
