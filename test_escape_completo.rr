@@ -1,6 +1,0 @@
-print("=== Test completo de secuencias de escape ===");
-print("Test 1 - Comilla doble: Dijo: "Hola mundo"");
-print("Test 2 - Barra invertida: Ruta C:\\Windows\\System32");
-print("Test 3 - Salto de linea: Primera linea\nSegunda linea");
-print("Test 4 - Combinado: Archivo: "C:\\Users\\test.txt"\nTamano: 1024 bytes");
-print("=== Todos los tests completados ===");

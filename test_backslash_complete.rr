@@ -1,7 +1,0 @@
-print("Test de barra invertida");
-String test1 = "Una\\barra";
-print(test1);
-String test2 = "Ruta\\archivo";
-print(test2);
-String test3 = "A\\B";
-print(test3);
