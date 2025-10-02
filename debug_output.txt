@@ -1,0 +1,4 @@
+Debug: Procesando string: 'Hola\\nmundo'
+Debug: String resultante: 'Hola\nmundo'
+Inicio, cantidad de instrucciones: 1 
+Fin, archivo validado.

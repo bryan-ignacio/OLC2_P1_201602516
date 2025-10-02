@@ -212,8 +212,8 @@ exponent          [eE][+-]?{digit}+
 i                 {unsigned_integer}
 real              ({i}\.{i}?|{i}?\.{i}){exponent}?
 float_literal     ({i}\.{i}?|{i}?\.{i}){exponent}?f
-string            \"([^"\n\\\\]|\\\\.)*\"
-bad_string        \"([^"\n\\\\]|\\\\.)*
+string            \"([^"\n\\]|\\.)*\"
+bad_string        \"([^"\n\\]|\\.)*
 char_literal      '([^'\n\\]|\\u[0-9a-fA-F]{4}|\\.)'
 bad_char          '([^'\n\\]|\\u[0-9a-fA-F]{4}|\\.)*
 
