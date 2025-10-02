@@ -64,21 +64,23 @@ extern int yydebug;
     TOKEN_PRINT = 258,             /* TOKEN_PRINT  */
     TOKEN_DINT = 259,              /* TOKEN_DINT  */
     TOKEN_DFLOAT = 260,            /* TOKEN_DFLOAT  */
-    TOKEN_IF = 261,                /* TOKEN_IF  */
-    TOKEN_ELSE = 262,              /* TOKEN_ELSE  */
-    TOKEN_TRUE = 263,              /* TOKEN_TRUE  */
-    TOKEN_FALSE = 264,             /* TOKEN_FALSE  */
-    TOKEN_FUNC = 265,              /* TOKEN_FUNC  */
-    TOKEN_DSTRING = 266,           /* TOKEN_DSTRING  */
-    TOKEN_DBOOLEAN = 267,          /* TOKEN_DBOOLEAN  */
-    TOKEN_DCHAR = 268,             /* TOKEN_DCHAR  */
-    TOKEN_UNSIGNED_INTEGER = 269,  /* TOKEN_UNSIGNED_INTEGER  */
-    TOKEN_REAL = 270,              /* TOKEN_REAL  */
-    TOKEN_STRING = 271,            /* TOKEN_STRING  */
-    TOKEN_CHAR = 272,              /* TOKEN_CHAR  */
-    TOKEN_IDENTIFIER = 273,        /* TOKEN_IDENTIFIER  */
-    TOKEN_RETURN = 274,            /* TOKEN_RETURN  */
-    NEG = 275                      /* NEG  */
+    TOKEN_DDOUBLE = 261,           /* TOKEN_DDOUBLE  */
+    TOKEN_IF = 262,                /* TOKEN_IF  */
+    TOKEN_ELSE = 263,              /* TOKEN_ELSE  */
+    TOKEN_TRUE = 264,              /* TOKEN_TRUE  */
+    TOKEN_FALSE = 265,             /* TOKEN_FALSE  */
+    TOKEN_FUNC = 266,              /* TOKEN_FUNC  */
+    TOKEN_DSTRING = 267,           /* TOKEN_DSTRING  */
+    TOKEN_DBOOLEAN = 268,          /* TOKEN_DBOOLEAN  */
+    TOKEN_DCHAR = 269,             /* TOKEN_DCHAR  */
+    TOKEN_UNSIGNED_INTEGER = 270,  /* TOKEN_UNSIGNED_INTEGER  */
+    TOKEN_REAL = 271,              /* TOKEN_REAL  */
+    TOKEN_DOUBLE = 272,            /* TOKEN_DOUBLE  */
+    TOKEN_STRING = 273,            /* TOKEN_STRING  */
+    TOKEN_CHAR = 274,              /* TOKEN_CHAR  */
+    TOKEN_IDENTIFIER = 275,        /* TOKEN_IDENTIFIER  */
+    TOKEN_RETURN = 276,            /* TOKEN_RETURN  */
+    NEG = 277                      /* NEG  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -93,7 +95,7 @@ union YYSTYPE
   AbstractExpresion* nodo;
   TipoDato tipoDato;
 
-#line 97 "build/parser.tab.h"
+#line 99 "build/parser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

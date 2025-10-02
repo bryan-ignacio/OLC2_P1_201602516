@@ -29,8 +29,8 @@
 }
 
 /* Tokens tipados */
-%token <string> TOKEN_PRINT TOKEN_DINT TOKEN_DFLOAT TOKEN_IF TOKEN_ELSE TOKEN_TRUE TOKEN_FALSE TOKEN_FUNC
-TOKEN_DSTRING TOKEN_DBOOLEAN TOKEN_DCHAR TOKEN_UNSIGNED_INTEGER TOKEN_REAL TOKEN_STRING TOKEN_CHAR TOKEN_IDENTIFIER TOKEN_RETURN
+%token <string> TOKEN_PRINT TOKEN_DINT TOKEN_DFLOAT TOKEN_DDOUBLE TOKEN_IF TOKEN_ELSE TOKEN_TRUE TOKEN_FALSE TOKEN_FUNC
+TOKEN_DSTRING TOKEN_DBOOLEAN TOKEN_DCHAR TOKEN_UNSIGNED_INTEGER TOKEN_REAL TOKEN_DOUBLE TOKEN_STRING TOKEN_CHAR TOKEN_IDENTIFIER TOKEN_RETURN
 
 /* Tipo de los no-terminales que llevan valor */
 %type <nodo> s lSentencia sentencia expr imprimir lista_Expr bloque declaracion_var primitivo sentencia_if sentencia_funcion lista_parametros
@@ -133,6 +133,7 @@ expr: expr '+' expr   { $$ =  nuevoSumaExpresion($1, $3);  }
 primitivo: TOKEN_UNSIGNED_INTEGER { $$ =  nuevoPrimitivoExpresion($1, INT); }
     | TOKEN_STRING { $$ =  nuevoPrimitivoExpresion($1, STRING); }
     | TOKEN_REAL { $$ =  nuevoPrimitivoExpresion($1, FLOAT); }
+    | TOKEN_DOUBLE { $$ =  nuevoPrimitivoExpresion($1, DOUBLE); }
     | TOKEN_CHAR { $$ =  nuevoPrimitivoExpresion($1, CHAR); }
     | TOKEN_TRUE { $$ =  nuevoPrimitivoExpresion("T", BOOLEAN); }
     | TOKEN_FALSE { $$ =  nuevoPrimitivoExpresion("F", BOOLEAN); }
@@ -140,6 +141,7 @@ primitivo: TOKEN_UNSIGNED_INTEGER { $$ =  nuevoPrimitivoExpresion($1, INT); }
 
 tipoPrimitivo: TOKEN_DINT { $$ = INT; }
     | TOKEN_DFLOAT { $$ = FLOAT; }
+    | TOKEN_DDOUBLE { $$ = DOUBLE; }
     | TOKEN_DSTRING { $$ = STRING; }
     | TOKEN_DBOOLEAN { $$ = BOOLEAN; }
     | TOKEN_DCHAR { $$ = CHAR; }

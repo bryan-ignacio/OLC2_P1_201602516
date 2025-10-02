@@ -9,6 +9,7 @@ typedef enum
     CHAR,
     INT,
     FLOAT,
+    DOUBLE,
     STRING,
     NULO,
     TIPO_COUNT

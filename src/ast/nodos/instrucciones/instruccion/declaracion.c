@@ -45,6 +45,13 @@ Result interpretDeclaracionVariable(AbstractExpresion *nodo, Context *context)
         valorPorDefecto = valorFloat;
         break;
     }
+    case DOUBLE:
+    {
+        double *valorDouble = malloc(sizeof(double));
+        *valorDouble = 0.0; // Valor por defecto para double es 0.0
+        valorPorDefecto = valorDouble;
+        break;
+    }
     case STRING:
     {
         // Valor por defecto para string es null

@@ -11,6 +11,11 @@
 
 extern void yyerror(const char *s);
 
+/* Declaraciones de funciones de validación */
+int validar_int32(const char *str);
+int validar_float32(const char *str);
+int validar_double64(const char *str);
+
 /* Rangos para enteros de 32 bits */
 #define INT32_MIN_VALUE -2147483648LL
 #define INT32_MAX_VALUE  2147483647LL
@@ -18,6 +23,10 @@ extern void yyerror(const char *s);
 /* Rangos para float de 32 bits */
 #define FLOAT32_MAX_VALUE  3.4028235E38f
 #define FLOAT32_MIN_VALUE  1.4E-45f
+
+/* Rangos para double de 64 bits */
+#define DOUBLE64_MAX_VALUE  1.7976931348623157e308
+#define DOUBLE64_MIN_VALUE  4.9e-324
 
 /* Función para validar rango de enteros de 32 bits */
 int validar_int32(const char *str) {
@@ -75,8 +84,47 @@ int validar_float32(const char *str) {
         return 0; /* Fuera de rango máximo */
     }
     
-    /* Para el límite mínimo, ser más flexible */
-    if (abs_val != 0.0f && abs_val < FLOAT32_MIN_VALUE * 0.1f) {
+    /* Para el límite mínimo, ser más flexible - solo verificar para valores muy pequeños */
+    if (abs_val != 0.0f && abs_val < FLOAT32_MIN_VALUE) {
+        return 0; /* Demasiado pequeño */
+    }
+    
+    return 1; /* Válido */
+}
+
+/* Función para validar rango de double de 64 bits */
+int validar_double64(const char *str) {
+    char *endptr;
+    errno = 0;
+    
+    /* Los doubles NO deben terminar en 'f' */
+    int len = strlen(str);
+    if (len > 0 && str[len-1] == 'f') {
+        return 0; /* No debe terminar en 'f' */
+    }
+    
+    /* Convertir a double */
+    double val = strtod(str, &endptr);
+    
+    /* Verificar si la conversión fue exitosa */
+    if (errno == ERANGE || *endptr != '\0') {
+        return 0; /* Error de conversión */
+    }
+    
+    /* Verificar si es cero, infinito o NaN (casos especiales) */
+    if (val == 0.0 || isinf(val) || isnan(val)) {
+        return 1;
+    }
+    
+    /* Verificar rango de 64 bits para valores no cero */
+    double abs_val = fabs(val);
+    
+    /* Verificar límites de double de 64 bits */
+    if (abs_val > DOUBLE64_MAX_VALUE) {
+        return 0; /* Fuera de rango máximo */
+    }
+    
+    if (abs_val != 0.0 && abs_val < DOUBLE64_MIN_VALUE * 0.1) {
         return 0; /* Demasiado pequeño */
     }
     
@@ -145,6 +193,7 @@ print               return(TOKEN_PRINT);
 func                return(TOKEN_FUNC);
 int                 return(TOKEN_DINT); // aqui comienzan las declaraciones de tipos primitivos.
 float               return(TOKEN_DFLOAT);
+double              return(TOKEN_DDOUBLE);
 String              return(TOKEN_DSTRING);
 boolean             return(TOKEN_DBOOLEAN);
 char                return(TOKEN_DCHAR);
@@ -192,13 +241,17 @@ return              return(TOKEN_RETURN);
                         return(TOKEN_REAL);
                     }
 {real}               {
-                        /* Los números sin 'f' al final se tratan como double (no válidos para nuestro float32) */
-                        char error_msg[256];
-                        snprintf(error_msg, sizeof(error_msg), 
-                               "Literal de punto flotante debe terminar en 'f': %s. Ejemplo: %sf", 
-                               yytext, yytext);
-                        yyerror(error_msg);
-                        return -1; /* Token de error */
+                        /* Los números sin 'f' al final se tratan como double de 64 bits */
+                        if (!validar_double64(yytext)) {
+                            char error_msg[256];
+                            snprintf(error_msg, sizeof(error_msg), 
+                                   "Double fuera de rango de 64 bits: %s. Rango válido: 4.9e-324 a 1.7976931348623157e308", 
+                                   yytext);
+                            yyerror(error_msg);
+                            return -1; /* Token de error */
+                        }
+                        yylval.string = strdup(yytext); 
+                        return(TOKEN_DOUBLE);
                     }
 {string}             {
                         /* Manejar cadenas de texto correctamente */

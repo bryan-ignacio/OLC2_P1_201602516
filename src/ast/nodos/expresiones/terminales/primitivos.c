@@ -43,6 +43,10 @@ Result interpretPrimitivoExpresion(AbstractExpresion *self, Context *context)
         float *valorfloat = malloc(sizeof(float));
         *valorfloat = atof(nodo->valor);
         return nuevoValorResultado((void *)valorfloat, nodo->tipo);
+    case DOUBLE:
+        double *valordouble = malloc(sizeof(double));
+        *valordouble = strtod(nodo->valor, NULL);
+        return nuevoValorResultado((void *)valordouble, nodo->tipo);
     case STRING:
         return nuevoValorResultado((void *)nodo->valor, nodo->tipo);
     case CHAR:

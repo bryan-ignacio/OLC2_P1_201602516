@@ -35,6 +35,9 @@ Result interpretPrintExpresion(AbstractExpresion *self, Context *context)
         case FLOAT:
             fprintf(context->global->archivo, "%f\n", *(float *)result.valor);
             break;
+        case DOUBLE:
+            fprintf(context->global->archivo, "%.15g\n", *(double *)result.valor);
+            break;
         case BOOLEAN:
             fprintf(context->global->archivo, "%s\n", *(bool *)result.valor ? "true" : "false");
             break;
