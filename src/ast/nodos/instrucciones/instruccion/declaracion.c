@@ -68,7 +68,7 @@ Result interpretDeclaracionVariable(AbstractExpresion *nodo, Context *context)
     case CHAR:
     {
         wchar_t *valorChar = malloc(sizeof(wchar_t));
-        *valorChar = L'\u0000'; // Valor por defecto para char es \u0000
+        *valorChar = L'\0'; // Valor por defecto para char es \0
         valorPorDefecto = valorChar;
         break;
     }

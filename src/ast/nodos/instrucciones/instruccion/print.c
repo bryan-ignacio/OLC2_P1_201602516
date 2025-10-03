@@ -42,7 +42,14 @@ Result interpretPrintExpresion(AbstractExpresion *self, Context *context)
             fprintf(context->global->archivo, "%s\n", *(bool *)result.valor ? "true" : "false");
             break;
         case CHAR:
-            fprintf(context->global->archivo, "%lc\n", *(wchar_t *)result.valor);
+            if (*(wchar_t *)result.valor == L'\0')
+            {
+                fprintf(context->global->archivo, "\\0\n");
+            }
+            else
+            {
+                fprintf(context->global->archivo, "%lc\n", *(wchar_t *)result.valor);
+            }
             break;
         case NULO:
             fprintf(context->global->archivo, "NULL\n");

@@ -1,8 +1,14 @@
-=== Test completo de secuencias de escape ===
-Test 1 - Comilla doble: Dijo: "Hola mundo"
-Test 2 - Barra invertida: Ruta C:\Windows\System32
-Test 3 - Salto de linea: Primera linea
-Segunda linea
-Test 4 - Combinado: Archivo: "C:\Users\test.txt"
-Tamano: 1024 bytes
-=== Todos los tests completados ===
+=== SISTEMA DE CALCULO CIENTIFICO ===
+42
+3.140000
+2.718281828
+A
+true
+Resultado
+-------CARACTERES POR DEFECTO----------
+0
+0.000000
+false
+\0
+null
+0

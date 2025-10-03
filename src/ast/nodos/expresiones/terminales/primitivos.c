@@ -70,7 +70,7 @@ Result interpretPrimitivoExpresion(AbstractExpresion *self, Context *context)
         }
         else
         {
-            *valorchar = L'\u0000'; // Carácter por defecto
+            *valorchar = L'\0'; // Carácter por defecto
         }
         return nuevoValorResultado((void *)valorchar, nodo->tipo);
     default:

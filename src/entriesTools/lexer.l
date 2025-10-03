@@ -233,7 +233,7 @@ bad_char          '([^'\n\\]|\\u[0-9a-fA-F]{4}|\\.)*
 
 if                  return(TOKEN_IF); // palabras reservadas, estructuras de control.
 else                return(TOKEN_ELSE);
-print               return(TOKEN_PRINT);
+System\.out\.println    return(TOKEN_PRINT);
 func                return(TOKEN_FUNC);
 int                 return(TOKEN_DINT); // aqui comienzan las declaraciones de tipos primitivos.
 float               return(TOKEN_DFLOAT);
