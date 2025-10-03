@@ -52,12 +52,19 @@ s: lSentencia  { ast_root = $1; $$ = $1; }
     //| error '\n'  { yyerrok; }
     ;
 // Padre, hijo;
+// Permite bloques sin punto y coma, pero las demás sentencias sí lo requieren
 lSentencia: lSentencia sentencia ';' { agregarHijo($1, $2); $$ = $1;}
     | sentencia ';' {
-                        AbstractExpresion* b = nuevoInstruccionesExpresion();
-                        agregarHijo(b, $1);
-                        $$ =  b;
-                    }
+        AbstractExpresion* b = nuevoInstruccionesExpresion();
+        agregarHijo(b, $1);
+        $$ =  b;
+    }
+    | lSentencia bloque { agregarHijo($1, $2); $$ = $1; }
+    | bloque {
+        AbstractExpresion* b = nuevoInstruccionesExpresion();
+        agregarHijo(b, $1);
+        $$ = b;
+    }
     ;
 // una sentencia puede ser un print, un bloque, una declaración de variable, un if o una función
 sentencia: imprimir {$$ = $1; }
