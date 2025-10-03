@@ -1,6 +1,10 @@
 #include "ast/AbstractExpresion.h"
 #include "ast/nodos/instrucciones/instrucciones.h"
+
 #include "context/context.h"
+#include "context/error_report.h"
+// Contexto actual para reporte de errores
+Context *contextoActualReporte = NULL;
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -33,45 +37,38 @@ int main(int argc, char **argv)
     }
 
     // Llama al analizador sintáctico generado por Bison.
-    if (yyparse() == 0)
+    int parseResult = yyparse();
+    if (parseResult == 0)
     {
-        // Si el análisis sintáctico fue exitoso, se procesa el AST.
         if (ast_root)
         {
-            // Se imprime la cantidad de instrucciones en el AST.
             printf("Inicio, cantidad de instrucciones: %ld \n", ast_root->numHijos);
-            // Se crea un contexto padre para la interpretación del AST.
             Context *contextPadre = nuevoContext(NULL);
-            // Se abre el archivo desde el contexto padre para escribir la salida.
+            contextoActualReporte = contextPadre;
             contextPadre->archivo = fopen("salida.txt", "w");
-
-            // Si el contexto padre no pudo abrir el archivo, muestra un mensaje de error y termina el programa.
             if (contextPadre->archivo == NULL)
             {
                 printf("Error: No se pudo abrir el archivo.\n");
+                imprimirErrores();
+                liberarErrores();
                 return 1;
             }
-
-            // Se interpreta el AST en el contexto padre y se obtiene el resultado.
             Result resultado = ast_root->interpret(ast_root, contextPadre);
-
-            (void)resultado; // Suprimir warning de variable no utilizada
-            // Se cierra el archivo asociado al contexto padre.
+            (void)resultado;
             fclose(contextPadre->archivo);
-            // Se imprime un mensaje indicando que el archivo fue validado correctamente.
             printf("Fin, archivo validado.\n");
         }
-        // Si no se generó un AST, muestra un mensaje indicando que no se analizó ninguna entrada.
         else
         {
             printf("No se analizó ninguna entrada.\n");
         }
     }
-    // Si el análisis sintáctico falló, muestra un mensaje de error.
     else
     {
         fprintf(stderr, "El análisis sintáctico falló.\n");
     }
+    imprimirErrores();
+    liberarErrores();
     // Si se abrió un archivo de entrada, se cierra antes de terminar el programa.
     if (yyin && yyin != stdin)
     {

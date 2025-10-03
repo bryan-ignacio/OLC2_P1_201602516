@@ -4,7 +4,6 @@
 #include "context/definiciones.h"
 #include "context/result.h"
 #include "context/context.h"
-
 #include <stddef.h>
 
 // Definen la estructura base para todos los nodos del AST.
@@ -22,6 +21,8 @@ struct AbstractExpresion
     // Graficar graficar; //Método graficar puntero
     AbstractExpresion **hijos; // Array dinámico de nodos hijos.
     size_t numHijos;           // cantidad de hijos.
+    int linea;                 // línea de código fuente
+    int columna;               // columna de código fuente
 };
 
 // Funciones para manejar el AST

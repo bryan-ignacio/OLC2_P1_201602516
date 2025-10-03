@@ -45,7 +45,7 @@
 extern int yydebug;
 #endif
 /* "%code requires" blocks.  */
-#line 14 "src/entriesTools/parser.y"
+#line 18 "src/entriesTools/parser.y"
 
     #include "ast/nodos/builders.h"
     #include "context/result.h"
@@ -89,7 +89,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 25 "src/entriesTools/parser.y"
+#line 29 "src/entriesTools/parser.y"
 
   char* string;
   AbstractExpresion* nodo;

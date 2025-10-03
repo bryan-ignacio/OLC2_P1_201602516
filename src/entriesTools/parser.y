@@ -2,12 +2,16 @@
     #include <stdio.h>
     #include <stdlib.h>
     #include "ast/AbstractExpresion.h"
+    #include "context/error_report.h"
 
     /* Prototipo del scanner */
     extern int yylex(void);
     extern AbstractExpresion* ast_root;
     /* yyerror con firma estándar */
     void yyerror(const char *s);
+    extern int yylineno;
+    extern int yycolumn;
+    extern Context* contextoActualReporte; // Definir en main.c para saber el ambito
 %}
 
 /* Esto va al parser.tab.h */
@@ -49,7 +53,7 @@ TOKEN_DSTRING TOKEN_DBOOLEAN TOKEN_DCHAR TOKEN_UNSIGNED_INTEGER TOKEN_REAL TOKEN
 
 // lista de sentencias a ejecutar.
 s: lSentencia  { ast_root = $1; $$ = $1; }
-    //| error '\n'  { yyerrok; }
+    | s error ';' { yyerrok; }
     ;
 // Padre, hijo;
 // Permite bloques sin punto y coma, pero las demás sentencias sí lo requieren
@@ -65,6 +69,7 @@ lSentencia: lSentencia sentencia ';' { agregarHijo($1, $2); $$ = $1;}
         agregarHijo(b, $1);
         $$ = b;
     }
+    | lSentencia error ';' { yyerrok; $$ = $1; }
     ;
 // una sentencia puede ser un print, un bloque, una declaración de variable, un if o una función
 sentencia: imprimir {$$ = $1; }
@@ -90,8 +95,8 @@ imprimir: TOKEN_PRINT '(' lista_Expr ')' { $$ =  nuevoPrintExpresion($3); }
 bloque: '{' lSentencia '}' { $$ =  $2; }
     ;
 
-declaracion_var: tipoPrimitivo TOKEN_IDENTIFIER { $$ = nuevoDeclaracionVariables($1, $2, NULL); }
-    | tipoPrimitivo TOKEN_IDENTIFIER '=' expr { $$ = nuevoDeclaracionVariables($1, $2, $4); }
+declaracion_var: tipoPrimitivo TOKEN_IDENTIFIER { $$ = nuevoDeclaracionVariables($1, $2, NULL, @2.first_line, @2.first_column); }
+    | tipoPrimitivo TOKEN_IDENTIFIER '=' expr { $$ = nuevoDeclaracionVariables($1, $2, $4, @2.first_line, @2.first_column); }
     ;
 
 sentencia_if: TOKEN_IF '(' expr ')' bloque { $$ = nuevoIfExpresion($3, $5); }
@@ -131,7 +136,7 @@ expr: expr '+' expr   { $$ =  nuevoSumaExpresion($1, $3);  }
     | '-' expr %prec NEG  { $$ =  nuevoUnarioExpresion($2);  }
     | expr '=' '=' expr { $$ = nuevoComparacionExpresion($1, $4); }
     | primitivo { $$ = $1; }
-    | TOKEN_IDENTIFIER { $$ = nuevoIdentificadorExpresion($1); }
+    | TOKEN_IDENTIFIER { $$ = nuevoIdentificadorExpresion($1, @1.first_line, @1.first_column); }
     | TOKEN_IDENTIFIER '(' lista_Expr ')' { $$ = nuevoLlamadaExpresion($1, $3); }
     | TOKEN_IDENTIFIER '('')' { /* sin implementar */ }
     ;
@@ -157,9 +162,8 @@ tipoPrimitivo: TOKEN_DINT { $$ = INT; }
 
 /* definición de yyerror, usa el yylloc global para ubicación */
 void yyerror(const char *s) {
-    fprintf(stderr,
-            "Illegal input %s en %d:%d\n",
-            s,
-            yylloc.first_line,
-            yylloc.first_column);
+    char buffer[256];
+    snprintf(buffer, sizeof(buffer), "Error sintáctico: %s", s);
+    int ambito = contextoActualReporte ? contextoActualReporte->nombre : 0;
+    agregarError(buffer, yylloc.first_line, yylloc.first_column, ambito);
 }

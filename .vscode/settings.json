@@ -1,5 +1,6 @@
 {
-    "files.associations": {
-        "definiciones.h": "c"
-    }
+  "files.associations": {
+    "definiciones.h": "c",
+    "error_report.h": "c"
+  }
 }

@@ -1,5 +1,6 @@
 #include "context.h"
-
+#include "ast/AbstractExpresion.h"
+#include "context/error_report.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -54,7 +55,17 @@ void agregarSymbol(Context *actual, Symbol *symbol)
 {
     if (buscarSymbol(actual->ultimoSymbol, symbol->nombre))
     {
-        printf("La variable de nombre '%s' ya existe.\n", symbol->nombre);
+// Reportar error de redeclaración con ubicación si es posible
+#include "context/error_report.h"
+        int linea = 0, columna = 0, ambito = actual ? actual->nombre : 0;
+        if (symbol->nodo)
+        {
+            linea = symbol->nodo->linea;
+            columna = symbol->nodo->columna;
+        }
+        char buffer[256];
+        snprintf(buffer, sizeof(buffer), "La variable de nombre '%s' ya existe.", symbol->nombre);
+        agregarError(buffer, linea, columna, ambito);
         return;
     }
     symbol->anterior = actual->ultimoSymbol;
