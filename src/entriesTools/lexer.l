@@ -358,6 +358,8 @@ return              return(TOKEN_RETURN);
 ">>"                 return(TOKEN_RIGHT_SHIFT); // operador de desplazamiento a la derecha
 "=="                 return(TOKEN_EQ); // operador de igualdad
 "!="                 return(TOKEN_NE); // operador de desigualdad
+">="                 return(TOKEN_GE); // operador mayor o igual
+"<="                 return(TOKEN_LE); // operador menor o igual
 "+="                 return(TOKEN_PLUS_ASSIGN); // operador de asignación suma
 "-="                 return(TOKEN_MINUS_ASSIGN); // operador de asignación resta
 "*="                 return(TOKEN_MULT_ASSIGN); // operador de asignación multiplicación

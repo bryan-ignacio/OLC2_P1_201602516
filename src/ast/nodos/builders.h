@@ -34,6 +34,10 @@ AbstractExpresion *nuevoCastingExpresion(AbstractExpresion *expresion, TipoDato 
 AbstractExpresion *nuevoComparacionExpresion(AbstractExpresion *izquierda, AbstractExpresion *derecha);
 AbstractExpresion *nuevoIgualdadExpresion(AbstractExpresion *izquierda, AbstractExpresion *derecha);
 AbstractExpresion *nuevoDesigualdadExpresion(AbstractExpresion *izquierda, AbstractExpresion *derecha);
+AbstractExpresion *nuevoMayorQueExpresion(AbstractExpresion *izquierda, AbstractExpresion *derecha);
+AbstractExpresion *nuevoMenorQueExpresion(AbstractExpresion *izquierda, AbstractExpresion *derecha);
+AbstractExpresion *nuevoMayorIgualExpresion(AbstractExpresion *izquierda, AbstractExpresion *derecha);
+AbstractExpresion *nuevoMenorIgualExpresion(AbstractExpresion *izquierda, AbstractExpresion *derecha);
 
 /*
     Builds bitwise operations

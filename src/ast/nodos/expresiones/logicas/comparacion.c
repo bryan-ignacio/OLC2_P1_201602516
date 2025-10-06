@@ -121,6 +121,126 @@ Result desigualdadStringString(Result izquierda, Result derecha)
     return nuevoValorResultado(res, BOOLEAN);
 }
 
+// ======================= FUNCIONES MAYOR QUE =======================
+
+Result mayorQueIntInt(Result izquierda, Result derecha)
+{
+    bool *res = malloc(sizeof(bool));
+    *res = *((int *)izquierda.valor) > *((int *)derecha.valor);
+    return nuevoValorResultado(res, BOOLEAN);
+}
+
+Result mayorQueFloatFloat(Result izquierda, Result derecha)
+{
+    bool *res = malloc(sizeof(bool));
+    *res = *((float *)izquierda.valor) > *((float *)derecha.valor);
+    return nuevoValorResultado(res, BOOLEAN);
+}
+
+Result mayorQueDoubleDouble(Result izquierda, Result derecha)
+{
+    bool *res = malloc(sizeof(bool));
+    *res = *((double *)izquierda.valor) > *((double *)derecha.valor);
+    return nuevoValorResultado(res, BOOLEAN);
+}
+
+Result mayorQueCharChar(Result izquierda, Result derecha)
+{
+    bool *res = malloc(sizeof(bool));
+    *res = *((char *)izquierda.valor) > *((char *)derecha.valor);
+    return nuevoValorResultado(res, BOOLEAN);
+}
+
+// ======================= FUNCIONES MENOR QUE =======================
+
+Result menorQueIntInt(Result izquierda, Result derecha)
+{
+    bool *res = malloc(sizeof(bool));
+    *res = *((int *)izquierda.valor) < *((int *)derecha.valor);
+    return nuevoValorResultado(res, BOOLEAN);
+}
+
+Result menorQueFloatFloat(Result izquierda, Result derecha)
+{
+    bool *res = malloc(sizeof(bool));
+    *res = *((float *)izquierda.valor) < *((float *)derecha.valor);
+    return nuevoValorResultado(res, BOOLEAN);
+}
+
+Result menorQueDoubleDouble(Result izquierda, Result derecha)
+{
+    bool *res = malloc(sizeof(bool));
+    *res = *((double *)izquierda.valor) < *((double *)derecha.valor);
+    return nuevoValorResultado(res, BOOLEAN);
+}
+
+Result menorQueCharChar(Result izquierda, Result derecha)
+{
+    bool *res = malloc(sizeof(bool));
+    *res = *((char *)izquierda.valor) < *((char *)derecha.valor);
+    return nuevoValorResultado(res, BOOLEAN);
+}
+
+// ======================= FUNCIONES MAYOR O IGUAL =======================
+
+Result mayorIgualIntInt(Result izquierda, Result derecha)
+{
+    bool *res = malloc(sizeof(bool));
+    *res = *((int *)izquierda.valor) >= *((int *)derecha.valor);
+    return nuevoValorResultado(res, BOOLEAN);
+}
+
+Result mayorIgualFloatFloat(Result izquierda, Result derecha)
+{
+    bool *res = malloc(sizeof(bool));
+    *res = *((float *)izquierda.valor) >= *((float *)derecha.valor);
+    return nuevoValorResultado(res, BOOLEAN);
+}
+
+Result mayorIgualDoubleDouble(Result izquierda, Result derecha)
+{
+    bool *res = malloc(sizeof(bool));
+    *res = *((double *)izquierda.valor) >= *((double *)derecha.valor);
+    return nuevoValorResultado(res, BOOLEAN);
+}
+
+Result mayorIgualCharChar(Result izquierda, Result derecha)
+{
+    bool *res = malloc(sizeof(bool));
+    *res = *((char *)izquierda.valor) >= *((char *)derecha.valor);
+    return nuevoValorResultado(res, BOOLEAN);
+}
+
+// ======================= FUNCIONES MENOR O IGUAL =======================
+
+Result menorIgualIntInt(Result izquierda, Result derecha)
+{
+    bool *res = malloc(sizeof(bool));
+    *res = *((int *)izquierda.valor) <= *((int *)derecha.valor);
+    return nuevoValorResultado(res, BOOLEAN);
+}
+
+Result menorIgualFloatFloat(Result izquierda, Result derecha)
+{
+    bool *res = malloc(sizeof(bool));
+    *res = *((float *)izquierda.valor) <= *((float *)derecha.valor);
+    return nuevoValorResultado(res, BOOLEAN);
+}
+
+Result menorIgualDoubleDouble(Result izquierda, Result derecha)
+{
+    bool *res = malloc(sizeof(bool));
+    *res = *((double *)izquierda.valor) <= *((double *)derecha.valor);
+    return nuevoValorResultado(res, BOOLEAN);
+}
+
+Result menorIgualCharChar(Result izquierda, Result derecha)
+{
+    bool *res = malloc(sizeof(bool));
+    *res = *((char *)izquierda.valor) <= *((char *)derecha.valor);
+    return nuevoValorResultado(res, BOOLEAN);
+}
+
 // ======================= TABLAS DE OPERACIONES =======================
 
 Operacion tablaOperacionesIgualdad[TIPO_COUNT][TIPO_COUNT] = {
@@ -139,6 +259,34 @@ Operacion tablaOperacionesDesigualdad[TIPO_COUNT][TIPO_COUNT] = {
     [FLOAT][FLOAT] = desigualdadFloatFloat,
     [DOUBLE][DOUBLE] = desigualdadDoubleDouble,
     [STRING][STRING] = desigualdadStringString,
+};
+
+Operacion tablaOperacionesMayorQue[TIPO_COUNT][TIPO_COUNT] = {
+    [CHAR][CHAR] = mayorQueCharChar,
+    [INT][INT] = mayorQueIntInt,
+    [FLOAT][FLOAT] = mayorQueFloatFloat,
+    [DOUBLE][DOUBLE] = mayorQueDoubleDouble,
+};
+
+Operacion tablaOperacionesMenorQue[TIPO_COUNT][TIPO_COUNT] = {
+    [CHAR][CHAR] = menorQueCharChar,
+    [INT][INT] = menorQueIntInt,
+    [FLOAT][FLOAT] = menorQueFloatFloat,
+    [DOUBLE][DOUBLE] = menorQueDoubleDouble,
+};
+
+Operacion tablaOperacionesMayorIgual[TIPO_COUNT][TIPO_COUNT] = {
+    [CHAR][CHAR] = mayorIgualCharChar,
+    [INT][INT] = mayorIgualIntInt,
+    [FLOAT][FLOAT] = mayorIgualFloatFloat,
+    [DOUBLE][DOUBLE] = mayorIgualDoubleDouble,
+};
+
+Operacion tablaOperacionesMenorIgual[TIPO_COUNT][TIPO_COUNT] = {
+    [CHAR][CHAR] = menorIgualCharChar,
+    [INT][INT] = menorIgualIntInt,
+    [FLOAT][FLOAT] = menorIgualFloatFloat,
+    [DOUBLE][DOUBLE] = menorIgualDoubleDouble,
 };
 
 // Mantener compatibilidad con código existente
@@ -160,6 +308,34 @@ AbstractExpresion *nuevoDesigualdadExpresion(AbstractExpresion *izquierda, Abstr
     ExpresionLenguaje *desigualdadExpresion = nuevoExpresionLenguaje(interpretExpresionLenguaje, izquierda, derecha);
     desigualdadExpresion->tablaOperaciones = &tablaOperacionesDesigualdad;
     return (AbstractExpresion *)desigualdadExpresion;
+}
+
+AbstractExpresion *nuevoMayorQueExpresion(AbstractExpresion *izquierda, AbstractExpresion *derecha)
+{
+    ExpresionLenguaje *mayorQueExpresion = nuevoExpresionLenguaje(interpretExpresionLenguaje, izquierda, derecha);
+    mayorQueExpresion->tablaOperaciones = &tablaOperacionesMayorQue;
+    return (AbstractExpresion *)mayorQueExpresion;
+}
+
+AbstractExpresion *nuevoMenorQueExpresion(AbstractExpresion *izquierda, AbstractExpresion *derecha)
+{
+    ExpresionLenguaje *menorQueExpresion = nuevoExpresionLenguaje(interpretExpresionLenguaje, izquierda, derecha);
+    menorQueExpresion->tablaOperaciones = &tablaOperacionesMenorQue;
+    return (AbstractExpresion *)menorQueExpresion;
+}
+
+AbstractExpresion *nuevoMayorIgualExpresion(AbstractExpresion *izquierda, AbstractExpresion *derecha)
+{
+    ExpresionLenguaje *mayorIgualExpresion = nuevoExpresionLenguaje(interpretExpresionLenguaje, izquierda, derecha);
+    mayorIgualExpresion->tablaOperaciones = &tablaOperacionesMayorIgual;
+    return (AbstractExpresion *)mayorIgualExpresion;
+}
+
+AbstractExpresion *nuevoMenorIgualExpresion(AbstractExpresion *izquierda, AbstractExpresion *derecha)
+{
+    ExpresionLenguaje *menorIgualExpresion = nuevoExpresionLenguaje(interpretExpresionLenguaje, izquierda, derecha);
+    menorIgualExpresion->tablaOperaciones = &tablaOperacionesMenorIgual;
+    return (AbstractExpresion *)menorIgualExpresion;
 }
 
 // Mantener compatibilidad con código existente
