@@ -40,6 +40,13 @@ AbstractExpresion *nuevoMayorIgualExpresion(AbstractExpresion *izquierda, Abstra
 AbstractExpresion *nuevoMenorIgualExpresion(AbstractExpresion *izquierda, AbstractExpresion *derecha);
 
 /*
+    Builds logical operations
+*/
+AbstractExpresion *nuevoLogicAndExpresion(AbstractExpresion *izquierda, AbstractExpresion *derecha);
+AbstractExpresion *nuevoLogicOrExpresion(AbstractExpresion *izquierda, AbstractExpresion *derecha);
+AbstractExpresion *nuevoLogicNotExpresion(AbstractExpresion *operando);
+
+/*
     Builds bitwise operations
 */
 AbstractExpresion *nuevoBitwiseAndExpresion(AbstractExpresion *izquierda, AbstractExpresion *derecha);

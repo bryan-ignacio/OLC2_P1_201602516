@@ -1,12 +1,4 @@
-false
-true
-false
-true
-false
-false
-false
-true
-true
-true
-false
-true
+NULL
+NULL
+NULL
+NULL

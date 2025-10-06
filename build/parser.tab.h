@@ -87,17 +87,19 @@ extern int yydebug;
     TOKEN_NE = 281,                /* TOKEN_NE  */
     TOKEN_GE = 282,                /* TOKEN_GE  */
     TOKEN_LE = 283,                /* TOKEN_LE  */
-    TOKEN_PLUS_ASSIGN = 284,       /* TOKEN_PLUS_ASSIGN  */
-    TOKEN_MINUS_ASSIGN = 285,      /* TOKEN_MINUS_ASSIGN  */
-    TOKEN_MULT_ASSIGN = 286,       /* TOKEN_MULT_ASSIGN  */
-    TOKEN_DIV_ASSIGN = 287,        /* TOKEN_DIV_ASSIGN  */
-    TOKEN_MOD_ASSIGN = 288,        /* TOKEN_MOD_ASSIGN  */
-    TOKEN_AND_ASSIGN = 289,        /* TOKEN_AND_ASSIGN  */
-    TOKEN_OR_ASSIGN = 290,         /* TOKEN_OR_ASSIGN  */
-    TOKEN_XOR_ASSIGN = 291,        /* TOKEN_XOR_ASSIGN  */
-    TOKEN_LSHIFT_ASSIGN = 292,     /* TOKEN_LSHIFT_ASSIGN  */
-    TOKEN_RSHIFT_ASSIGN = 293,     /* TOKEN_RSHIFT_ASSIGN  */
-    NEG = 294                      /* NEG  */
+    TOKEN_AND = 284,               /* TOKEN_AND  */
+    TOKEN_OR = 285,                /* TOKEN_OR  */
+    TOKEN_PLUS_ASSIGN = 286,       /* TOKEN_PLUS_ASSIGN  */
+    TOKEN_MINUS_ASSIGN = 287,      /* TOKEN_MINUS_ASSIGN  */
+    TOKEN_MULT_ASSIGN = 288,       /* TOKEN_MULT_ASSIGN  */
+    TOKEN_DIV_ASSIGN = 289,        /* TOKEN_DIV_ASSIGN  */
+    TOKEN_MOD_ASSIGN = 290,        /* TOKEN_MOD_ASSIGN  */
+    TOKEN_AND_ASSIGN = 291,        /* TOKEN_AND_ASSIGN  */
+    TOKEN_OR_ASSIGN = 292,         /* TOKEN_OR_ASSIGN  */
+    TOKEN_XOR_ASSIGN = 293,        /* TOKEN_XOR_ASSIGN  */
+    TOKEN_LSHIFT_ASSIGN = 294,     /* TOKEN_LSHIFT_ASSIGN  */
+    TOKEN_RSHIFT_ASSIGN = 295,     /* TOKEN_RSHIFT_ASSIGN  */
+    NEG = 296                      /* NEG  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -112,7 +114,7 @@ union YYSTYPE
   AbstractExpresion* nodo;
   TipoDato tipoDato;
 
-#line 116 "build/parser.tab.h"
+#line 118 "build/parser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

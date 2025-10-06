@@ -34,7 +34,7 @@
 
 /* Tokens tipados */
 %token <string> TOKEN_PRINT TOKEN_DINT TOKEN_DFLOAT TOKEN_DDOUBLE TOKEN_IF TOKEN_ELSE TOKEN_TRUE TOKEN_FALSE TOKEN_FUNC
-TOKEN_DSTRING TOKEN_DBOOLEAN TOKEN_DCHAR TOKEN_UNSIGNED_INTEGER TOKEN_REAL TOKEN_DOUBLE TOKEN_STRING TOKEN_CHAR TOKEN_IDENTIFIER TOKEN_RETURN TOKEN_FINAL TOKEN_LEFT_SHIFT TOKEN_RIGHT_SHIFT TOKEN_EQ TOKEN_NE TOKEN_GE TOKEN_LE
+TOKEN_DSTRING TOKEN_DBOOLEAN TOKEN_DCHAR TOKEN_UNSIGNED_INTEGER TOKEN_REAL TOKEN_DOUBLE TOKEN_STRING TOKEN_CHAR TOKEN_IDENTIFIER TOKEN_RETURN TOKEN_FINAL TOKEN_LEFT_SHIFT TOKEN_RIGHT_SHIFT TOKEN_EQ TOKEN_NE TOKEN_GE TOKEN_LE TOKEN_AND TOKEN_OR
 TOKEN_PLUS_ASSIGN TOKEN_MINUS_ASSIGN TOKEN_MULT_ASSIGN TOKEN_DIV_ASSIGN TOKEN_MOD_ASSIGN TOKEN_AND_ASSIGN TOKEN_OR_ASSIGN TOKEN_XOR_ASSIGN TOKEN_LSHIFT_ASSIGN TOKEN_RSHIFT_ASSIGN
 
 /* Tipo de los no-terminales que llevan valor */
@@ -168,6 +168,9 @@ expr: expr '+' expr   { $$ =  nuevoSumaExpresion($1, $3);  }
     | expr '<' expr { $$ = nuevoMenorQueExpresion($1, $3); }
     | expr TOKEN_GE expr { $$ = nuevoMayorIgualExpresion($1, $3); }
     | expr TOKEN_LE expr { $$ = nuevoMenorIgualExpresion($1, $3); }
+    | expr TOKEN_AND expr { $$ = nuevoLogicAndExpresion($1, $3); }
+    | expr TOKEN_OR expr { $$ = nuevoLogicOrExpresion($1, $3); }
+    | '!' expr %prec NEG { $$ = nuevoLogicNotExpresion($2); }
     | '(' TOKEN_DINT ')' expr { $$ = nuevoCastingExpresion($4, INT); }
     | '(' TOKEN_DFLOAT ')' expr { $$ = nuevoCastingExpresion($4, FLOAT); }
     | '(' TOKEN_DDOUBLE ')' expr { $$ = nuevoCastingExpresion($4, DOUBLE); }
