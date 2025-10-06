@@ -67,3 +67,10 @@ Result calcularResultadoDerecho(ExpresionLenguaje *self, Context *context)
 {
     return self->base.hijos[1]->interpret(self->base.hijos[1], context);
 }
+
+// Función para crear una nueva lista de casos para switch
+AbstractExpresion *nuevoListaCasos()
+{
+    // Usa la misma estructura que las listas de expresiones
+    return nuevoInstruccionesExpresion();
+}

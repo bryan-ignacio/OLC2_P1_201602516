@@ -63,6 +63,15 @@ AbstractExpresion *nuevoIfExpresion(AbstractExpresion *expresion, AbstractExpres
 AbstractExpresion *nuevoIfElseExpresion(AbstractExpresion *expresion, AbstractExpresion *bloqueTrue, AbstractExpresion *bloqueFalse);
 AbstractExpresion *nuevoElseIfExpresion(AbstractExpresion *expresion, AbstractExpresion *bloqueTrue, AbstractExpresion *IfExpresionSiguiente);
 
+/*
+    Builds switch-case
+*/
+AbstractExpresion *nuevoSwitchExpresion(AbstractExpresion *expresion, AbstractExpresion *listaCasos);
+AbstractExpresion *nuevoCaseExpresion(AbstractExpresion *valor, AbstractExpresion *bloque);
+AbstractExpresion *nuevoDefaultExpresion(AbstractExpresion *bloque);
+AbstractExpresion *nuevoBreakExpresion();
+AbstractExpresion *nuevoListaCasos();
+
 AbstractExpresion *nuevoFuncionExpresion(TipoDato tipoDato, char *nombre, AbstractExpresion *listaExpr, AbstractExpresion *bloque);
 AbstractExpresion *nuevoLlamadaExpresion(char *id, AbstractExpresion *listaExpresiones);
 AbstractExpresion *nuevoListaParametros();

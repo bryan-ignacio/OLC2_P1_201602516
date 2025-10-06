@@ -35,10 +35,10 @@
 /* Tokens tipados */
 %token <string> TOKEN_PRINT TOKEN_DINT TOKEN_DFLOAT TOKEN_DDOUBLE TOKEN_IF TOKEN_ELSE TOKEN_TRUE TOKEN_FALSE TOKEN_FUNC
 TOKEN_DSTRING TOKEN_DBOOLEAN TOKEN_DCHAR TOKEN_UNSIGNED_INTEGER TOKEN_REAL TOKEN_DOUBLE TOKEN_STRING TOKEN_CHAR TOKEN_IDENTIFIER TOKEN_RETURN TOKEN_FINAL TOKEN_LEFT_SHIFT TOKEN_RIGHT_SHIFT TOKEN_EQ TOKEN_NE TOKEN_GE TOKEN_LE TOKEN_AND TOKEN_OR
-TOKEN_PLUS_ASSIGN TOKEN_MINUS_ASSIGN TOKEN_MULT_ASSIGN TOKEN_DIV_ASSIGN TOKEN_MOD_ASSIGN TOKEN_AND_ASSIGN TOKEN_OR_ASSIGN TOKEN_XOR_ASSIGN TOKEN_LSHIFT_ASSIGN TOKEN_RSHIFT_ASSIGN
+TOKEN_PLUS_ASSIGN TOKEN_MINUS_ASSIGN TOKEN_MULT_ASSIGN TOKEN_DIV_ASSIGN TOKEN_MOD_ASSIGN TOKEN_AND_ASSIGN TOKEN_OR_ASSIGN TOKEN_XOR_ASSIGN TOKEN_LSHIFT_ASSIGN TOKEN_RSHIFT_ASSIGN TOKEN_SWITCH TOKEN_CASE TOKEN_BREAK TOKEN_DEFAULT
 
 /* Tipo de los no-terminales que llevan valor */
-%type <nodo> s lSentencia sentencia expr imprimir lista_Expr bloque declaracion_var declaracion_const asignacion primitivo sentencia_if sentencia_funcion lista_parametros
+%type <nodo> s lSentencia sentencia expr imprimir lista_Expr bloque declaracion_var declaracion_const asignacion primitivo sentencia_if sentencia_funcion lista_parametros sentencia_switch lista_casos caso
 
 %type <tipoDato> tipoPrimitivo
 
@@ -76,6 +76,12 @@ lSentencia: lSentencia sentencia ';' { agregarHijo($1, $2); $$ = $1;}
         agregarHijo(b, $1);
         $$ = b;
     }
+    | lSentencia sentencia_switch { agregarHijo($1, $2); $$ = $1; }
+    | sentencia_switch {
+        AbstractExpresion* b = nuevoInstruccionesExpresion();
+        agregarHijo(b, $1);
+        $$ = b;
+    }
     | lSentencia error ';' { yyerrok; $$ = $1; }
     ;
 // una sentencia puede ser un print, un bloque, una declaración de variable, un if o una función
@@ -85,6 +91,7 @@ sentencia: imprimir {$$ = $1; }
     | declaracion_const {$$ = $1;}
     | asignacion {$$ = $1;}
     | sentencia_funcion { $$ = $1; }
+    | TOKEN_BREAK { $$ = nuevoBreakExpresion(); }
     | TOKEN_RETURN { $$ = NULL; }/* sin implementar */
     | TOKEN_RETURN expr { $$ = nuevoReturnExpresion($2); } /* sin implementar */
     ;
@@ -136,6 +143,21 @@ lista_parametros: lista_parametros ',' declaracion_var { agregarHijo($1, $3); $$
 
 sentencia_funcion: tipoPrimitivo TOKEN_FUNC TOKEN_IDENTIFIER '(' lista_parametros ')' bloque {  $$ = nuevoFuncionExpresion($1, $3, $5, $7);}
     | tipoPrimitivo TOKEN_FUNC TOKEN_IDENTIFIER '(' ')' bloque {  $$ = nuevoFuncionExpresion($1, $3, NULL, $6);}
+    ;
+
+sentencia_switch: TOKEN_SWITCH '(' expr ')' '{' lista_casos '}' { $$ = nuevoSwitchExpresion($3, $6); }
+    ;
+
+lista_casos: lista_casos caso { agregarHijo($1, $2); $$ = $1; }
+    | caso { 
+        AbstractExpresion* b = nuevoListaCasos();
+        agregarHijo(b, $1);
+        $$ = b;
+    }
+    ;
+
+caso: TOKEN_CASE expr ':' lSentencia { $$ = nuevoCaseExpresion($2, $4); }
+    | TOKEN_DEFAULT ':' lSentencia { $$ = nuevoDefaultExpresion($3); }
     ;
 
 /* 

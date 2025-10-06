@@ -99,7 +99,11 @@ extern int yydebug;
     TOKEN_XOR_ASSIGN = 293,        /* TOKEN_XOR_ASSIGN  */
     TOKEN_LSHIFT_ASSIGN = 294,     /* TOKEN_LSHIFT_ASSIGN  */
     TOKEN_RSHIFT_ASSIGN = 295,     /* TOKEN_RSHIFT_ASSIGN  */
-    NEG = 296                      /* NEG  */
+    TOKEN_SWITCH = 296,            /* TOKEN_SWITCH  */
+    TOKEN_CASE = 297,              /* TOKEN_CASE  */
+    TOKEN_BREAK = 298,             /* TOKEN_BREAK  */
+    TOKEN_DEFAULT = 299,           /* TOKEN_DEFAULT  */
+    NEG = 300                      /* NEG  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -114,7 +118,7 @@ union YYSTYPE
   AbstractExpresion* nodo;
   TipoDato tipoDato;
 
-#line 118 "build/parser.tab.h"
+#line 122 "build/parser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

@@ -1,8 +1,5 @@
-=== SISTEMA DE CALCULO CIENTIFICO ===
-Calculadora Científica v1.0
-100
-5.670000
-2.718281828
-Z
-false
-Nuevo resultado
+=== TEST CASOS ESPECIALES ===
+La suma es 8 - CORRECTO
+Nivel 1
+Subnivel 2 - CORRECTO
+=== FIN CASOS ESPECIALES ===

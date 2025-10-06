@@ -249,6 +249,10 @@ bad_char          '([^'\n\\]|\\u[0-9a-fA-F]{4}|\\.)*
 
 if                  return(TOKEN_IF); // palabras reservadas, estructuras de control.
 else                return(TOKEN_ELSE);
+switch              return(TOKEN_SWITCH);
+case                return(TOKEN_CASE);
+break               return(TOKEN_BREAK);
+default             return(TOKEN_DEFAULT);
 final               return(TOKEN_FINAL);
 System\.out\.println    return(TOKEN_PRINT);
 func                return(TOKEN_FUNC);
@@ -373,7 +377,7 @@ return              return(TOKEN_RETURN);
 "<<="                return(TOKEN_LSHIFT_ASSIGN); // operador de asignación desplazamiento izquierda
 ">>="                return(TOKEN_RSHIFT_ASSIGN); // operador de asignación desplazamiento derecha
 
-[*/+\-%,^&|~()\[\]{}\;=\>\<!]      return(yytext[0]); // esta es una expresion regular que reconoce varios simbolos de uno solo caracter y retorna el mismo caracter como token.
+[*/+\-%,^&|~()\[\]{}\;=\>\<!:]      return(yytext[0]); // esta es una expresion regular que reconoce varios simbolos de uno solo caracter y retorna el mismo caracter como token.
 
 {white_space}        // este white_space se utiliza para espacios en blanco y no hace nada.
 [\n\r]               {yycolumn=1;} // este patron reconoce saltos de linea y reinicia el contador de columna.
