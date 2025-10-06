@@ -354,7 +354,10 @@ return              return(TOKEN_RETURN);
 
 {identifier}         {yylval.string = strdup(yytext); return(TOKEN_IDENTIFIER);} // identifier se utiliza para identificadores y retorna el token correspondiente.
 
-[*/+\-%,^()\[\]{}\;=\>\<!]      return(yytext[0]); // esta es una expresion regular que reconoce varios simbolos de uno solo caracter y retorna el mismo caracter como token.
+"<<"                 return(TOKEN_LEFT_SHIFT); // operador de desplazamiento a la izquierda
+">>"                 return(TOKEN_RIGHT_SHIFT); // operador de desplazamiento a la derecha
+
+[*/+\-%,^&|~()\[\]{}\;=\>\<!]      return(yytext[0]); // esta es una expresion regular que reconoce varios simbolos de uno solo caracter y retorna el mismo caracter como token.
 
 {white_space}        // este white_space se utiliza para espacios en blanco y no hace nada.
 [\n\r]               {yycolumn=1;} // este patron reconoce saltos de linea y reinicia el contador de columna.

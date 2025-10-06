@@ -6,6 +6,7 @@
 #include "context/context.h"
 #include "ast/nodos/expresiones/expresiones.h"
 #include "casting.h"
+#include "bitwise.h"
 
 /* SUMA */
 Result sumarIntInt(Result, Result);

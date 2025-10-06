@@ -32,6 +32,16 @@ AbstractExpresion *nuevoCastingExpresion(AbstractExpresion *expresion, TipoDato 
 AbstractExpresion *nuevoComparacionExpresion(AbstractExpresion *izquierda, AbstractExpresion *derecha);
 
 /*
+    Builds bitwise operations
+*/
+AbstractExpresion *nuevoBitwiseAndExpresion(AbstractExpresion *izquierda, AbstractExpresion *derecha);
+AbstractExpresion *nuevoBitwiseOrExpresion(AbstractExpresion *izquierda, AbstractExpresion *derecha);
+AbstractExpresion *nuevoBitwiseXorExpresion(AbstractExpresion *izquierda, AbstractExpresion *derecha);
+AbstractExpresion *nuevoBitwiseNotExpresion(AbstractExpresion *operando);
+AbstractExpresion *nuevoBitwiseLeftShiftExpresion(AbstractExpresion *izquierda, AbstractExpresion *derecha);
+AbstractExpresion *nuevoBitwiseRightShiftExpresion(AbstractExpresion *izquierda, AbstractExpresion *derecha);
+
+/*
     Builds if
 */
 AbstractExpresion *nuevoIfExpresion(AbstractExpresion *expresion, AbstractExpresion *bloqueTrue);
