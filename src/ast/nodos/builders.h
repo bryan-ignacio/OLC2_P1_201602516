@@ -13,6 +13,8 @@ AbstractExpresion *nuevoPrintExpresion(AbstractExpresion *listaExpresiones);
 AbstractExpresion *nuevoPrimitivoExpresion(char *valor, char tipo);
 AbstractExpresion *nuevoListaExpresiones(void);
 AbstractExpresion *nuevoDeclaracionVariables(TipoDato, char *nombre, AbstractExpresion *expresion, int linea, int columna);
+AbstractExpresion *nuevoDeclaracionConstante(TipoDato tipo, char *nombre, AbstractExpresion *expresion, int linea, int columna);
+AbstractExpresion *nuevoAsignacionExpresion(char *nombre, AbstractExpresion *expresion, int linea, int columna);
 AbstractExpresion *nuevoIdentificadorExpresion(char *nombre, int linea, int columna);
 // AbstractExpresion* nuevoExpresionLenguaje(char op, AbstractExpresion* izquierda, AbstractExpresion* derecha);
 

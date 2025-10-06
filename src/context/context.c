@@ -36,6 +36,22 @@ Symbol *nuevoVariable(char *nombre, void *valor, TipoDato tipo)
     nuevo->valor = valor;
     nuevo->tipo = tipo;
     nuevo->clase = VARIABLE;
+    nuevo->esConstante = 0; // Es variable, no constante
+    nuevo->esConstante = 0; // Es variable, no constante
+    return nuevo;
+}
+
+// Crea una nueva constante con el nombre, valor y tipo especificados.
+// Crea una nueva constante con el nombre, valor y tipo especificados.
+// Las constantes son inmutables después de su inicialización.
+Symbol *nuevoConstante(char *nombre, void *valor, TipoDato tipo)
+{
+    Symbol *nuevo = malloc(sizeof(Symbol));
+    nuevo->nombre = nombre;
+    nuevo->valor = valor;
+    nuevo->tipo = tipo;
+    nuevo->clase = VARIABLE; // Usamos VARIABLE pero marcado como constante
+    nuevo->esConstante = 1;  // Es constante - protegida contra reasignación
     return nuevo;
 }
 
@@ -46,6 +62,7 @@ Symbol *nuevaFuncion(char *nombre, TipoDato tipo, AbstractExpresion *nodo)
     nuevo->nombre = nombre;
     nuevo->tipo = tipo;
     nuevo->clase = FUNCION;
+    nuevo->esConstante = 0; // Las funciones no son constantes
     nuevo->nodo = nodo;
     return nuevo;
 }
@@ -53,7 +70,8 @@ Symbol *nuevaFuncion(char *nombre, TipoDato tipo, AbstractExpresion *nodo)
 // Agrega un símbolo al contexto actual, verificando si ya existe.
 void agregarSymbol(Context *actual, Symbol *symbol)
 {
-    if (buscarSymbol(actual->ultimoSymbol, symbol->nombre))
+    Symbol *existente = buscarSymbol(actual->ultimoSymbol, symbol->nombre);
+    if (existente)
     {
 // Reportar error de redeclaración con ubicación si es posible
 #include "context/error_report.h"
@@ -64,8 +82,10 @@ void agregarSymbol(Context *actual, Symbol *symbol)
             columna = symbol->nodo->columna;
         }
         char buffer[256];
-        snprintf(buffer, sizeof(buffer), "La variable de nombre '%s' ya existe.", symbol->nombre);
-        agregarError(buffer, linea, columna, ambito);
+        const char *tipoSymbol = symbol->esConstante ? "constante" : "variable";
+        const char *tipoExistente = existente->esConstante ? "constante" : "variable";
+        snprintf(buffer, sizeof(buffer), "La %s '%s' ya existe como %s.", tipoSymbol, symbol->nombre, tipoExistente);
+        agregarErrorSemantico(buffer, linea, columna, ambito);
         return;
     }
     symbol->anterior = actual->ultimoSymbol;

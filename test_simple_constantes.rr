@@ -1,0 +1,27 @@
+// Prueba simple de constantes sin operadores no implementados
+
+// Declarar constantes básicas
+final int numero = 42;
+final String texto = "Hola mundo";
+final boolean activo = true;
+final char letra = 'A';
+
+// Mostrar las constantes
+System.out.println("=== CONSTANTES DECLARADAS ===");
+System.out.println("Número:");
+System.out.println(numero);
+System.out.println("Texto:");
+System.out.println(texto);
+System.out.println("Activo:");
+System.out.println(activo);
+System.out.println("Letra:");
+System.out.println(letra);
+
+// Intentar reasignar constantes (debe generar errores)
+System.out.println("=== INTENTANDO REASIGNAR ===");
+numero = 100;      
+texto = "Nuevo";   
+activo = false;    
+letra = 'Z';
+
+System.out.println("=== FIN DE PRUEBA ===");

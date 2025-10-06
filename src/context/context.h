@@ -33,6 +33,7 @@ struct Symbol
     void *valor;             // Valor actual (para variables)
     TipoDato tipo;           // Tipo de dato
     Clase clase;             // VARIABLE, FUNCION, STRUCT
+    int esConstante;         // 1 si es constante, 0 si es variable
     AbstractExpresion *nodo; // Nodo AST (para funciones)
     Symbol *anterior;        // Lista enlazada
 };
@@ -40,6 +41,7 @@ struct Symbol
 // Declaraciones de funciones para manejar el contexto y la tabla de símbolos.
 Context *nuevoContext(Context *anterior);
 Symbol *nuevoVariable(char *nombre, void *valor, TipoDato tipo);
+Symbol *nuevoConstante(char *nombre, void *valor, TipoDato tipo);
 Symbol *nuevaFuncion(char *nombre, TipoDato tipo, AbstractExpresion *nodo);
 void agregarSymbol(Context *actual, Symbol *);
 Symbol *buscarSymbol(Symbol *actual, char *nombre);

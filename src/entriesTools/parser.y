@@ -34,10 +34,10 @@
 
 /* Tokens tipados */
 %token <string> TOKEN_PRINT TOKEN_DINT TOKEN_DFLOAT TOKEN_DDOUBLE TOKEN_IF TOKEN_ELSE TOKEN_TRUE TOKEN_FALSE TOKEN_FUNC
-TOKEN_DSTRING TOKEN_DBOOLEAN TOKEN_DCHAR TOKEN_UNSIGNED_INTEGER TOKEN_REAL TOKEN_DOUBLE TOKEN_STRING TOKEN_CHAR TOKEN_IDENTIFIER TOKEN_RETURN
+TOKEN_DSTRING TOKEN_DBOOLEAN TOKEN_DCHAR TOKEN_UNSIGNED_INTEGER TOKEN_REAL TOKEN_DOUBLE TOKEN_STRING TOKEN_CHAR TOKEN_IDENTIFIER TOKEN_RETURN TOKEN_FINAL
 
 /* Tipo de los no-terminales que llevan valor */
-%type <nodo> s lSentencia sentencia expr imprimir lista_Expr bloque declaracion_var primitivo sentencia_if sentencia_funcion lista_parametros
+%type <nodo> s lSentencia sentencia expr imprimir lista_Expr bloque declaracion_var declaracion_const asignacion primitivo sentencia_if sentencia_funcion lista_parametros
 
 %type <tipoDato> tipoPrimitivo
 
@@ -75,6 +75,8 @@ lSentencia: lSentencia sentencia ';' { agregarHijo($1, $2); $$ = $1;}
 sentencia: imprimir {$$ = $1; }
     | bloque {$$ = $1;}
     | declaracion_var {$$ = $1;}
+    | declaracion_const {$$ = $1;}
+    | asignacion {$$ = $1;}
     | sentencia_if { $$ = $1; }
     | sentencia_funcion { $$ = $1; }
     | TOKEN_RETURN { $$ = NULL; }/* sin implementar */
@@ -97,6 +99,12 @@ bloque: '{' lSentencia '}' { $$ =  $2; }
 
 declaracion_var: tipoPrimitivo TOKEN_IDENTIFIER { $$ = nuevoDeclaracionVariables($1, $2, NULL, @2.first_line, @2.first_column); }
     | tipoPrimitivo TOKEN_IDENTIFIER '=' expr { $$ = nuevoDeclaracionVariables($1, $2, $4, @2.first_line, @2.first_column); }
+    ;
+
+declaracion_const: TOKEN_FINAL tipoPrimitivo TOKEN_IDENTIFIER '=' expr { $$ = nuevoDeclaracionConstante($2, $3, $5, @3.first_line, @3.first_column); }
+    ;
+
+asignacion: TOKEN_IDENTIFIER '=' expr { $$ = nuevoAsignacionExpresion($1, $3, @1.first_line, @1.first_column); }
     ;
 
 sentencia_if: TOKEN_IF '(' expr ')' bloque { $$ = nuevoIfExpresion($3, $5); }
@@ -162,8 +170,6 @@ tipoPrimitivo: TOKEN_DINT { $$ = INT; }
 
 /* definición de yyerror, usa el yylloc global para ubicación */
 void yyerror(const char *s) {
-    char buffer[256];
-    snprintf(buffer, sizeof(buffer), "Error sintáctico: %s", s);
     int ambito = contextoActualReporte ? contextoActualReporte->nombre : 0;
-    agregarError(buffer, yylloc.first_line, yylloc.first_column, ambito);
+    agregarErrorSintactico(s, yylloc.first_line, yylloc.first_column, ambito);
 }

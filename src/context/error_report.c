@@ -18,6 +18,27 @@ void agregarError(const char *descripcion, int linea, int columna, int ambito)
     fprintf(stderr, "[ERROR] Ambito: %d | Linea: %d, Columna: %d | %s\n", ambito, linea, columna, descripcion);
 }
 
+void agregarErrorLexico(const char *descripcion, int linea, int columna)
+{
+    char buffer[512];
+    snprintf(buffer, sizeof(buffer), "[LEXICO] %s", descripcion);
+    agregarError(buffer, linea, columna, 0);
+}
+
+void agregarErrorSintactico(const char *descripcion, int linea, int columna, int ambito)
+{
+    char buffer[512];
+    snprintf(buffer, sizeof(buffer), "[SINTACTICO] %s", descripcion);
+    agregarError(buffer, linea, columna, ambito);
+}
+
+void agregarErrorSemantico(const char *descripcion, int linea, int columna, int ambito)
+{
+    char buffer[512];
+    snprintf(buffer, sizeof(buffer), "[SEMANTICO] %s", descripcion);
+    agregarError(buffer, linea, columna, ambito);
+}
+
 void imprimirErrores()
 {
     Error *actual = listaErrores;
@@ -67,4 +88,9 @@ void liberarErrores()
         free(temp);
     }
     listaErrores = NULL;
+}
+
+int tieneErrores()
+{
+    return listaErrores != NULL;
 }

@@ -1,9 +1,7 @@
 
 Reporte de errores:
 ---------------------------------------------
-Ambito: 1 | Linea: 8, Columna: 24 | El identificador no existe d
-Ambito: 1 | Linea: 4, Columna: 20 | El identificador no existe c
-Ambito: 1 | Linea: 3, Columna: 5 | La variable de nombre 'a' ya existe.
-Ambito: 0 | Linea: 9, Columna: 1 | Error sintáctico: syntax error
-Ambito: 0 | Linea: 5, Columna: 7 | Error sintáctico: syntax error
+Ambito: 1 | Linea: 38, Columna: 1 | [SEMANTICO] Error: No se puede reasignar la constante 'CONSTANTE_BOOL'. Las constantes son inmutables después de su inicialización. Considera usar una variable en lugar de una constante si necesitas modificar el valor.
+Ambito: 1 | Linea: 37, Columna: 1 | [SEMANTICO] Error: No se puede reasignar la constante 'CONSTANTE_TEXTO'. Las constantes son inmutables después de su inicialización. Considera usar una variable en lugar de una constante si necesitas modificar el valor.
+Ambito: 1 | Linea: 36, Columna: 1 | [SEMANTICO] Error: No se puede reasignar la constante 'CONSTANTE_NUM'. Las constantes son inmutables después de su inicialización. Considera usar una variable en lugar de una constante si necesitas modificar el valor.
 ---------------------------------------------

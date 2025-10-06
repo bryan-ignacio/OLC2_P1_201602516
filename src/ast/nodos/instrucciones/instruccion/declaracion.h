@@ -5,12 +5,28 @@
 #include "context/context.h"
 #include "context/result.h"
 
-typedef struct {
+typedef struct
+{
     AbstractExpresion base;
-    char* nombre;
+    char *nombre;
     TipoDato tipo;
 } DeclaracionVariable;
 
-Result interpretDeclaracionVariable(AbstractExpresion*, Context*);
+typedef struct
+{
+    AbstractExpresion base;
+    char *nombre;
+    TipoDato tipo;
+} DeclaracionConstante;
+
+typedef struct
+{
+    AbstractExpresion base;
+    char *nombre;
+} AsignacionVariable;
+
+Result interpretDeclaracionVariable(AbstractExpresion *, Context *);
+Result interpretDeclaracionConstante(AbstractExpresion *, Context *);
+Result interpretAsignacionVariable(AbstractExpresion *, Context *);
 
 #endif

@@ -8,14 +8,24 @@
 #include <errno.h>
 #include <float.h>
 #include <math.h>
+#include "context/error_report.h"
 
 extern void yyerror(const char *s);
+extern Context* contextoActualReporte; // Para obtener el ámbito actual
+
+/* Contador de columna global */
+extern int yycolumn;
 
 /* Declaraciones de funciones de validación */
 int validar_int32(const char *str);
 int validar_float32(const char *str);
 int validar_double64(const char *str);
 char* procesar_secuencias_escape(const char* input);
+
+/* Función para reportar errores léxicos sin detener la ejecución */
+void reportar_error_lexico(const char* mensaje) {
+    agregarErrorLexico(mensaje, yylineno, yycolumn);
+}
 
 /* Rangos para enteros de 32 bits */
 #define INT32_MIN_VALUE -2147483648LL
@@ -221,18 +231,25 @@ bad_char          '([^'\n\\]|\\u[0-9a-fA-F]{4}|\\.)*
 %%
 "//"                     BEGIN(COMMENTLINEA);
 <COMMENTLINEA>[^\n\r]+ 
-<COMMENTLINEA><<EOF>>    yyerror("EOF in comment");
+<COMMENTLINEA><<EOF>>    {
+                        reportar_error_lexico("Fin de archivo en comentario de línea");
+                        BEGIN(INITIAL);
+                    }
 <COMMENTLINEA>[\n\r]     {yycolumn=1; BEGIN(INITIAL);}
 
 "/*"                 BEGIN(COMMENT2);
 <COMMENT2>[^*\n\r]+
 <COMMENT2>[\n\r]     {yycolumn=1;}
-<COMMENT2><<EOF>>    yyerror("EOF in comment");
+<COMMENT2><<EOF>>    {
+                        reportar_error_lexico("Fin de archivo en comentario multilínea");
+                        BEGIN(INITIAL);
+                    }
 <COMMENT2>"*/"       BEGIN(INITIAL);
 <COMMENT2>[*]
 
 if                  return(TOKEN_IF); // palabras reservadas, estructuras de control.
 else                return(TOKEN_ELSE);
+final               return(TOKEN_FINAL);
 System\.out\.println    return(TOKEN_PRINT);
 func                return(TOKEN_FUNC);
 int                 return(TOKEN_DINT); // aqui comienzan las declaraciones de tipos primitivos.
@@ -252,8 +269,10 @@ return              return(TOKEN_RETURN);
                             snprintf(error_msg, sizeof(error_msg), 
                                    "Entero fuera de rango de 32 bits: %s. Rango válido: -2147483648 a 2147483647", 
                                    yytext);
-                            yyerror(error_msg);
-                            return -1; /* Token de error */
+                            reportar_error_lexico(error_msg);
+                            /* Retornar un token válido con valor 0 para continuar */
+                            yylval.string = strdup("0");
+                            return(TOKEN_UNSIGNED_INTEGER);
                         }
                         yylval.string = strdup(yytext); 
                         return(TOKEN_UNSIGNED_INTEGER);
@@ -265,8 +284,10 @@ return              return(TOKEN_RETURN);
                             snprintf(error_msg, sizeof(error_msg), 
                                    "Entero fuera de rango de 32 bits: %s. Rango válido: -2147483648 a 2147483647", 
                                    yytext);
-                            yyerror(error_msg);
-                            return -1; /* Token de error */
+                            reportar_error_lexico(error_msg);
+                            /* Retornar un token válido con valor 0 para continuar */
+                            yylval.string = strdup("0");
+                            return(TOKEN_UNSIGNED_INTEGER);
                         }
                         yylval.string = strdup(yytext); 
                         return(TOKEN_UNSIGNED_INTEGER);
@@ -278,8 +299,10 @@ return              return(TOKEN_RETURN);
                             snprintf(error_msg, sizeof(error_msg), 
                                    "Float fuera de rango de 32 bits: %s. Rango válido: 1.4E-45f a 3.4028235E38f", 
                                    yytext);
-                            yyerror(error_msg);
-                            return -1; /* Token de error */
+                            reportar_error_lexico(error_msg);
+                            /* Retornar un token válido con valor 0.0f para continuar */
+                            yylval.string = strdup("0.0f");
+                            return(TOKEN_REAL);
                         }
                         yylval.string = strdup(yytext); 
                         return(TOKEN_REAL);
@@ -291,8 +314,10 @@ return              return(TOKEN_RETURN);
                             snprintf(error_msg, sizeof(error_msg), 
                                    "Double fuera de rango de 64 bits: %s. Rango válido: 4.9e-324 a 1.7976931348623157e308", 
                                    yytext);
-                            yyerror(error_msg);
-                            return -1; /* Token de error */
+                            reportar_error_lexico(error_msg);
+                            /* Retornar un token válido con valor 0.0 para continuar */
+                            yylval.string = strdup("0.0");
+                            return(TOKEN_DOUBLE);
                         }
                         yylval.string = strdup(yytext); 
                         return(TOKEN_DOUBLE);
@@ -314,8 +339,18 @@ return              return(TOKEN_RETURN);
                         yylval.string = strdup(yytext);
                         return(TOKEN_CHAR);
                     }
-{bad_char}           yyerror("Unterminated character");
-{bad_string}         yyerror("Unterminated string"); // bad_string se utiliza para cadenas de texto que no fueron terminadas correctamente y lanza un error.
+{bad_char}           {
+                        reportar_error_lexico("Carácter no terminado correctamente");
+                        /* Retornar un token válido para continuar */
+                        yylval.string = strdup("'\0'");
+                        return(TOKEN_CHAR);
+                    }
+{bad_string}         {
+                        reportar_error_lexico("Cadena de texto no terminada correctamente");
+                        /* Retornar un token válido para continuar */
+                        yylval.string = strdup("");
+                        return(TOKEN_STRING);
+                    }
 
 {identifier}         {yylval.string = strdup(yytext); return(TOKEN_IDENTIFIER);} // identifier se utiliza para identificadores y retorna el token correspondiente.
 
@@ -323,6 +358,11 @@ return              return(TOKEN_RETURN);
 
 {white_space}        // este white_space se utiliza para espacios en blanco y no hace nada.
 [\n\r]               {yycolumn=1;} // este patron reconoce saltos de linea y reinicia el contador de columna.
-.                    yyerror("Illegal input"); // el punto ayuda  otro caracter no reconocido lanza un error.
+.                    {
+                        char error_msg[256];
+                        snprintf(error_msg, sizeof(error_msg), "Carácter ilegal: '%c'", yytext[0]);
+                        reportar_error_lexico(error_msg);
+                        /* Ignorar el carácter y continuar */
+                    }
 
 %%

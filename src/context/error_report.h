@@ -17,7 +17,11 @@ typedef struct Error
 extern Error *listaErrores;
 
 void agregarError(const char *descripcion, int linea, int columna, int ambito);
+void agregarErrorLexico(const char *descripcion, int linea, int columna);
+void agregarErrorSintactico(const char *descripcion, int linea, int columna, int ambito);
+void agregarErrorSemantico(const char *descripcion, int linea, int columna, int ambito);
 void imprimirErrores();
 void liberarErrores();
+int tieneErrores();
 
 #endif

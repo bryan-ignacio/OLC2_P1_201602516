@@ -1,2 +1,18 @@
-NULL
-NULL
+=== VALORES INICIALES ===
+Constante número:
+42
+Variable número:
+10
+Constante texto:
+Constante
+Variable texto:
+Variable
+=== MODIFICANDO VARIABLES (VÁLIDO) ===
+Variable número modificada:
+20
+Variable texto modificada:
+Modificada
+Variable bool modificada:
+true
+=== INTENTANDO MODIFICAR CONSTANTES (ERRORES) ===
+=== FIN ===
