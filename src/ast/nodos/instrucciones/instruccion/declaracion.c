@@ -376,3 +376,545 @@ AbstractExpresion *nuevoAsignacionExpresion(char *nombre, AbstractExpresion *exp
         agregarHijo((AbstractExpresion *)nodo, expresion);
     return (AbstractExpresion *)nodo;
 }
+
+Result interpretAsignacionCompuesta(AbstractExpresion *nodo, Context *context)
+{
+    AsignacionCompuesta *self = (AsignacionCompuesta *)nodo;
+
+    // Buscar la variable en la tabla de símbolos
+    Symbol *variable = buscarTablaSimbolos(context, self->nombre);
+    if (!variable)
+    {
+        char buffer[256];
+        snprintf(buffer, sizeof(buffer), "La variable '%s' no ha sido declarada.", self->nombre);
+        int ambito = context && context->nombre ? context->nombre : 0;
+        agregarErrorSemantico(buffer, nodo->linea, nodo->columna, ambito);
+        return nuevoValorResultadoVacio();
+    }
+
+    // Verificar si es una constante
+    if (variable->esConstante)
+    {
+        char buffer[300];
+        snprintf(buffer, sizeof(buffer),
+                 "Error: No se puede reasignar la constante '%s'. Las constantes son inmutables después de su inicialización.",
+                 self->nombre);
+        int ambito = context && context->nombre ? context->nombre : 0;
+        agregarErrorSemantico(buffer, nodo->linea, nodo->columna, ambito);
+        return nuevoValorResultadoVacio();
+    }
+
+    // Verificar si es una función
+    if (variable->clase == FUNCION)
+    {
+        char buffer[256];
+        snprintf(buffer, sizeof(buffer), "No se puede asignar un valor a la función '%s'.", self->nombre);
+        int ambito = context && context->nombre ? context->nombre : 0;
+        agregarErrorSemantico(buffer, nodo->linea, nodo->columna, ambito);
+        return nuevoValorResultadoVacio();
+    }
+
+    // Evaluar la expresión del lado derecho
+    if (nodo->numHijos == 0)
+    {
+        char buffer[256];
+        snprintf(buffer, sizeof(buffer), "Asignación compuesta sin valor para la variable '%s'.", self->nombre);
+        int ambito = context && context->nombre ? context->nombre : 0;
+        agregarErrorSemantico(buffer, nodo->linea, nodo->columna, ambito);
+        return nuevoValorResultadoVacio();
+    }
+
+    Result valorDerecho = nodo->hijos[0]->interpret(nodo->hijos[0], context);
+
+    // Aplicar la operación correspondiente según el tipo de asignación compuesta
+    Result resultado;
+    switch (self->tipoOperador)
+    {
+    case ASIG_SUMA:
+        // variable += expresion equivale a variable = variable + expresion
+        if (variable->tipo == INT && valorDerecho.tipo == INT)
+        {
+            int *res = malloc(sizeof(int));
+            *res = *((int *)variable->valor) + *((int *)valorDerecho.valor);
+            resultado = nuevoValorResultado(res, INT);
+        }
+        else if (variable->tipo == FLOAT && valorDerecho.tipo == FLOAT)
+        {
+            float *res = malloc(sizeof(float));
+            *res = *((float *)variable->valor) + *((float *)valorDerecho.valor);
+            resultado = nuevoValorResultado(res, FLOAT);
+        }
+        else if (variable->tipo == DOUBLE && valorDerecho.tipo == DOUBLE)
+        {
+            double *res = malloc(sizeof(double));
+            *res = *((double *)variable->valor) + *((double *)valorDerecho.valor);
+            resultado = nuevoValorResultado(res, DOUBLE);
+        }
+        else
+        {
+            // Intentar conversión automática
+            if (es_conversion_valida(valorDerecho.tipo, variable->tipo))
+            {
+                Result valorConvertido = convertir_tipo(valorDerecho, variable->tipo);
+                if (variable->tipo == INT)
+                {
+                    int *res = malloc(sizeof(int));
+                    *res = *((int *)variable->valor) + *((int *)valorConvertido.valor);
+                    resultado = nuevoValorResultado(res, INT);
+                }
+                else if (variable->tipo == FLOAT)
+                {
+                    float *res = malloc(sizeof(float));
+                    *res = *((float *)variable->valor) + *((float *)valorConvertido.valor);
+                    resultado = nuevoValorResultado(res, FLOAT);
+                }
+                else if (variable->tipo == DOUBLE)
+                {
+                    double *res = malloc(sizeof(double));
+                    *res = *((double *)variable->valor) + *((double *)valorConvertido.valor);
+                    resultado = nuevoValorResultado(res, DOUBLE);
+                }
+                else
+                {
+                    char buffer[256];
+                    snprintf(buffer, sizeof(buffer), "Tipos incompatibles para += en variable '%s'", self->nombre);
+                    int ambito = context && context->nombre ? context->nombre : 0;
+                    agregarErrorSemantico(buffer, nodo->linea, nodo->columna, ambito);
+                    return nuevoValorResultadoVacio();
+                }
+            }
+            else
+            {
+                char buffer[256];
+                snprintf(buffer, sizeof(buffer), "Tipos incompatibles para += en variable '%s'", self->nombre);
+                int ambito = context && context->nombre ? context->nombre : 0;
+                agregarErrorSemantico(buffer, nodo->linea, nodo->columna, ambito);
+                return nuevoValorResultadoVacio();
+            }
+        }
+        break;
+
+    case ASIG_RESTA:
+        // variable -= expresion equivale a variable = variable - expresion
+        if (variable->tipo == INT && valorDerecho.tipo == INT)
+        {
+            int *res = malloc(sizeof(int));
+            *res = *((int *)variable->valor) - *((int *)valorDerecho.valor);
+            resultado = nuevoValorResultado(res, INT);
+        }
+        else if (variable->tipo == FLOAT && valorDerecho.tipo == FLOAT)
+        {
+            float *res = malloc(sizeof(float));
+            *res = *((float *)variable->valor) - *((float *)valorDerecho.valor);
+            resultado = nuevoValorResultado(res, FLOAT);
+        }
+        else if (variable->tipo == DOUBLE && valorDerecho.tipo == DOUBLE)
+        {
+            double *res = malloc(sizeof(double));
+            *res = *((double *)variable->valor) - *((double *)valorDerecho.valor);
+            resultado = nuevoValorResultado(res, DOUBLE);
+        }
+        else
+        {
+            // Intentar conversión automática
+            if (es_conversion_valida(valorDerecho.tipo, variable->tipo))
+            {
+                Result valorConvertido = convertir_tipo(valorDerecho, variable->tipo);
+                if (variable->tipo == INT)
+                {
+                    int *res = malloc(sizeof(int));
+                    *res = *((int *)variable->valor) - *((int *)valorConvertido.valor);
+                    resultado = nuevoValorResultado(res, INT);
+                }
+                else if (variable->tipo == FLOAT)
+                {
+                    float *res = malloc(sizeof(float));
+                    *res = *((float *)variable->valor) - *((float *)valorConvertido.valor);
+                    resultado = nuevoValorResultado(res, FLOAT);
+                }
+                else if (variable->tipo == DOUBLE)
+                {
+                    double *res = malloc(sizeof(double));
+                    *res = *((double *)variable->valor) - *((double *)valorConvertido.valor);
+                    resultado = nuevoValorResultado(res, DOUBLE);
+                }
+                else
+                {
+                    char buffer[256];
+                    snprintf(buffer, sizeof(buffer), "Tipos incompatibles para -= en variable '%s'", self->nombre);
+                    int ambito = context && context->nombre ? context->nombre : 0;
+                    agregarErrorSemantico(buffer, nodo->linea, nodo->columna, ambito);
+                    return nuevoValorResultadoVacio();
+                }
+            }
+            else
+            {
+                char buffer[256];
+                snprintf(buffer, sizeof(buffer), "Tipos incompatibles para -= en variable '%s'", self->nombre);
+                int ambito = context && context->nombre ? context->nombre : 0;
+                agregarErrorSemantico(buffer, nodo->linea, nodo->columna, ambito);
+                return nuevoValorResultadoVacio();
+            }
+        }
+        break;
+
+    case ASIG_MULT:
+        // variable *= expresion equivale a variable = variable * expresion
+        if (variable->tipo == INT && valorDerecho.tipo == INT)
+        {
+            int *res = malloc(sizeof(int));
+            *res = *((int *)variable->valor) * *((int *)valorDerecho.valor);
+            resultado = nuevoValorResultado(res, INT);
+        }
+        else if (variable->tipo == FLOAT && valorDerecho.tipo == FLOAT)
+        {
+            float *res = malloc(sizeof(float));
+            *res = *((float *)variable->valor) * *((float *)valorDerecho.valor);
+            resultado = nuevoValorResultado(res, FLOAT);
+        }
+        else if (variable->tipo == DOUBLE && valorDerecho.tipo == DOUBLE)
+        {
+            double *res = malloc(sizeof(double));
+            *res = *((double *)variable->valor) * *((double *)valorDerecho.valor);
+            resultado = nuevoValorResultado(res, DOUBLE);
+        }
+        else
+        {
+            // Intentar conversión automática
+            if (es_conversion_valida(valorDerecho.tipo, variable->tipo))
+            {
+                Result valorConvertido = convertir_tipo(valorDerecho, variable->tipo);
+                if (variable->tipo == INT)
+                {
+                    int *res = malloc(sizeof(int));
+                    *res = *((int *)variable->valor) * *((int *)valorConvertido.valor);
+                    resultado = nuevoValorResultado(res, INT);
+                }
+                else if (variable->tipo == FLOAT)
+                {
+                    float *res = malloc(sizeof(float));
+                    *res = *((float *)variable->valor) * *((float *)valorConvertido.valor);
+                    resultado = nuevoValorResultado(res, FLOAT);
+                }
+                else if (variable->tipo == DOUBLE)
+                {
+                    double *res = malloc(sizeof(double));
+                    *res = *((double *)variable->valor) * *((double *)valorConvertido.valor);
+                    resultado = nuevoValorResultado(res, DOUBLE);
+                }
+                else
+                {
+                    char buffer[256];
+                    snprintf(buffer, sizeof(buffer), "Tipos incompatibles para *= en variable '%s'", self->nombre);
+                    int ambito = context && context->nombre ? context->nombre : 0;
+                    agregarErrorSemantico(buffer, nodo->linea, nodo->columna, ambito);
+                    return nuevoValorResultadoVacio();
+                }
+            }
+            else
+            {
+                char buffer[256];
+                snprintf(buffer, sizeof(buffer), "Tipos incompatibles para *= en variable '%s'", self->nombre);
+                int ambito = context && context->nombre ? context->nombre : 0;
+                agregarErrorSemantico(buffer, nodo->linea, nodo->columna, ambito);
+                return nuevoValorResultadoVacio();
+            }
+        }
+        break;
+
+    case ASIG_DIV:
+        // variable /= expresion equivale a variable = variable / expresion
+        if (variable->tipo == INT && valorDerecho.tipo == INT)
+        {
+            if (*((int *)valorDerecho.valor) == 0)
+            {
+                char buffer[256];
+                snprintf(buffer, sizeof(buffer), "División por cero en /= para variable '%s'", self->nombre);
+                int ambito = context && context->nombre ? context->nombre : 0;
+                agregarErrorSemantico(buffer, nodo->linea, nodo->columna, ambito);
+                return nuevoValorResultadoVacio();
+            }
+            int *res = malloc(sizeof(int));
+            *res = *((int *)variable->valor) / *((int *)valorDerecho.valor);
+            resultado = nuevoValorResultado(res, INT);
+        }
+        else if (variable->tipo == FLOAT && valorDerecho.tipo == FLOAT)
+        {
+            if (*((float *)valorDerecho.valor) == 0.0f)
+            {
+                char buffer[256];
+                snprintf(buffer, sizeof(buffer), "División por cero en /= para variable '%s'", self->nombre);
+                int ambito = context && context->nombre ? context->nombre : 0;
+                agregarErrorSemantico(buffer, nodo->linea, nodo->columna, ambito);
+                return nuevoValorResultadoVacio();
+            }
+            float *res = malloc(sizeof(float));
+            *res = *((float *)variable->valor) / *((float *)valorDerecho.valor);
+            resultado = nuevoValorResultado(res, FLOAT);
+        }
+        else if (variable->tipo == DOUBLE && valorDerecho.tipo == DOUBLE)
+        {
+            if (*((double *)valorDerecho.valor) == 0.0)
+            {
+                char buffer[256];
+                snprintf(buffer, sizeof(buffer), "División por cero en /= para variable '%s'", self->nombre);
+                int ambito = context && context->nombre ? context->nombre : 0;
+                agregarErrorSemantico(buffer, nodo->linea, nodo->columna, ambito);
+                return nuevoValorResultadoVacio();
+            }
+            double *res = malloc(sizeof(double));
+            *res = *((double *)variable->valor) / *((double *)valorDerecho.valor);
+            resultado = nuevoValorResultado(res, DOUBLE);
+        }
+        else
+        {
+            // Intentar conversión automática
+            if (es_conversion_valida(valorDerecho.tipo, variable->tipo))
+            {
+                Result valorConvertido = convertir_tipo(valorDerecho, variable->tipo);
+                if (variable->tipo == INT)
+                {
+                    if (*((int *)valorConvertido.valor) == 0)
+                    {
+                        char buffer[256];
+                        snprintf(buffer, sizeof(buffer), "División por cero en /= para variable '%s'", self->nombre);
+                        int ambito = context && context->nombre ? context->nombre : 0;
+                        agregarErrorSemantico(buffer, nodo->linea, nodo->columna, ambito);
+                        return nuevoValorResultadoVacio();
+                    }
+                    int *res = malloc(sizeof(int));
+                    *res = *((int *)variable->valor) / *((int *)valorConvertido.valor);
+                    resultado = nuevoValorResultado(res, INT);
+                }
+                else if (variable->tipo == FLOAT)
+                {
+                    if (*((float *)valorConvertido.valor) == 0.0f)
+                    {
+                        char buffer[256];
+                        snprintf(buffer, sizeof(buffer), "División por cero en /= para variable '%s'", self->nombre);
+                        int ambito = context && context->nombre ? context->nombre : 0;
+                        agregarErrorSemantico(buffer, nodo->linea, nodo->columna, ambito);
+                        return nuevoValorResultadoVacio();
+                    }
+                    float *res = malloc(sizeof(float));
+                    *res = *((float *)variable->valor) / *((float *)valorConvertido.valor);
+                    resultado = nuevoValorResultado(res, FLOAT);
+                }
+                else if (variable->tipo == DOUBLE)
+                {
+                    if (*((double *)valorConvertido.valor) == 0.0)
+                    {
+                        char buffer[256];
+                        snprintf(buffer, sizeof(buffer), "División por cero en /= para variable '%s'", self->nombre);
+                        int ambito = context && context->nombre ? context->nombre : 0;
+                        agregarErrorSemantico(buffer, nodo->linea, nodo->columna, ambito);
+                        return nuevoValorResultadoVacio();
+                    }
+                    double *res = malloc(sizeof(double));
+                    *res = *((double *)variable->valor) / *((double *)valorConvertido.valor);
+                    resultado = nuevoValorResultado(res, DOUBLE);
+                }
+                else
+                {
+                    char buffer[256];
+                    snprintf(buffer, sizeof(buffer), "Tipos incompatibles para /= en variable '%s'", self->nombre);
+                    int ambito = context && context->nombre ? context->nombre : 0;
+                    agregarErrorSemantico(buffer, nodo->linea, nodo->columna, ambito);
+                    return nuevoValorResultadoVacio();
+                }
+            }
+            else
+            {
+                char buffer[256];
+                snprintf(buffer, sizeof(buffer), "Tipos incompatibles para /= en variable '%s'", self->nombre);
+                int ambito = context && context->nombre ? context->nombre : 0;
+                agregarErrorSemantico(buffer, nodo->linea, nodo->columna, ambito);
+                return nuevoValorResultadoVacio();
+            }
+        }
+        break;
+
+    case ASIG_MOD:
+        // variable %= expresion equivale a variable = variable % expresion (solo enteros)
+        if ((variable->tipo == INT || variable->tipo == CHAR) && (valorDerecho.tipo == INT || valorDerecho.tipo == CHAR))
+        {
+            int valorIzq = (variable->tipo == INT) ? *((int *)variable->valor) : *((char *)variable->valor);
+            int valorDer = (valorDerecho.tipo == INT) ? *((int *)valorDerecho.valor) : *((char *)valorDerecho.valor);
+            if (valorDer == 0)
+            {
+                char buffer[256];
+                snprintf(buffer, sizeof(buffer), "División por cero en %%= para variable '%s'", self->nombre);
+                int ambito = context && context->nombre ? context->nombre : 0;
+                agregarErrorSemantico(buffer, nodo->linea, nodo->columna, ambito);
+                return nuevoValorResultadoVacio();
+            }
+            int *res = malloc(sizeof(int));
+            *res = valorIzq % valorDer;
+            resultado = nuevoValorResultado(res, INT);
+            variable->tipo = INT; // Promocionar a INT
+        }
+        else
+        {
+            char buffer[256];
+            snprintf(buffer, sizeof(buffer), "Operador %%= solo permitido en tipos enteros para variable '%s'", self->nombre);
+            int ambito = context && context->nombre ? context->nombre : 0;
+            agregarErrorSemantico(buffer, nodo->linea, nodo->columna, ambito);
+            return nuevoValorResultadoVacio();
+        }
+        break;
+
+    case ASIG_AND:
+        // variable &= expresion equivale a variable = variable & expresion (solo enteros)
+        if ((variable->tipo == INT || variable->tipo == CHAR) && (valorDerecho.tipo == INT || valorDerecho.tipo == CHAR))
+        {
+            int valorIzq = (variable->tipo == INT) ? *((int *)variable->valor) : *((char *)variable->valor);
+            int valorDer = (valorDerecho.tipo == INT) ? *((int *)valorDerecho.valor) : *((char *)valorDerecho.valor);
+            int *res = malloc(sizeof(int));
+            *res = valorIzq & valorDer;
+            resultado = nuevoValorResultado(res, INT);
+            variable->tipo = INT; // Promocionar a INT
+        }
+        else
+        {
+            char buffer[256];
+            snprintf(buffer, sizeof(buffer), "Operador &= solo permitido en tipos enteros para variable '%s'", self->nombre);
+            int ambito = context && context->nombre ? context->nombre : 0;
+            agregarErrorSemantico(buffer, nodo->linea, nodo->columna, ambito);
+            return nuevoValorResultadoVacio();
+        }
+        break;
+
+    case ASIG_OR:
+        // variable |= expresion equivale a variable = variable | expresion (solo enteros)
+        if ((variable->tipo == INT || variable->tipo == CHAR) && (valorDerecho.tipo == INT || valorDerecho.tipo == CHAR))
+        {
+            int valorIzq = (variable->tipo == INT) ? *((int *)variable->valor) : *((char *)variable->valor);
+            int valorDer = (valorDerecho.tipo == INT) ? *((int *)valorDerecho.valor) : *((char *)valorDerecho.valor);
+            int *res = malloc(sizeof(int));
+            *res = valorIzq | valorDer;
+            resultado = nuevoValorResultado(res, INT);
+            variable->tipo = INT; // Promocionar a INT
+        }
+        else
+        {
+            char buffer[256];
+            snprintf(buffer, sizeof(buffer), "Operador |= solo permitido en tipos enteros para variable '%s'", self->nombre);
+            int ambito = context && context->nombre ? context->nombre : 0;
+            agregarErrorSemantico(buffer, nodo->linea, nodo->columna, ambito);
+            return nuevoValorResultadoVacio();
+        }
+        break;
+
+    case ASIG_XOR:
+        // variable ^= expresion equivale a variable = variable ^ expresion (solo enteros)
+        if ((variable->tipo == INT || variable->tipo == CHAR) && (valorDerecho.tipo == INT || valorDerecho.tipo == CHAR))
+        {
+            int valorIzq = (variable->tipo == INT) ? *((int *)variable->valor) : *((char *)variable->valor);
+            int valorDer = (valorDerecho.tipo == INT) ? *((int *)valorDerecho.valor) : *((char *)valorDerecho.valor);
+            int *res = malloc(sizeof(int));
+            *res = valorIzq ^ valorDer;
+            resultado = nuevoValorResultado(res, INT);
+            variable->tipo = INT; // Promocionar a INT
+        }
+        else
+        {
+            char buffer[256];
+            snprintf(buffer, sizeof(buffer), "Operador ^= solo permitido en tipos enteros para variable '%s'", self->nombre);
+            int ambito = context && context->nombre ? context->nombre : 0;
+            agregarErrorSemantico(buffer, nodo->linea, nodo->columna, ambito);
+            return nuevoValorResultadoVacio();
+        }
+        break;
+
+    case ASIG_LSHIFT:
+        // variable <<= expresion equivale a variable = variable << expresion (solo enteros)
+        if ((variable->tipo == INT || variable->tipo == CHAR) && (valorDerecho.tipo == INT || valorDerecho.tipo == CHAR))
+        {
+            int valorIzq = (variable->tipo == INT) ? *((int *)variable->valor) : *((char *)variable->valor);
+            int valorDer = (valorDerecho.tipo == INT) ? *((int *)valorDerecho.valor) : *((char *)valorDerecho.valor);
+            if (valorDer < 0 || valorDer >= 32)
+            {
+                char buffer[256];
+                snprintf(buffer, sizeof(buffer), "Desplazamiento inválido en <<= para variable '%s': %d", self->nombre, valorDer);
+                int ambito = context && context->nombre ? context->nombre : 0;
+                agregarErrorSemantico(buffer, nodo->linea, nodo->columna, ambito);
+                return nuevoValorResultadoVacio();
+            }
+            int *res = malloc(sizeof(int));
+            *res = valorIzq << valorDer;
+            resultado = nuevoValorResultado(res, INT);
+            variable->tipo = INT; // Promocionar a INT
+        }
+        else
+        {
+            char buffer[256];
+            snprintf(buffer, sizeof(buffer), "Operador <<= solo permitido en tipos enteros para variable '%s'", self->nombre);
+            int ambito = context && context->nombre ? context->nombre : 0;
+            agregarErrorSemantico(buffer, nodo->linea, nodo->columna, ambito);
+            return nuevoValorResultadoVacio();
+        }
+        break;
+
+    case ASIG_RSHIFT:
+        // variable >>= expresion equivale a variable = variable >> expresion (solo enteros)
+        if ((variable->tipo == INT || variable->tipo == CHAR) && (valorDerecho.tipo == INT || valorDerecho.tipo == CHAR))
+        {
+            int valorIzq = (variable->tipo == INT) ? *((int *)variable->valor) : *((char *)variable->valor);
+            int valorDer = (valorDerecho.tipo == INT) ? *((int *)valorDerecho.valor) : *((char *)valorDerecho.valor);
+            if (valorDer < 0 || valorDer >= 32)
+            {
+                char buffer[256];
+                snprintf(buffer, sizeof(buffer), "Desplazamiento inválido en >>= para variable '%s': %d", self->nombre, valorDer);
+                int ambito = context && context->nombre ? context->nombre : 0;
+                agregarErrorSemantico(buffer, nodo->linea, nodo->columna, ambito);
+                return nuevoValorResultadoVacio();
+            }
+            int *res = malloc(sizeof(int));
+            *res = valorIzq >> valorDer;
+            resultado = nuevoValorResultado(res, INT);
+            variable->tipo = INT; // Promocionar a INT
+        }
+        else
+        {
+            char buffer[256];
+            snprintf(buffer, sizeof(buffer), "Operador >>= solo permitido en tipos enteros para variable '%s'", self->nombre);
+            int ambito = context && context->nombre ? context->nombre : 0;
+            agregarErrorSemantico(buffer, nodo->linea, nodo->columna, ambito);
+            return nuevoValorResultadoVacio();
+        }
+        break;
+
+    default:
+        char buffer[256];
+        snprintf(buffer, sizeof(buffer), "Operador de asignación compuesta no implementado para variable '%s'", self->nombre);
+        int ambito = context && context->nombre ? context->nombre : 0;
+        agregarErrorSemantico(buffer, nodo->linea, nodo->columna, ambito);
+        return nuevoValorResultadoVacio();
+    }
+
+    // Liberar memoria del valor anterior si es necesario
+    if (variable->valor && variable->tipo == STRING)
+    {
+        free(variable->valor);
+    }
+
+    // Asignar el nuevo valor
+    variable->valor = resultado.valor;
+
+    return nuevoValorResultadoVacio();
+}
+
+AbstractExpresion *nuevoAsignacionCompuesta(char *nombre, TipoAsignacionCompuesta tipoOperador, AbstractExpresion *expresion, int linea, int columna)
+{
+    AsignacionCompuesta *nodo = malloc(sizeof(AsignacionCompuesta));
+    if (!nodo)
+        return NULL;
+    buildAbstractExpresion(&nodo->base, interpretAsignacionCompuesta);
+    nodo->nombre = nombre;
+    nodo->tipoOperador = tipoOperador;
+    nodo->base.linea = linea;
+    nodo->base.columna = columna;
+    if (expresion)
+        agregarHijo((AbstractExpresion *)nodo, expresion);
+    return (AbstractExpresion *)nodo;
+}

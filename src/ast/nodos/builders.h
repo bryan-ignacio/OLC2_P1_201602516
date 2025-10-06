@@ -2,6 +2,7 @@
 #define BUILDERS_H
 
 #include "ast/AbstractExpresion.h"
+#include "ast/nodos/instrucciones/instruccion/declaracion.h"
 
 /*
     Estructura de un builder:
@@ -15,6 +16,7 @@ AbstractExpresion *nuevoListaExpresiones(void);
 AbstractExpresion *nuevoDeclaracionVariables(TipoDato, char *nombre, AbstractExpresion *expresion, int linea, int columna);
 AbstractExpresion *nuevoDeclaracionConstante(TipoDato tipo, char *nombre, AbstractExpresion *expresion, int linea, int columna);
 AbstractExpresion *nuevoAsignacionExpresion(char *nombre, AbstractExpresion *expresion, int linea, int columna);
+AbstractExpresion *nuevoAsignacionCompuesta(char *nombre, TipoAsignacionCompuesta tipoOperador, AbstractExpresion *expresion, int linea, int columna);
 AbstractExpresion *nuevoIdentificadorExpresion(char *nombre, int linea, int columna);
 // AbstractExpresion* nuevoExpresionLenguaje(char op, AbstractExpresion* izquierda, AbstractExpresion* derecha);
 

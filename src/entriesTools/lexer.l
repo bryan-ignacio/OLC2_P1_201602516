@@ -356,6 +356,16 @@ return              return(TOKEN_RETURN);
 
 "<<"                 return(TOKEN_LEFT_SHIFT); // operador de desplazamiento a la izquierda
 ">>"                 return(TOKEN_RIGHT_SHIFT); // operador de desplazamiento a la derecha
+"+="                 return(TOKEN_PLUS_ASSIGN); // operador de asignación suma
+"-="                 return(TOKEN_MINUS_ASSIGN); // operador de asignación resta
+"*="                 return(TOKEN_MULT_ASSIGN); // operador de asignación multiplicación
+"/="                 return(TOKEN_DIV_ASSIGN); // operador de asignación división
+"%="                 return(TOKEN_MOD_ASSIGN); // operador de asignación módulo
+"&="                 return(TOKEN_AND_ASSIGN); // operador de asignación AND bitwise
+"|="                 return(TOKEN_OR_ASSIGN); // operador de asignación OR bitwise
+"^="                 return(TOKEN_XOR_ASSIGN); // operador de asignación XOR bitwise
+"<<="                return(TOKEN_LSHIFT_ASSIGN); // operador de asignación desplazamiento izquierda
+">>="                return(TOKEN_RSHIFT_ASSIGN); // operador de asignación desplazamiento derecha
 
 [*/+\-%,^&|~()\[\]{}\;=\>\<!]      return(yytext[0]); // esta es una expresion regular que reconoce varios simbolos de uno solo caracter y retorna el mismo caracter como token.
 
