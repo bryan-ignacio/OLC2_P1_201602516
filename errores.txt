@@ -1,5 +1,1 @@
-
-Reporte de errores:
----------------------------------------------
-Ambito: 1 | Linea: 0, Columna: 0 | [SEMANTICO] Operador lógico ! solo permitido en tipo boolean, recibido: int
----------------------------------------------
+No se encontraron errores.

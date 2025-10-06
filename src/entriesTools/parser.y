@@ -70,6 +70,12 @@ lSentencia: lSentencia sentencia ';' { agregarHijo($1, $2); $$ = $1;}
         agregarHijo(b, $1);
         $$ = b;
     }
+    | lSentencia sentencia_if { agregarHijo($1, $2); $$ = $1; }
+    | sentencia_if {
+        AbstractExpresion* b = nuevoInstruccionesExpresion();
+        agregarHijo(b, $1);
+        $$ = b;
+    }
     | lSentencia error ';' { yyerrok; $$ = $1; }
     ;
 // una sentencia puede ser un print, un bloque, una declaración de variable, un if o una función
@@ -78,7 +84,6 @@ sentencia: imprimir {$$ = $1; }
     | declaracion_var {$$ = $1;}
     | declaracion_const {$$ = $1;}
     | asignacion {$$ = $1;}
-    | sentencia_if { $$ = $1; }
     | sentencia_funcion { $$ = $1; }
     | TOKEN_RETURN { $$ = NULL; }/* sin implementar */
     | TOKEN_RETURN expr { $$ = nuevoReturnExpresion($2); } /* sin implementar */
