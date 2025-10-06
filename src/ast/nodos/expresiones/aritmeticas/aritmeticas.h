@@ -5,6 +5,7 @@
 #include "context/result.h"
 #include "context/context.h"
 #include "ast/nodos/expresiones/expresiones.h"
+#include "casting.h"
 
 /* SUMA */
 Result sumarIntInt(Result, Result);

@@ -1,0 +1,31 @@
+// Prueba simplificada de casting
+
+System.out.println("=== Casting entre tipos primitivos ===");
+
+// Test básico de casting
+int numero = 100;
+System.out.println("Numero original (int): ", numero);
+
+char caracter = (char) numero;
+System.out.println("Como char: ", caracter);
+
+float numeroFloat = (float) numero;
+System.out.println("Como float: ", numeroFloat);
+
+double numeroDouble = (double) numero;
+System.out.println("Como double: ", numeroDouble);
+
+// Test con decimales
+double pi = 3.14159;
+System.out.println("PI original (double): ", pi);
+
+float piFloat = (float) pi;
+System.out.println("PI como float: ", piFloat);
+
+int piInt = (int) pi;
+System.out.println("PI como int: ", piInt);
+
+// Test de precision
+float pequeño = 0.123f;
+int pequeñoInt = (int) pequeño;
+System.out.println("0.123f como int: ", pequeñoInt);

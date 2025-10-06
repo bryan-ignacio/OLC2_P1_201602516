@@ -1,7 +1,1 @@
-
-Reporte de errores:
----------------------------------------------
-Ambito: 1 | Linea: 38, Columna: 1 | [SEMANTICO] Error: No se puede reasignar la constante 'CONSTANTE_BOOL'. Las constantes son inmutables después de su inicialización. Considera usar una variable en lugar de una constante si necesitas modificar el valor.
-Ambito: 1 | Linea: 37, Columna: 1 | [SEMANTICO] Error: No se puede reasignar la constante 'CONSTANTE_TEXTO'. Las constantes son inmutables después de su inicialización. Considera usar una variable en lugar de una constante si necesitas modificar el valor.
-Ambito: 1 | Linea: 36, Columna: 1 | [SEMANTICO] Error: No se puede reasignar la constante 'CONSTANTE_NUM'. Las constantes son inmutables después de su inicialización. Considera usar una variable en lugar de una constante si necesitas modificar el valor.
----------------------------------------------
+No se encontraron errores.

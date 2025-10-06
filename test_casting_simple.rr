@@ -1,0 +1,36 @@
+// Archivo de prueba simple para casting
+
+System.out.println("=== Pruebas de Casting ===");
+
+// Widening Casting (char -> int -> float -> double)
+char c = 'A';
+System.out.println("char original: ", c);
+
+int i = (int) c;
+System.out.println("char a int: ", i);
+
+float f = (float) i;
+System.out.println("int a float: ", f);
+
+double d = (double) f;
+System.out.println("float a double: ", d);
+
+// Narrowing Casting (double -> float -> int -> char)
+double d2 = 97.75;
+System.out.println("double original: ", d2);
+
+float f2 = (float) d2;
+System.out.println("double a float: ", f2);
+
+int i2 = (int) f2;
+System.out.println("float a int: ", i2);
+
+char c2 = (char) i2;
+System.out.println("int a char: ", c2);
+
+// Casting con números literales
+int numInt = (int) 3.14;
+System.out.println("(int) 3.14 = ", numInt);
+
+float numFloat = (float) 42;
+System.out.println("(float) 42 = ", numFloat);

@@ -143,6 +143,10 @@ expr: expr '+' expr   { $$ =  nuevoSumaExpresion($1, $3);  }
     | '(' expr ')' { $$ = $2; }
     | '-' expr %prec NEG  { $$ =  nuevoUnarioExpresion($2);  }
     | expr '=' '=' expr { $$ = nuevoComparacionExpresion($1, $4); }
+    | '(' TOKEN_DINT ')' expr { $$ = nuevoCastingExpresion($4, INT); }
+    | '(' TOKEN_DFLOAT ')' expr { $$ = nuevoCastingExpresion($4, FLOAT); }
+    | '(' TOKEN_DDOUBLE ')' expr { $$ = nuevoCastingExpresion($4, DOUBLE); }
+    | '(' TOKEN_DCHAR ')' expr { $$ = nuevoCastingExpresion($4, CHAR); }
     | primitivo { $$ = $1; }
     | TOKEN_IDENTIFIER { $$ = nuevoIdentificadorExpresion($1, @1.first_line, @1.first_column); }
     | TOKEN_IDENTIFIER '(' lista_Expr ')' { $$ = nuevoLlamadaExpresion($1, $3); }

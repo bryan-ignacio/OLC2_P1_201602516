@@ -24,6 +24,7 @@ AbstractExpresion *nuevoIdentificadorExpresion(char *nombre, int linea, int colu
 AbstractExpresion *nuevoSumaExpresion(AbstractExpresion *izquierda, AbstractExpresion *derecha);
 AbstractExpresion *nuevoRestaExpresion(AbstractExpresion *izquierda, AbstractExpresion *derecha);
 AbstractExpresion *nuevoUnarioExpresion(AbstractExpresion *expresion);
+AbstractExpresion *nuevoCastingExpresion(AbstractExpresion *expresion, TipoDato tipoDestino);
 
 AbstractExpresion *nuevoComparacionExpresion(AbstractExpresion *izquierda, AbstractExpresion *derecha);
 

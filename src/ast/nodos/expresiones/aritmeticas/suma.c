@@ -4,6 +4,7 @@
 #include "context/result.h"
 #include "aritmeticas.h"
 #include "ast/nodos/expresiones/expresiones.h"
+#include "casting.h"
 
 #include <stdlib.h>
 #include <stdio.h>
