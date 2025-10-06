@@ -50,7 +50,7 @@ $(BUILD)/lex.yy.o: $(LEX_C)
 
 # Enlazar todo
 $(BUILD)/calc: $(OBJ_ALL)
-	$(CC) $(CFLAGS) -o $@ $^
+	$(CC) $(CFLAGS) -o $@ $^ -lm
 
 clean:
 	$(RM)

@@ -44,7 +44,7 @@ TOKEN_DSTRING TOKEN_DBOOLEAN TOKEN_DCHAR TOKEN_UNSIGNED_INTEGER TOKEN_REAL TOKEN
 // precedencia menor a mayor
 //%left NUMERO
 %left '+' '-' //menos -
-%left '*' '/' //más
+%left '*' '/' '%' //más
 %left NEG
 
 %%
@@ -140,6 +140,9 @@ expr: expr '+' expr   { $$ =  nuevoExpresionLenguaje('+', $1, $3);  }
 
 expr: expr '+' expr   { $$ =  nuevoSumaExpresion($1, $3);  }
     | expr '-' expr { $$ =  nuevoRestaExpresion($1, $3); }
+    | expr '*' expr { $$ =  nuevoMultiplicacionExpresion($1, $3); }
+    | expr '/' expr { $$ =  nuevoDivisionExpresion($1, $3); }
+    | expr '%' expr { $$ =  nuevoModuloExpresion($1, $3); }
     | '(' expr ')' { $$ = $2; }
     | '-' expr %prec NEG  { $$ =  nuevoUnarioExpresion($2);  }
     | expr '=' '=' expr { $$ = nuevoComparacionExpresion($1, $4); }

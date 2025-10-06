@@ -30,3 +30,8 @@ System.out.println("-------CARACTERES POR DEFECTO----------");
     System.out.println(caracter2);
     System.out.println(cadena);
     System.out.println(numero2);
+
+System.out.println("-------AGRUPACION---------------");
+
+double hola = 3-(1 + 3)*32/90;
+System.out.println(hola);

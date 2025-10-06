@@ -1,32 +1,5 @@
-=== DEMOSTRACION DE CASTING ===
-
-1. WIDENING CASTING:
-char -> int -> float -> double
-Caracter original: 
-X
-char a int: 
-88
-int a float: 
-88.000000
-float a double: 
-88
-
-2. NARROWING CASTING:
-double -> float -> int -> char
-Double original: 
-65.99
-double a float: 
-65.989998
-float a int: 
-65
-int a char: 
-
-3. CASTING CON LITERALES:
-(int) 42.8 = 
+1.577778
+1.57777774333954
+42.000000
 42
-(float) 25 = 
-25.000000
-(char) 97 = 
-a
-
-=== CASTING IMPLEMENTADO EXITOSAMENTE ===
+3.14000010490417

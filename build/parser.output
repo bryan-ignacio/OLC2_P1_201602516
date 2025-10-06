@@ -1,18 +1,15 @@
-Terminals unused in grammar
-
-    '*'
-    '/'
-
-
 State 14 conflicts: 1 shift/reduce
 State 54 conflicts: 1 shift/reduce
-State 80 conflicts: 1 shift/reduce
-State 81 conflicts: 1 shift/reduce
-State 89 conflicts: 3 shift/reduce
-State 90 conflicts: 3 shift/reduce
-State 91 conflicts: 3 shift/reduce
-State 92 conflicts: 3 shift/reduce
-State 93 conflicts: 3 shift/reduce
+State 83 conflicts: 1 shift/reduce
+State 84 conflicts: 1 shift/reduce
+State 85 conflicts: 1 shift/reduce
+State 86 conflicts: 1 shift/reduce
+State 87 conflicts: 1 shift/reduce
+State 95 conflicts: 6 shift/reduce
+State 96 conflicts: 6 shift/reduce
+State 97 conflicts: 6 shift/reduce
+State 98 conflicts: 6 shift/reduce
+State 99 conflicts: 6 shift/reduce
 
 
 Grammar
@@ -64,67 +61,71 @@ Grammar
 
    32 expr: expr '+' expr
    33     | expr '-' expr
-   34     | '(' expr ')'
-   35     | '-' expr
-   36     | expr '=' '=' expr
-   37     | '(' TOKEN_DINT ')' expr
-   38     | '(' TOKEN_DFLOAT ')' expr
-   39     | '(' TOKEN_DDOUBLE ')' expr
-   40     | '(' TOKEN_DCHAR ')' expr
-   41     | primitivo
-   42     | TOKEN_IDENTIFIER
-   43     | TOKEN_IDENTIFIER '(' lista_Expr ')'
-   44     | TOKEN_IDENTIFIER '(' ')'
+   34     | expr '*' expr
+   35     | expr '/' expr
+   36     | expr '%' expr
+   37     | '(' expr ')'
+   38     | '-' expr
+   39     | expr '=' '=' expr
+   40     | '(' TOKEN_DINT ')' expr
+   41     | '(' TOKEN_DFLOAT ')' expr
+   42     | '(' TOKEN_DDOUBLE ')' expr
+   43     | '(' TOKEN_DCHAR ')' expr
+   44     | primitivo
+   45     | TOKEN_IDENTIFIER
+   46     | TOKEN_IDENTIFIER '(' lista_Expr ')'
+   47     | TOKEN_IDENTIFIER '(' ')'
 
-   45 primitivo: TOKEN_UNSIGNED_INTEGER
-   46          | TOKEN_STRING
-   47          | TOKEN_REAL
-   48          | TOKEN_DOUBLE
-   49          | TOKEN_CHAR
-   50          | TOKEN_TRUE
-   51          | TOKEN_FALSE
+   48 primitivo: TOKEN_UNSIGNED_INTEGER
+   49          | TOKEN_STRING
+   50          | TOKEN_REAL
+   51          | TOKEN_DOUBLE
+   52          | TOKEN_CHAR
+   53          | TOKEN_TRUE
+   54          | TOKEN_FALSE
 
-   52 tipoPrimitivo: TOKEN_DINT
-   53              | TOKEN_DFLOAT
-   54              | TOKEN_DDOUBLE
-   55              | TOKEN_DSTRING
-   56              | TOKEN_DBOOLEAN
-   57              | TOKEN_DCHAR
+   55 tipoPrimitivo: TOKEN_DINT
+   56              | TOKEN_DFLOAT
+   57              | TOKEN_DDOUBLE
+   58              | TOKEN_DSTRING
+   59              | TOKEN_DBOOLEAN
+   60              | TOKEN_DCHAR
 
 
 Terminals, with rules where they appear
 
     $end (0) 0
-    '(' (40) 19 25 26 27 30 31 34 37 38 39 40 43 44
-    ')' (41) 19 25 26 27 30 31 34 37 38 39 40 43 44
-    '*' (42)
+    '%' (37) 36
+    '(' (40) 19 25 26 27 30 31 37 40 41 42 43 46 47
+    ')' (41) 19 25 26 27 30 31 37 40 41 42 43 46 47
+    '*' (42) 34
     '+' (43) 32
     ',' (44) 17 28
-    '-' (45) 33 35
-    '/' (47)
+    '-' (45) 33 38
+    '/' (47) 35
     ';' (59) 2 3 4 7
-    '=' (61) 22 23 24 36
+    '=' (61) 22 23 24 39
     '{' (123) 20
     '}' (125) 20
     error (256) 2 7
     TOKEN_PRINT <string> (258) 19
-    TOKEN_DINT <string> (259) 37 52
-    TOKEN_DFLOAT <string> (260) 38 53
-    TOKEN_DDOUBLE <string> (261) 39 54
+    TOKEN_DINT <string> (259) 40 55
+    TOKEN_DFLOAT <string> (260) 41 56
+    TOKEN_DDOUBLE <string> (261) 42 57
     TOKEN_IF <string> (262) 25 26 27
     TOKEN_ELSE <string> (263) 26 27
-    TOKEN_TRUE <string> (264) 50
-    TOKEN_FALSE <string> (265) 51
+    TOKEN_TRUE <string> (264) 53
+    TOKEN_FALSE <string> (265) 54
     TOKEN_FUNC <string> (266) 30 31
-    TOKEN_DSTRING <string> (267) 55
-    TOKEN_DBOOLEAN <string> (268) 56
-    TOKEN_DCHAR <string> (269) 40 57
-    TOKEN_UNSIGNED_INTEGER <string> (270) 45
-    TOKEN_REAL <string> (271) 47
-    TOKEN_DOUBLE <string> (272) 48
-    TOKEN_STRING <string> (273) 46
-    TOKEN_CHAR <string> (274) 49
-    TOKEN_IDENTIFIER <string> (275) 21 22 23 24 30 31 42 43 44
+    TOKEN_DSTRING <string> (267) 58
+    TOKEN_DBOOLEAN <string> (268) 59
+    TOKEN_DCHAR <string> (269) 43 60
+    TOKEN_UNSIGNED_INTEGER <string> (270) 48
+    TOKEN_REAL <string> (271) 50
+    TOKEN_DOUBLE <string> (272) 51
+    TOKEN_STRING <string> (273) 49
+    TOKEN_CHAR <string> (274) 52
+    TOKEN_IDENTIFIER <string> (275) 21 22 23 24 30 31 45 46 47
     TOKEN_RETURN <string> (276) 15 16
     TOKEN_FINAL <string> (277) 23
     NEG (278)
@@ -132,52 +133,52 @@ Terminals, with rules where they appear
 
 Nonterminals, with rules where they appear
 
-    $accept (35)
+    $accept (36)
         on left: 0
-    s <nodo> (36)
+    s <nodo> (37)
         on left: 1 2
         on right: 0 2
-    lSentencia <nodo> (37)
+    lSentencia <nodo> (38)
         on left: 3 4 5 6 7
         on right: 1 3 5 7 20
-    sentencia <nodo> (38)
+    sentencia <nodo> (39)
         on left: 8 9 10 11 12 13 14 15 16
         on right: 3 4
-    lista_Expr <nodo> (39)
+    lista_Expr <nodo> (40)
         on left: 17 18
-        on right: 17 19 43
-    imprimir <nodo> (40)
+        on right: 17 19 46
+    imprimir <nodo> (41)
         on left: 19
         on right: 8
-    bloque <nodo> (41)
+    bloque <nodo> (42)
         on left: 20
         on right: 5 6 9 25 26 27 30 31
-    declaracion_var <nodo> (42)
+    declaracion_var <nodo> (43)
         on left: 21 22
         on right: 10 28 29
-    declaracion_const <nodo> (43)
+    declaracion_const <nodo> (44)
         on left: 23
         on right: 11
-    asignacion <nodo> (44)
+    asignacion <nodo> (45)
         on left: 24
         on right: 12
-    sentencia_if <nodo> (45)
+    sentencia_if <nodo> (46)
         on left: 25 26 27
         on right: 13 27
-    lista_parametros <nodo> (46)
+    lista_parametros <nodo> (47)
         on left: 28 29
         on right: 28 30
-    sentencia_funcion <nodo> (47)
+    sentencia_funcion <nodo> (48)
         on left: 30 31
         on right: 14
-    expr <nodo> (48)
-        on left: 32 33 34 35 36 37 38 39 40 41 42 43 44
-        on right: 16 17 18 22 23 24 25 26 27 32 33 34 35 36 37 38 39 40
-    primitivo <nodo> (49)
-        on left: 45 46 47 48 49 50 51
-        on right: 41
-    tipoPrimitivo <tipoDato> (50)
-        on left: 52 53 54 55 56 57
+    expr <nodo> (49)
+        on left: 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47
+        on right: 16 17 18 22 23 24 25 26 27 32 33 34 35 36 37 38 39 40 41 42 43
+    primitivo <nodo> (50)
+        on left: 48 49 50 51 52 53 54
+        on right: 44
+    tipoPrimitivo <tipoDato> (51)
+        on left: 55 56 57 58 59 60
         on right: 21 22 23 30 31
 
 
@@ -220,23 +221,23 @@ State 1
 
 State 2
 
-   52 tipoPrimitivo: TOKEN_DINT •
+   55 tipoPrimitivo: TOKEN_DINT •
 
-    $default  reduce using rule 52 (tipoPrimitivo)
+    $default  reduce using rule 55 (tipoPrimitivo)
 
 
 State 3
 
-   53 tipoPrimitivo: TOKEN_DFLOAT •
+   56 tipoPrimitivo: TOKEN_DFLOAT •
 
-    $default  reduce using rule 53 (tipoPrimitivo)
+    $default  reduce using rule 56 (tipoPrimitivo)
 
 
 State 4
 
-   54 tipoPrimitivo: TOKEN_DDOUBLE •
+   57 tipoPrimitivo: TOKEN_DDOUBLE •
 
-    $default  reduce using rule 54 (tipoPrimitivo)
+    $default  reduce using rule 57 (tipoPrimitivo)
 
 
 State 5
@@ -250,23 +251,23 @@ State 5
 
 State 6
 
-   55 tipoPrimitivo: TOKEN_DSTRING •
+   58 tipoPrimitivo: TOKEN_DSTRING •
 
-    $default  reduce using rule 55 (tipoPrimitivo)
+    $default  reduce using rule 58 (tipoPrimitivo)
 
 
 State 7
 
-   56 tipoPrimitivo: TOKEN_DBOOLEAN •
+   59 tipoPrimitivo: TOKEN_DBOOLEAN •
 
-    $default  reduce using rule 56 (tipoPrimitivo)
+    $default  reduce using rule 59 (tipoPrimitivo)
 
 
 State 8
 
-   57 tipoPrimitivo: TOKEN_DCHAR •
+   60 tipoPrimitivo: TOKEN_DCHAR •
 
-    $default  reduce using rule 57 (tipoPrimitivo)
+    $default  reduce using rule 60 (tipoPrimitivo)
 
 
 State 9
@@ -516,67 +517,67 @@ State 26
 
 State 27
 
-   50 primitivo: TOKEN_TRUE •
+   53 primitivo: TOKEN_TRUE •
 
-    $default  reduce using rule 50 (primitivo)
+    $default  reduce using rule 53 (primitivo)
 
 
 State 28
 
-   51 primitivo: TOKEN_FALSE •
+   54 primitivo: TOKEN_FALSE •
 
-    $default  reduce using rule 51 (primitivo)
+    $default  reduce using rule 54 (primitivo)
 
 
 State 29
 
-   45 primitivo: TOKEN_UNSIGNED_INTEGER •
-
-    $default  reduce using rule 45 (primitivo)
-
-
-State 30
-
-   47 primitivo: TOKEN_REAL •
-
-    $default  reduce using rule 47 (primitivo)
-
-
-State 31
-
-   48 primitivo: TOKEN_DOUBLE •
+   48 primitivo: TOKEN_UNSIGNED_INTEGER •
 
     $default  reduce using rule 48 (primitivo)
 
 
+State 30
+
+   50 primitivo: TOKEN_REAL •
+
+    $default  reduce using rule 50 (primitivo)
+
+
+State 31
+
+   51 primitivo: TOKEN_DOUBLE •
+
+    $default  reduce using rule 51 (primitivo)
+
+
 State 32
 
-   46 primitivo: TOKEN_STRING •
-
-    $default  reduce using rule 46 (primitivo)
-
-
-State 33
-
-   49 primitivo: TOKEN_CHAR •
+   49 primitivo: TOKEN_STRING •
 
     $default  reduce using rule 49 (primitivo)
 
 
+State 33
+
+   52 primitivo: TOKEN_CHAR •
+
+    $default  reduce using rule 52 (primitivo)
+
+
 State 34
 
-   42 expr: TOKEN_IDENTIFIER •
-   43     | TOKEN_IDENTIFIER • '(' lista_Expr ')'
-   44     | TOKEN_IDENTIFIER • '(' ')'
+   45 expr: TOKEN_IDENTIFIER •
+   46     | TOKEN_IDENTIFIER • '(' lista_Expr ')'
+   47     | TOKEN_IDENTIFIER • '(' ')'
 
     '('  shift, and go to state 53
 
-    $default  reduce using rule 42 (expr)
+    $default  reduce using rule 45 (expr)
 
 
 State 35
 
-   35 expr: '-' • expr
+   38 expr: '-' • expr
 
     TOKEN_TRUE              shift, and go to state 27
     TOKEN_FALSE             shift, and go to state 28
@@ -595,11 +596,11 @@ State 35
 
 State 36
 
-   34 expr: '(' • expr ')'
-   37     | '(' • TOKEN_DINT ')' expr
-   38     | '(' • TOKEN_DFLOAT ')' expr
-   39     | '(' • TOKEN_DDOUBLE ')' expr
-   40     | '(' • TOKEN_DCHAR ')' expr
+   37 expr: '(' • expr ')'
+   40     | '(' • TOKEN_DINT ')' expr
+   41     | '(' • TOKEN_DFLOAT ')' expr
+   42     | '(' • TOKEN_DDOUBLE ')' expr
+   43     | '(' • TOKEN_DCHAR ')' expr
 
     TOKEN_DINT              shift, and go to state 55
     TOKEN_DFLOAT            shift, and go to state 56
@@ -625,27 +626,33 @@ State 37
    16 sentencia: TOKEN_RETURN expr •
    32 expr: expr • '+' expr
    33     | expr • '-' expr
-   36     | expr • '=' '=' expr
+   34     | expr • '*' expr
+   35     | expr • '/' expr
+   36     | expr • '%' expr
+   39     | expr • '=' '=' expr
 
     '+'  shift, and go to state 60
     '-'  shift, and go to state 61
-    '='  shift, and go to state 62
+    '*'  shift, and go to state 62
+    '/'  shift, and go to state 63
+    '%'  shift, and go to state 64
+    '='  shift, and go to state 65
 
     $default  reduce using rule 16 (sentencia)
 
 
 State 38
 
-   41 expr: primitivo •
+   44 expr: primitivo •
 
-    $default  reduce using rule 41 (expr)
+    $default  reduce using rule 44 (expr)
 
 
 State 39
 
    23 declaracion_const: TOKEN_FINAL tipoPrimitivo • TOKEN_IDENTIFIER '=' expr
 
-    TOKEN_IDENTIFIER  shift, and go to state 63
+    TOKEN_IDENTIFIER  shift, and go to state 66
 
 
 State 40
@@ -668,7 +675,7 @@ State 40
     TOKEN_RETURN      shift, and go to state 10
     TOKEN_FINAL       shift, and go to state 11
     '{'               shift, and go to state 12
-    '}'               shift, and go to state 64
+    '}'               shift, and go to state 67
 
     sentencia          go to state 44
     imprimir           go to state 16
@@ -692,21 +699,21 @@ State 42
 
     2 s: s error • ';'
 
-    ';'  shift, and go to state 65
+    ';'  shift, and go to state 68
 
 
 State 43
 
     7 lSentencia: lSentencia error • ';'
 
-    ';'  shift, and go to state 66
+    ';'  shift, and go to state 69
 
 
 State 44
 
     3 lSentencia: lSentencia sentencia • ';'
 
-    ';'  shift, and go to state 67
+    ';'  shift, and go to state 70
 
 
 State 45
@@ -730,7 +737,7 @@ State 47
    30 sentencia_funcion: tipoPrimitivo TOKEN_FUNC • TOKEN_IDENTIFIER '(' lista_parametros ')' bloque
    31                  | tipoPrimitivo TOKEN_FUNC • TOKEN_IDENTIFIER '(' ')' bloque
 
-    TOKEN_IDENTIFIER  shift, and go to state 68
+    TOKEN_IDENTIFIER  shift, and go to state 71
 
 
 State 48
@@ -738,7 +745,7 @@ State 48
    21 declaracion_var: tipoPrimitivo TOKEN_IDENTIFIER •
    22                | tipoPrimitivo TOKEN_IDENTIFIER • '=' expr
 
-    '='  shift, and go to state 69
+    '='  shift, and go to state 72
 
     $default  reduce using rule 21 (declaracion_var)
 
@@ -748,8 +755,8 @@ State 49
    17 lista_Expr: lista_Expr • ',' expr
    19 imprimir: TOKEN_PRINT '(' lista_Expr • ')'
 
-    ','  shift, and go to state 70
-    ')'  shift, and go to state 71
+    ','  shift, and go to state 73
+    ')'  shift, and go to state 74
 
 
 State 50
@@ -757,11 +764,17 @@ State 50
    18 lista_Expr: expr •
    32 expr: expr • '+' expr
    33     | expr • '-' expr
-   36     | expr • '=' '=' expr
+   34     | expr • '*' expr
+   35     | expr • '/' expr
+   36     | expr • '%' expr
+   39     | expr • '=' '=' expr
 
     '+'  shift, and go to state 60
     '-'  shift, and go to state 61
-    '='  shift, and go to state 62
+    '*'  shift, and go to state 62
+    '/'  shift, and go to state 63
+    '%'  shift, and go to state 64
+    '='  shift, and go to state 65
 
     $default  reduce using rule 18 (lista_Expr)
 
@@ -773,12 +786,18 @@ State 51
    27             | TOKEN_IF '(' expr • ')' bloque TOKEN_ELSE sentencia_if
    32 expr: expr • '+' expr
    33     | expr • '-' expr
-   36     | expr • '=' '=' expr
+   34     | expr • '*' expr
+   35     | expr • '/' expr
+   36     | expr • '%' expr
+   39     | expr • '=' '=' expr
 
     '+'  shift, and go to state 60
     '-'  shift, and go to state 61
-    ')'  shift, and go to state 72
-    '='  shift, and go to state 62
+    '*'  shift, and go to state 62
+    '/'  shift, and go to state 63
+    '%'  shift, and go to state 64
+    ')'  shift, and go to state 75
+    '='  shift, and go to state 65
 
 
 State 52
@@ -786,19 +805,25 @@ State 52
    24 asignacion: TOKEN_IDENTIFIER '=' expr •
    32 expr: expr • '+' expr
    33     | expr • '-' expr
-   36     | expr • '=' '=' expr
+   34     | expr • '*' expr
+   35     | expr • '/' expr
+   36     | expr • '%' expr
+   39     | expr • '=' '=' expr
 
     '+'  shift, and go to state 60
     '-'  shift, and go to state 61
-    '='  shift, and go to state 62
+    '*'  shift, and go to state 62
+    '/'  shift, and go to state 63
+    '%'  shift, and go to state 64
+    '='  shift, and go to state 65
 
     $default  reduce using rule 24 (asignacion)
 
 
 State 53
 
-   43 expr: TOKEN_IDENTIFIER '(' • lista_Expr ')'
-   44     | TOKEN_IDENTIFIER '(' • ')'
+   46 expr: TOKEN_IDENTIFIER '(' • lista_Expr ')'
+   47     | TOKEN_IDENTIFIER '(' • ')'
 
     TOKEN_TRUE              shift, and go to state 27
     TOKEN_FALSE             shift, and go to state 28
@@ -810,9 +835,9 @@ State 53
     TOKEN_IDENTIFIER        shift, and go to state 34
     '-'                     shift, and go to state 35
     '('                     shift, and go to state 36
-    ')'                     shift, and go to state 73
+    ')'                     shift, and go to state 76
 
-    lista_Expr  go to state 74
+    lista_Expr  go to state 77
     expr        go to state 50
     primitivo   go to state 38
 
@@ -821,54 +846,63 @@ State 54
 
    32 expr: expr • '+' expr
    33     | expr • '-' expr
-   35     | '-' expr •
-   36     | expr • '=' '=' expr
+   34     | expr • '*' expr
+   35     | expr • '/' expr
+   36     | expr • '%' expr
+   38     | '-' expr •
+   39     | expr • '=' '=' expr
 
-    '='  shift, and go to state 62
+    '='  shift, and go to state 65
 
-    '='       [reduce using rule 35 (expr)]
-    $default  reduce using rule 35 (expr)
+    '='       [reduce using rule 38 (expr)]
+    $default  reduce using rule 38 (expr)
 
 
 State 55
 
-   37 expr: '(' TOKEN_DINT • ')' expr
+   40 expr: '(' TOKEN_DINT • ')' expr
 
-    ')'  shift, and go to state 75
+    ')'  shift, and go to state 78
 
 
 State 56
 
-   38 expr: '(' TOKEN_DFLOAT • ')' expr
+   41 expr: '(' TOKEN_DFLOAT • ')' expr
 
-    ')'  shift, and go to state 76
+    ')'  shift, and go to state 79
 
 
 State 57
 
-   39 expr: '(' TOKEN_DDOUBLE • ')' expr
+   42 expr: '(' TOKEN_DDOUBLE • ')' expr
 
-    ')'  shift, and go to state 77
+    ')'  shift, and go to state 80
 
 
 State 58
 
-   40 expr: '(' TOKEN_DCHAR • ')' expr
+   43 expr: '(' TOKEN_DCHAR • ')' expr
 
-    ')'  shift, and go to state 78
+    ')'  shift, and go to state 81
 
 
 State 59
 
    32 expr: expr • '+' expr
    33     | expr • '-' expr
-   34     | '(' expr • ')'
-   36     | expr • '=' '=' expr
+   34     | expr • '*' expr
+   35     | expr • '/' expr
+   36     | expr • '%' expr
+   37     | '(' expr • ')'
+   39     | expr • '=' '=' expr
 
     '+'  shift, and go to state 60
     '-'  shift, and go to state 61
-    ')'  shift, and go to state 79
-    '='  shift, and go to state 62
+    '*'  shift, and go to state 62
+    '/'  shift, and go to state 63
+    '%'  shift, and go to state 64
+    ')'  shift, and go to state 82
+    '='  shift, and go to state 65
 
 
 State 60
@@ -886,7 +920,7 @@ State 60
     '-'                     shift, and go to state 35
     '('                     shift, and go to state 36
 
-    expr       go to state 80
+    expr       go to state 83
     primitivo  go to state 38
 
 
@@ -905,63 +939,13 @@ State 61
     '-'                     shift, and go to state 35
     '('                     shift, and go to state 36
 
-    expr       go to state 81
+    expr       go to state 84
     primitivo  go to state 38
 
 
 State 62
 
-   36 expr: expr '=' • '=' expr
-
-    '='  shift, and go to state 82
-
-
-State 63
-
-   23 declaracion_const: TOKEN_FINAL tipoPrimitivo TOKEN_IDENTIFIER • '=' expr
-
-    '='  shift, and go to state 83
-
-
-State 64
-
-   20 bloque: '{' lSentencia '}' •
-
-    $default  reduce using rule 20 (bloque)
-
-
-State 65
-
-    2 s: s error ';' •
-
-    $default  reduce using rule 2 (s)
-
-
-State 66
-
-    7 lSentencia: lSentencia error ';' •
-
-    $default  reduce using rule 7 (lSentencia)
-
-
-State 67
-
-    3 lSentencia: lSentencia sentencia ';' •
-
-    $default  reduce using rule 3 (lSentencia)
-
-
-State 68
-
-   30 sentencia_funcion: tipoPrimitivo TOKEN_FUNC TOKEN_IDENTIFIER • '(' lista_parametros ')' bloque
-   31                  | tipoPrimitivo TOKEN_FUNC TOKEN_IDENTIFIER • '(' ')' bloque
-
-    '('  shift, and go to state 84
-
-
-State 69
-
-   22 declaracion_var: tipoPrimitivo TOKEN_IDENTIFIER '=' • expr
+   34 expr: expr '*' • expr
 
     TOKEN_TRUE              shift, and go to state 27
     TOKEN_FALSE             shift, and go to state 28
@@ -978,9 +962,9 @@ State 69
     primitivo  go to state 38
 
 
-State 70
+State 63
 
-   17 lista_Expr: lista_Expr ',' • expr
+   35 expr: expr '/' • expr
 
     TOKEN_TRUE              shift, and go to state 27
     TOKEN_FALSE             shift, and go to state 28
@@ -997,81 +981,78 @@ State 70
     primitivo  go to state 38
 
 
+State 64
+
+   36 expr: expr '%' • expr
+
+    TOKEN_TRUE              shift, and go to state 27
+    TOKEN_FALSE             shift, and go to state 28
+    TOKEN_UNSIGNED_INTEGER  shift, and go to state 29
+    TOKEN_REAL              shift, and go to state 30
+    TOKEN_DOUBLE            shift, and go to state 31
+    TOKEN_STRING            shift, and go to state 32
+    TOKEN_CHAR              shift, and go to state 33
+    TOKEN_IDENTIFIER        shift, and go to state 34
+    '-'                     shift, and go to state 35
+    '('                     shift, and go to state 36
+
+    expr       go to state 87
+    primitivo  go to state 38
+
+
+State 65
+
+   39 expr: expr '=' • '=' expr
+
+    '='  shift, and go to state 88
+
+
+State 66
+
+   23 declaracion_const: TOKEN_FINAL tipoPrimitivo TOKEN_IDENTIFIER • '=' expr
+
+    '='  shift, and go to state 89
+
+
+State 67
+
+   20 bloque: '{' lSentencia '}' •
+
+    $default  reduce using rule 20 (bloque)
+
+
+State 68
+
+    2 s: s error ';' •
+
+    $default  reduce using rule 2 (s)
+
+
+State 69
+
+    7 lSentencia: lSentencia error ';' •
+
+    $default  reduce using rule 7 (lSentencia)
+
+
+State 70
+
+    3 lSentencia: lSentencia sentencia ';' •
+
+    $default  reduce using rule 3 (lSentencia)
+
+
 State 71
 
-   19 imprimir: TOKEN_PRINT '(' lista_Expr ')' •
+   30 sentencia_funcion: tipoPrimitivo TOKEN_FUNC TOKEN_IDENTIFIER • '(' lista_parametros ')' bloque
+   31                  | tipoPrimitivo TOKEN_FUNC TOKEN_IDENTIFIER • '(' ')' bloque
 
-    $default  reduce using rule 19 (imprimir)
+    '('  shift, and go to state 90
 
 
 State 72
 
-   25 sentencia_if: TOKEN_IF '(' expr ')' • bloque
-   26             | TOKEN_IF '(' expr ')' • bloque TOKEN_ELSE bloque
-   27             | TOKEN_IF '(' expr ')' • bloque TOKEN_ELSE sentencia_if
-
-    '{'  shift, and go to state 12
-
-    bloque  go to state 87
-
-
-State 73
-
-   44 expr: TOKEN_IDENTIFIER '(' ')' •
-
-    $default  reduce using rule 44 (expr)
-
-
-State 74
-
-   17 lista_Expr: lista_Expr • ',' expr
-   43 expr: TOKEN_IDENTIFIER '(' lista_Expr • ')'
-
-    ','  shift, and go to state 70
-    ')'  shift, and go to state 88
-
-
-State 75
-
-   37 expr: '(' TOKEN_DINT ')' • expr
-
-    TOKEN_TRUE              shift, and go to state 27
-    TOKEN_FALSE             shift, and go to state 28
-    TOKEN_UNSIGNED_INTEGER  shift, and go to state 29
-    TOKEN_REAL              shift, and go to state 30
-    TOKEN_DOUBLE            shift, and go to state 31
-    TOKEN_STRING            shift, and go to state 32
-    TOKEN_CHAR              shift, and go to state 33
-    TOKEN_IDENTIFIER        shift, and go to state 34
-    '-'                     shift, and go to state 35
-    '('                     shift, and go to state 36
-
-    expr       go to state 89
-    primitivo  go to state 38
-
-
-State 76
-
-   38 expr: '(' TOKEN_DFLOAT ')' • expr
-
-    TOKEN_TRUE              shift, and go to state 27
-    TOKEN_FALSE             shift, and go to state 28
-    TOKEN_UNSIGNED_INTEGER  shift, and go to state 29
-    TOKEN_REAL              shift, and go to state 30
-    TOKEN_DOUBLE            shift, and go to state 31
-    TOKEN_STRING            shift, and go to state 32
-    TOKEN_CHAR              shift, and go to state 33
-    TOKEN_IDENTIFIER        shift, and go to state 34
-    '-'                     shift, and go to state 35
-    '('                     shift, and go to state 36
-
-    expr       go to state 90
-    primitivo  go to state 38
-
-
-State 77
-
-   39 expr: '(' TOKEN_DDOUBLE ')' • expr
+   22 declaracion_var: tipoPrimitivo TOKEN_IDENTIFIER '=' • expr
 
     TOKEN_TRUE              shift, and go to state 27
     TOKEN_FALSE             shift, and go to state 28
@@ -1088,9 +1069,9 @@ State 77
     primitivo  go to state 38
 
 
-State 78
+State 73
 
-   40 expr: '(' TOKEN_DCHAR ')' • expr
+   17 lista_Expr: lista_Expr ',' • expr
 
     TOKEN_TRUE              shift, and go to state 27
     TOKEN_FALSE             shift, and go to state 28
@@ -1107,42 +1088,43 @@ State 78
     primitivo  go to state 38
 
 
-State 79
+State 74
 
-   34 expr: '(' expr ')' •
+   19 imprimir: TOKEN_PRINT '(' lista_Expr ')' •
 
-    $default  reduce using rule 34 (expr)
-
-
-State 80
-
-   32 expr: expr • '+' expr
-   32     | expr '+' expr •
-   33     | expr • '-' expr
-   36     | expr • '=' '=' expr
-
-    '='  shift, and go to state 62
-
-    '='       [reduce using rule 32 (expr)]
-    $default  reduce using rule 32 (expr)
+    $default  reduce using rule 19 (imprimir)
 
 
-State 81
+State 75
 
-   32 expr: expr • '+' expr
-   33     | expr • '-' expr
-   33     | expr '-' expr •
-   36     | expr • '=' '=' expr
+   25 sentencia_if: TOKEN_IF '(' expr ')' • bloque
+   26             | TOKEN_IF '(' expr ')' • bloque TOKEN_ELSE bloque
+   27             | TOKEN_IF '(' expr ')' • bloque TOKEN_ELSE sentencia_if
 
-    '='  shift, and go to state 62
+    '{'  shift, and go to state 12
 
-    '='       [reduce using rule 33 (expr)]
-    $default  reduce using rule 33 (expr)
+    bloque  go to state 93
 
 
-State 82
+State 76
 
-   36 expr: expr '=' '=' • expr
+   47 expr: TOKEN_IDENTIFIER '(' ')' •
+
+    $default  reduce using rule 47 (expr)
+
+
+State 77
+
+   17 lista_Expr: lista_Expr • ',' expr
+   46 expr: TOKEN_IDENTIFIER '(' lista_Expr • ')'
+
+    ','  shift, and go to state 73
+    ')'  shift, and go to state 94
+
+
+State 78
+
+   40 expr: '(' TOKEN_DINT ')' • expr
 
     TOKEN_TRUE              shift, and go to state 27
     TOKEN_FALSE             shift, and go to state 28
@@ -1155,11 +1137,180 @@ State 82
     '-'                     shift, and go to state 35
     '('                     shift, and go to state 36
 
-    expr       go to state 93
+    expr       go to state 95
     primitivo  go to state 38
 
 
+State 79
+
+   41 expr: '(' TOKEN_DFLOAT ')' • expr
+
+    TOKEN_TRUE              shift, and go to state 27
+    TOKEN_FALSE             shift, and go to state 28
+    TOKEN_UNSIGNED_INTEGER  shift, and go to state 29
+    TOKEN_REAL              shift, and go to state 30
+    TOKEN_DOUBLE            shift, and go to state 31
+    TOKEN_STRING            shift, and go to state 32
+    TOKEN_CHAR              shift, and go to state 33
+    TOKEN_IDENTIFIER        shift, and go to state 34
+    '-'                     shift, and go to state 35
+    '('                     shift, and go to state 36
+
+    expr       go to state 96
+    primitivo  go to state 38
+
+
+State 80
+
+   42 expr: '(' TOKEN_DDOUBLE ')' • expr
+
+    TOKEN_TRUE              shift, and go to state 27
+    TOKEN_FALSE             shift, and go to state 28
+    TOKEN_UNSIGNED_INTEGER  shift, and go to state 29
+    TOKEN_REAL              shift, and go to state 30
+    TOKEN_DOUBLE            shift, and go to state 31
+    TOKEN_STRING            shift, and go to state 32
+    TOKEN_CHAR              shift, and go to state 33
+    TOKEN_IDENTIFIER        shift, and go to state 34
+    '-'                     shift, and go to state 35
+    '('                     shift, and go to state 36
+
+    expr       go to state 97
+    primitivo  go to state 38
+
+
+State 81
+
+   43 expr: '(' TOKEN_DCHAR ')' • expr
+
+    TOKEN_TRUE              shift, and go to state 27
+    TOKEN_FALSE             shift, and go to state 28
+    TOKEN_UNSIGNED_INTEGER  shift, and go to state 29
+    TOKEN_REAL              shift, and go to state 30
+    TOKEN_DOUBLE            shift, and go to state 31
+    TOKEN_STRING            shift, and go to state 32
+    TOKEN_CHAR              shift, and go to state 33
+    TOKEN_IDENTIFIER        shift, and go to state 34
+    '-'                     shift, and go to state 35
+    '('                     shift, and go to state 36
+
+    expr       go to state 98
+    primitivo  go to state 38
+
+
+State 82
+
+   37 expr: '(' expr ')' •
+
+    $default  reduce using rule 37 (expr)
+
+
 State 83
+
+   32 expr: expr • '+' expr
+   32     | expr '+' expr •
+   33     | expr • '-' expr
+   34     | expr • '*' expr
+   35     | expr • '/' expr
+   36     | expr • '%' expr
+   39     | expr • '=' '=' expr
+
+    '*'  shift, and go to state 62
+    '/'  shift, and go to state 63
+    '%'  shift, and go to state 64
+    '='  shift, and go to state 65
+
+    '='       [reduce using rule 32 (expr)]
+    $default  reduce using rule 32 (expr)
+
+
+State 84
+
+   32 expr: expr • '+' expr
+   33     | expr • '-' expr
+   33     | expr '-' expr •
+   34     | expr • '*' expr
+   35     | expr • '/' expr
+   36     | expr • '%' expr
+   39     | expr • '=' '=' expr
+
+    '*'  shift, and go to state 62
+    '/'  shift, and go to state 63
+    '%'  shift, and go to state 64
+    '='  shift, and go to state 65
+
+    '='       [reduce using rule 33 (expr)]
+    $default  reduce using rule 33 (expr)
+
+
+State 85
+
+   32 expr: expr • '+' expr
+   33     | expr • '-' expr
+   34     | expr • '*' expr
+   34     | expr '*' expr •
+   35     | expr • '/' expr
+   36     | expr • '%' expr
+   39     | expr • '=' '=' expr
+
+    '='  shift, and go to state 65
+
+    '='       [reduce using rule 34 (expr)]
+    $default  reduce using rule 34 (expr)
+
+
+State 86
+
+   32 expr: expr • '+' expr
+   33     | expr • '-' expr
+   34     | expr • '*' expr
+   35     | expr • '/' expr
+   35     | expr '/' expr •
+   36     | expr • '%' expr
+   39     | expr • '=' '=' expr
+
+    '='  shift, and go to state 65
+
+    '='       [reduce using rule 35 (expr)]
+    $default  reduce using rule 35 (expr)
+
+
+State 87
+
+   32 expr: expr • '+' expr
+   33     | expr • '-' expr
+   34     | expr • '*' expr
+   35     | expr • '/' expr
+   36     | expr • '%' expr
+   36     | expr '%' expr •
+   39     | expr • '=' '=' expr
+
+    '='  shift, and go to state 65
+
+    '='       [reduce using rule 36 (expr)]
+    $default  reduce using rule 36 (expr)
+
+
+State 88
+
+   39 expr: expr '=' '=' • expr
+
+    TOKEN_TRUE              shift, and go to state 27
+    TOKEN_FALSE             shift, and go to state 28
+    TOKEN_UNSIGNED_INTEGER  shift, and go to state 29
+    TOKEN_REAL              shift, and go to state 30
+    TOKEN_DOUBLE            shift, and go to state 31
+    TOKEN_STRING            shift, and go to state 32
+    TOKEN_CHAR              shift, and go to state 33
+    TOKEN_IDENTIFIER        shift, and go to state 34
+    '-'                     shift, and go to state 35
+    '('                     shift, and go to state 36
+
+    expr       go to state 99
+    primitivo  go to state 38
+
+
+State 89
 
    23 declaracion_const: TOKEN_FINAL tipoPrimitivo TOKEN_IDENTIFIER '=' • expr
 
@@ -1174,11 +1325,11 @@ State 83
     '-'                     shift, and go to state 35
     '('                     shift, and go to state 36
 
-    expr       go to state 94
+    expr       go to state 100
     primitivo  go to state 38
 
 
-State 84
+State 90
 
    30 sentencia_funcion: tipoPrimitivo TOKEN_FUNC TOKEN_IDENTIFIER '(' • lista_parametros ')' bloque
    31                  | tipoPrimitivo TOKEN_FUNC TOKEN_IDENTIFIER '(' • ')' bloque
@@ -1189,184 +1340,247 @@ State 84
     TOKEN_DSTRING   shift, and go to state 6
     TOKEN_DBOOLEAN  shift, and go to state 7
     TOKEN_DCHAR     shift, and go to state 8
-    ')'             shift, and go to state 95
+    ')'             shift, and go to state 101
 
-    declaracion_var   go to state 96
-    lista_parametros  go to state 97
-    tipoPrimitivo     go to state 98
+    declaracion_var   go to state 102
+    lista_parametros  go to state 103
+    tipoPrimitivo     go to state 104
 
 
-State 85
+State 91
 
    22 declaracion_var: tipoPrimitivo TOKEN_IDENTIFIER '=' expr •
    32 expr: expr • '+' expr
    33     | expr • '-' expr
-   36     | expr • '=' '=' expr
+   34     | expr • '*' expr
+   35     | expr • '/' expr
+   36     | expr • '%' expr
+   39     | expr • '=' '=' expr
 
     '+'  shift, and go to state 60
     '-'  shift, and go to state 61
-    '='  shift, and go to state 62
+    '*'  shift, and go to state 62
+    '/'  shift, and go to state 63
+    '%'  shift, and go to state 64
+    '='  shift, and go to state 65
 
     $default  reduce using rule 22 (declaracion_var)
 
 
-State 86
+State 92
 
    17 lista_Expr: lista_Expr ',' expr •
    32 expr: expr • '+' expr
    33     | expr • '-' expr
-   36     | expr • '=' '=' expr
+   34     | expr • '*' expr
+   35     | expr • '/' expr
+   36     | expr • '%' expr
+   39     | expr • '=' '=' expr
 
     '+'  shift, and go to state 60
     '-'  shift, and go to state 61
-    '='  shift, and go to state 62
+    '*'  shift, and go to state 62
+    '/'  shift, and go to state 63
+    '%'  shift, and go to state 64
+    '='  shift, and go to state 65
 
     $default  reduce using rule 17 (lista_Expr)
 
 
-State 87
+State 93
 
    25 sentencia_if: TOKEN_IF '(' expr ')' bloque •
    26             | TOKEN_IF '(' expr ')' bloque • TOKEN_ELSE bloque
    27             | TOKEN_IF '(' expr ')' bloque • TOKEN_ELSE sentencia_if
 
-    TOKEN_ELSE  shift, and go to state 99
+    TOKEN_ELSE  shift, and go to state 105
 
     $default  reduce using rule 25 (sentencia_if)
 
 
-State 88
+State 94
 
-   43 expr: TOKEN_IDENTIFIER '(' lista_Expr ')' •
+   46 expr: TOKEN_IDENTIFIER '(' lista_Expr ')' •
 
-    $default  reduce using rule 43 (expr)
-
-
-State 89
-
-   32 expr: expr • '+' expr
-   33     | expr • '-' expr
-   36     | expr • '=' '=' expr
-   37     | '(' TOKEN_DINT ')' expr •
-
-    '+'  shift, and go to state 60
-    '-'  shift, and go to state 61
-    '='  shift, and go to state 62
-
-    '+'       [reduce using rule 37 (expr)]
-    '-'       [reduce using rule 37 (expr)]
-    '='       [reduce using rule 37 (expr)]
-    $default  reduce using rule 37 (expr)
+    $default  reduce using rule 46 (expr)
 
 
-State 90
+State 95
 
    32 expr: expr • '+' expr
    33     | expr • '-' expr
-   36     | expr • '=' '=' expr
-   38     | '(' TOKEN_DFLOAT ')' expr •
+   34     | expr • '*' expr
+   35     | expr • '/' expr
+   36     | expr • '%' expr
+   39     | expr • '=' '=' expr
+   40     | '(' TOKEN_DINT ')' expr •
 
     '+'  shift, and go to state 60
     '-'  shift, and go to state 61
-    '='  shift, and go to state 62
-
-    '+'       [reduce using rule 38 (expr)]
-    '-'       [reduce using rule 38 (expr)]
-    '='       [reduce using rule 38 (expr)]
-    $default  reduce using rule 38 (expr)
-
-
-State 91
-
-   32 expr: expr • '+' expr
-   33     | expr • '-' expr
-   36     | expr • '=' '=' expr
-   39     | '(' TOKEN_DDOUBLE ')' expr •
-
-    '+'  shift, and go to state 60
-    '-'  shift, and go to state 61
-    '='  shift, and go to state 62
-
-    '+'       [reduce using rule 39 (expr)]
-    '-'       [reduce using rule 39 (expr)]
-    '='       [reduce using rule 39 (expr)]
-    $default  reduce using rule 39 (expr)
-
-
-State 92
-
-   32 expr: expr • '+' expr
-   33     | expr • '-' expr
-   36     | expr • '=' '=' expr
-   40     | '(' TOKEN_DCHAR ')' expr •
-
-    '+'  shift, and go to state 60
-    '-'  shift, and go to state 61
-    '='  shift, and go to state 62
+    '*'  shift, and go to state 62
+    '/'  shift, and go to state 63
+    '%'  shift, and go to state 64
+    '='  shift, and go to state 65
 
     '+'       [reduce using rule 40 (expr)]
     '-'       [reduce using rule 40 (expr)]
+    '*'       [reduce using rule 40 (expr)]
+    '/'       [reduce using rule 40 (expr)]
+    '%'       [reduce using rule 40 (expr)]
     '='       [reduce using rule 40 (expr)]
     $default  reduce using rule 40 (expr)
 
 
-State 93
+State 96
 
    32 expr: expr • '+' expr
    33     | expr • '-' expr
-   36     | expr • '=' '=' expr
-   36     | expr '=' '=' expr •
+   34     | expr • '*' expr
+   35     | expr • '/' expr
+   36     | expr • '%' expr
+   39     | expr • '=' '=' expr
+   41     | '(' TOKEN_DFLOAT ')' expr •
 
     '+'  shift, and go to state 60
     '-'  shift, and go to state 61
-    '='  shift, and go to state 62
+    '*'  shift, and go to state 62
+    '/'  shift, and go to state 63
+    '%'  shift, and go to state 64
+    '='  shift, and go to state 65
 
-    '+'       [reduce using rule 36 (expr)]
-    '-'       [reduce using rule 36 (expr)]
-    '='       [reduce using rule 36 (expr)]
-    $default  reduce using rule 36 (expr)
+    '+'       [reduce using rule 41 (expr)]
+    '-'       [reduce using rule 41 (expr)]
+    '*'       [reduce using rule 41 (expr)]
+    '/'       [reduce using rule 41 (expr)]
+    '%'       [reduce using rule 41 (expr)]
+    '='       [reduce using rule 41 (expr)]
+    $default  reduce using rule 41 (expr)
 
 
-State 94
+State 97
+
+   32 expr: expr • '+' expr
+   33     | expr • '-' expr
+   34     | expr • '*' expr
+   35     | expr • '/' expr
+   36     | expr • '%' expr
+   39     | expr • '=' '=' expr
+   42     | '(' TOKEN_DDOUBLE ')' expr •
+
+    '+'  shift, and go to state 60
+    '-'  shift, and go to state 61
+    '*'  shift, and go to state 62
+    '/'  shift, and go to state 63
+    '%'  shift, and go to state 64
+    '='  shift, and go to state 65
+
+    '+'       [reduce using rule 42 (expr)]
+    '-'       [reduce using rule 42 (expr)]
+    '*'       [reduce using rule 42 (expr)]
+    '/'       [reduce using rule 42 (expr)]
+    '%'       [reduce using rule 42 (expr)]
+    '='       [reduce using rule 42 (expr)]
+    $default  reduce using rule 42 (expr)
+
+
+State 98
+
+   32 expr: expr • '+' expr
+   33     | expr • '-' expr
+   34     | expr • '*' expr
+   35     | expr • '/' expr
+   36     | expr • '%' expr
+   39     | expr • '=' '=' expr
+   43     | '(' TOKEN_DCHAR ')' expr •
+
+    '+'  shift, and go to state 60
+    '-'  shift, and go to state 61
+    '*'  shift, and go to state 62
+    '/'  shift, and go to state 63
+    '%'  shift, and go to state 64
+    '='  shift, and go to state 65
+
+    '+'       [reduce using rule 43 (expr)]
+    '-'       [reduce using rule 43 (expr)]
+    '*'       [reduce using rule 43 (expr)]
+    '/'       [reduce using rule 43 (expr)]
+    '%'       [reduce using rule 43 (expr)]
+    '='       [reduce using rule 43 (expr)]
+    $default  reduce using rule 43 (expr)
+
+
+State 99
+
+   32 expr: expr • '+' expr
+   33     | expr • '-' expr
+   34     | expr • '*' expr
+   35     | expr • '/' expr
+   36     | expr • '%' expr
+   39     | expr • '=' '=' expr
+   39     | expr '=' '=' expr •
+
+    '+'  shift, and go to state 60
+    '-'  shift, and go to state 61
+    '*'  shift, and go to state 62
+    '/'  shift, and go to state 63
+    '%'  shift, and go to state 64
+    '='  shift, and go to state 65
+
+    '+'       [reduce using rule 39 (expr)]
+    '-'       [reduce using rule 39 (expr)]
+    '*'       [reduce using rule 39 (expr)]
+    '/'       [reduce using rule 39 (expr)]
+    '%'       [reduce using rule 39 (expr)]
+    '='       [reduce using rule 39 (expr)]
+    $default  reduce using rule 39 (expr)
+
+
+State 100
 
    23 declaracion_const: TOKEN_FINAL tipoPrimitivo TOKEN_IDENTIFIER '=' expr •
    32 expr: expr • '+' expr
    33     | expr • '-' expr
-   36     | expr • '=' '=' expr
+   34     | expr • '*' expr
+   35     | expr • '/' expr
+   36     | expr • '%' expr
+   39     | expr • '=' '=' expr
 
     '+'  shift, and go to state 60
     '-'  shift, and go to state 61
-    '='  shift, and go to state 62
+    '*'  shift, and go to state 62
+    '/'  shift, and go to state 63
+    '%'  shift, and go to state 64
+    '='  shift, and go to state 65
 
     $default  reduce using rule 23 (declaracion_const)
 
 
-State 95
+State 101
 
    31 sentencia_funcion: tipoPrimitivo TOKEN_FUNC TOKEN_IDENTIFIER '(' ')' • bloque
 
     '{'  shift, and go to state 12
 
-    bloque  go to state 100
+    bloque  go to state 106
 
 
-State 96
+State 102
 
    29 lista_parametros: declaracion_var •
 
     $default  reduce using rule 29 (lista_parametros)
 
 
-State 97
+State 103
 
    28 lista_parametros: lista_parametros • ',' declaracion_var
    30 sentencia_funcion: tipoPrimitivo TOKEN_FUNC TOKEN_IDENTIFIER '(' lista_parametros • ')' bloque
 
-    ','  shift, and go to state 101
-    ')'  shift, and go to state 102
+    ','  shift, and go to state 107
+    ')'  shift, and go to state 108
 
 
-State 98
+State 104
 
    21 declaracion_var: tipoPrimitivo • TOKEN_IDENTIFIER
    22                | tipoPrimitivo • TOKEN_IDENTIFIER '=' expr
@@ -1374,7 +1588,7 @@ State 98
     TOKEN_IDENTIFIER  shift, and go to state 48
 
 
-State 99
+State 105
 
    26 sentencia_if: TOKEN_IF '(' expr ')' bloque TOKEN_ELSE • bloque
    27             | TOKEN_IF '(' expr ')' bloque TOKEN_ELSE • sentencia_if
@@ -1382,18 +1596,18 @@ State 99
     TOKEN_IF  shift, and go to state 5
     '{'       shift, and go to state 12
 
-    bloque        go to state 103
-    sentencia_if  go to state 104
+    bloque        go to state 109
+    sentencia_if  go to state 110
 
 
-State 100
+State 106
 
    31 sentencia_funcion: tipoPrimitivo TOKEN_FUNC TOKEN_IDENTIFIER '(' ')' bloque •
 
     $default  reduce using rule 31 (sentencia_funcion)
 
 
-State 101
+State 107
 
    28 lista_parametros: lista_parametros ',' • declaracion_var
 
@@ -1404,41 +1618,41 @@ State 101
     TOKEN_DBOOLEAN  shift, and go to state 7
     TOKEN_DCHAR     shift, and go to state 8
 
-    declaracion_var  go to state 105
-    tipoPrimitivo    go to state 98
+    declaracion_var  go to state 111
+    tipoPrimitivo    go to state 104
 
 
-State 102
+State 108
 
    30 sentencia_funcion: tipoPrimitivo TOKEN_FUNC TOKEN_IDENTIFIER '(' lista_parametros ')' • bloque
 
     '{'  shift, and go to state 12
 
-    bloque  go to state 106
+    bloque  go to state 112
 
 
-State 103
+State 109
 
    26 sentencia_if: TOKEN_IF '(' expr ')' bloque TOKEN_ELSE bloque •
 
     $default  reduce using rule 26 (sentencia_if)
 
 
-State 104
+State 110
 
    27 sentencia_if: TOKEN_IF '(' expr ')' bloque TOKEN_ELSE sentencia_if •
 
     $default  reduce using rule 27 (sentencia_if)
 
 
-State 105
+State 111
 
    28 lista_parametros: lista_parametros ',' declaracion_var •
 
     $default  reduce using rule 28 (lista_parametros)
 
 
-State 106
+State 112
 
    30 sentencia_funcion: tipoPrimitivo TOKEN_FUNC TOKEN_IDENTIFIER '(' lista_parametros ')' bloque •
 

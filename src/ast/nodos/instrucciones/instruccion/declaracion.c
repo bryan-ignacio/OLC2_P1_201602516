@@ -25,6 +25,86 @@ int es_palabra_reservada(const char *nombre)
     return 0;
 }
 
+// Función para verificar si un tipo puede convertirse a otro
+int es_conversion_valida(TipoDato tipoFuente, TipoDato tipoDestino)
+{
+    // Los tipos idénticos siempre son válidos
+    if (tipoFuente == tipoDestino)
+        return 1;
+
+    // Conversiones numéricas válidas (sin pérdida de datos o conversiones estándar)
+    switch (tipoDestino)
+    {
+    case FLOAT:
+        // char e int pueden convertirse a float
+        return (tipoFuente == CHAR || tipoFuente == INT);
+    case DOUBLE:
+        // char, int y float pueden convertirse a double
+        return (tipoFuente == CHAR || tipoFuente == INT || tipoFuente == FLOAT);
+    case INT:
+        // char puede convertirse a int
+        return (tipoFuente == CHAR);
+    default:
+        return 0;
+    }
+}
+
+// Función para convertir un valor a otro tipo
+Result convertir_tipo(Result resultado, TipoDato tipoDestino)
+{
+    if (resultado.tipo == tipoDestino)
+        return resultado;
+
+    switch (tipoDestino)
+    {
+    case FLOAT:
+        if (resultado.tipo == CHAR)
+        {
+            float *nuevoValor = malloc(sizeof(float));
+            *nuevoValor = (float)*((char *)resultado.valor);
+            return nuevoValorResultado(nuevoValor, FLOAT);
+        }
+        else if (resultado.tipo == INT)
+        {
+            float *nuevoValor = malloc(sizeof(float));
+            *nuevoValor = (float)*((int *)resultado.valor);
+            return nuevoValorResultado(nuevoValor, FLOAT);
+        }
+        break;
+    case DOUBLE:
+        if (resultado.tipo == CHAR)
+        {
+            double *nuevoValor = malloc(sizeof(double));
+            *nuevoValor = (double)*((char *)resultado.valor);
+            return nuevoValorResultado(nuevoValor, DOUBLE);
+        }
+        else if (resultado.tipo == INT)
+        {
+            double *nuevoValor = malloc(sizeof(double));
+            *nuevoValor = (double)*((int *)resultado.valor);
+            return nuevoValorResultado(nuevoValor, DOUBLE);
+        }
+        else if (resultado.tipo == FLOAT)
+        {
+            double *nuevoValor = malloc(sizeof(double));
+            *nuevoValor = (double)*((float *)resultado.valor);
+            return nuevoValorResultado(nuevoValor, DOUBLE);
+        }
+        break;
+    case INT:
+        if (resultado.tipo == CHAR)
+        {
+            int *nuevoValor = malloc(sizeof(int));
+            *nuevoValor = (int)*((char *)resultado.valor);
+            return nuevoValorResultado(nuevoValor, INT);
+        }
+        break;
+    }
+
+    // Si no se puede convertir, devolver el resultado original
+    return resultado;
+}
+
 Result interpretDeclaracionVariable(AbstractExpresion *nodo, Context *context)
 {
     DeclaracionVariable *self = (DeclaracionVariable *)nodo;
@@ -42,13 +122,19 @@ Result interpretDeclaracionVariable(AbstractExpresion *nodo, Context *context)
     if (nodo->numHijos > 0)
     {
         Result resultado = nodo->hijos[0]->interpret(nodo->hijos[0], context);
-        if (resultado.tipo == self->tipo)
+
+        // Verificar si el tipo es compatible o puede convertirse
+        if (es_conversion_valida(resultado.tipo, self->tipo))
         {
-            Symbol *var = nuevoVariable(self->nombre, resultado.valor, self->tipo);
+            // Convertir el tipo si es necesario
+            Result resultadoConvertido = convertir_tipo(resultado, self->tipo);
+
+            Symbol *var = nuevoVariable(self->nombre, resultadoConvertido.valor, self->tipo);
             var->nodo = nodo;
             agregarSymbol(context, var);
             return nuevoValorResultadoVacio();
         }
+
         char buffer[256];
         snprintf(buffer, sizeof(buffer), "Tipos incorrectos para la variable '%s'. Esperado: %d, Recibido: %d", self->nombre, self->tipo, resultado.tipo);
         int ambito = context && context->nombre ? context->nombre : 0;
@@ -167,10 +253,13 @@ Result interpretDeclaracionConstante(AbstractExpresion *nodo, Context *context)
         return nuevoValorResultadoVacio();
     }
 
-    if (resultado.tipo == self->tipo)
+    if (es_conversion_valida(resultado.tipo, self->tipo))
     {
+        // Convertir el tipo si es necesario
+        Result resultadoConvertido = convertir_tipo(resultado, self->tipo);
+
         // Crear el símbolo como constante
-        Symbol *constante = nuevoConstante(self->nombre, resultado.valor, self->tipo);
+        Symbol *constante = nuevoConstante(self->nombre, resultadoConvertido.valor, self->tipo);
         constante->nodo = nodo;
         agregarSymbol(context, constante);
         return nuevoValorResultadoVacio();
@@ -249,25 +338,28 @@ Result interpretAsignacionVariable(AbstractExpresion *nodo, Context *context)
     Result resultado = nodo->hijos[0]->interpret(nodo->hijos[0], context);
 
     // Verificar compatibilidad de tipos
-    if (resultado.tipo != variable->tipo)
+    if (es_conversion_valida(resultado.tipo, variable->tipo))
     {
-        char buffer[256];
-        snprintf(buffer, sizeof(buffer), "Tipos incompatibles para la asignación a '%s'. Esperado: %d, Recibido: %d",
-                 self->nombre, variable->tipo, resultado.tipo);
-        int ambito = context && context->nombre ? context->nombre : 0;
-        agregarErrorSemantico(buffer, nodo->linea, nodo->columna, ambito);
+        // Convertir el tipo si es necesario
+        Result resultadoConvertido = convertir_tipo(resultado, variable->tipo);
+
+        // Liberar memoria del valor anterior si es necesario
+        if (variable->valor && variable->tipo == STRING)
+        {
+            free(variable->valor);
+        }
+
+        // Asignar el nuevo valor
+        variable->valor = resultadoConvertido.valor;
+
         return nuevoValorResultadoVacio();
     }
 
-    // Liberar memoria del valor anterior si es necesario
-    if (variable->valor && variable->tipo == STRING)
-    {
-        free(variable->valor);
-    }
-
-    // Asignar el nuevo valor
-    variable->valor = resultado.valor;
-
+    char buffer[256];
+    snprintf(buffer, sizeof(buffer), "Tipos incompatibles para la asignación a '%s'. Esperado: %d, Recibido: %d",
+             self->nombre, variable->tipo, resultado.tipo);
+    int ambito = context && context->nombre ? context->nombre : 0;
+    agregarErrorSemantico(buffer, nodo->linea, nodo->columna, ambito);
     return nuevoValorResultadoVacio();
 }
 

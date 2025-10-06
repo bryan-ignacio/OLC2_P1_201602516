@@ -8,6 +8,7 @@ char *labelTipoDato[TIPO_COUNT] = {
     [CHAR] = "char",
     [INT] = "int",
     [FLOAT] = "float",
+    [DOUBLE] = "double",
     [STRING] = "string",
     [NULO] = "null"};
 
