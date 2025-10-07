@@ -84,6 +84,15 @@ AbstractExpresion *nuevoContinueExpresion(int linea, int columna);
 AbstractExpresion *nuevoForExpresion(AbstractExpresion *inicializacion, AbstractExpresion *condicion, AbstractExpresion *incremento, AbstractExpresion *bloque);
 AbstractExpresion *nuevoForEachExpresion(TipoDato tipo, char *variable, AbstractExpresion *iterable, AbstractExpresion *bloque);
 
+/*
+    Builds arrays
+*/
+AbstractExpresion *nuevoDeclaracionArrayNew(TipoDato tipoArray, char *identificador, TipoDato tipoElemento, AbstractExpresion *tamaño, int linea, int columna);
+AbstractExpresion *nuevoDeclaracionArrayInit(TipoDato tipoArray, char *identificador, AbstractExpresion *listaElementos, int linea, int columna);
+AbstractExpresion *nuevoAccesoArrayExpresion(char *identificador, AbstractExpresion *indice, int linea, int columna);
+AbstractExpresion *nuevoAsignacionArrayExpresion(char *identificador, AbstractExpresion *indice, AbstractExpresion *valor, int linea, int columna);
+AbstractExpresion *nuevoListaElementos();
+
 AbstractExpresion *nuevoFuncionExpresion(TipoDato tipoDato, char *nombre, AbstractExpresion *listaExpr, AbstractExpresion *bloque);
 AbstractExpresion *nuevoLlamadaExpresion(char *id, AbstractExpresion *listaExpresiones);
 AbstractExpresion *nuevoListaParametros();

@@ -35,12 +35,12 @@
 /* Tokens tipados */
 %token <string> TOKEN_PRINT TOKEN_DINT TOKEN_DFLOAT TOKEN_DDOUBLE TOKEN_IF TOKEN_ELSE TOKEN_TRUE TOKEN_FALSE TOKEN_FUNC
 TOKEN_DSTRING TOKEN_DBOOLEAN TOKEN_DCHAR TOKEN_UNSIGNED_INTEGER TOKEN_REAL TOKEN_DOUBLE TOKEN_STRING TOKEN_CHAR TOKEN_IDENTIFIER TOKEN_RETURN TOKEN_FINAL TOKEN_LEFT_SHIFT TOKEN_RIGHT_SHIFT TOKEN_EQ TOKEN_NE TOKEN_GE TOKEN_LE TOKEN_AND TOKEN_OR
-TOKEN_PLUS_ASSIGN TOKEN_MINUS_ASSIGN TOKEN_MULT_ASSIGN TOKEN_DIV_ASSIGN TOKEN_MOD_ASSIGN TOKEN_AND_ASSIGN TOKEN_OR_ASSIGN TOKEN_XOR_ASSIGN TOKEN_LSHIFT_ASSIGN TOKEN_RSHIFT_ASSIGN TOKEN_SWITCH TOKEN_CASE TOKEN_BREAK TOKEN_DEFAULT TOKEN_WHILE TOKEN_CONTINUE TOKEN_FOR
+TOKEN_PLUS_ASSIGN TOKEN_MINUS_ASSIGN TOKEN_MULT_ASSIGN TOKEN_DIV_ASSIGN TOKEN_MOD_ASSIGN TOKEN_AND_ASSIGN TOKEN_OR_ASSIGN TOKEN_XOR_ASSIGN TOKEN_LSHIFT_ASSIGN TOKEN_RSHIFT_ASSIGN TOKEN_SWITCH TOKEN_CASE TOKEN_BREAK TOKEN_DEFAULT TOKEN_WHILE TOKEN_CONTINUE TOKEN_FOR TOKEN_NEW
 
 /* Tipo de los no-terminales que llevan valor */
-%type <nodo> s lSentencia sentencia expr imprimir lista_Expr bloque declaracion_var declaracion_const asignacion primitivo sentencia_if sentencia_funcion lista_parametros sentencia_switch lista_casos caso sentencia_while sentencia_for
+%type <nodo> s lSentencia sentencia expr imprimir lista_Expr bloque declaracion_var declaracion_const asignacion primitivo sentencia_if sentencia_funcion lista_parametros sentencia_switch lista_casos caso sentencia_while sentencia_for declaracion_array lista_elementos acceso_array
 
-%type <tipoDato> tipoPrimitivo
+%type <tipoDato> tipoPrimitivo tipoArray
 
 // precedencia menor a mayor
 //%left NUMERO
@@ -101,6 +101,7 @@ sentencia: imprimir {$$ = $1; }
     | bloque {$$ = $1;}
     | declaracion_var {$$ = $1;}
     | declaracion_const {$$ = $1;}
+    | declaracion_array {$$ = $1;}
     | asignacion {$$ = $1;}
     | sentencia_funcion { $$ = $1; }
     | TOKEN_BREAK { $$ = nuevoBreakExpresion(@1.first_line, @1.first_column); }
@@ -131,6 +132,7 @@ declaracion_const: TOKEN_FINAL tipoPrimitivo TOKEN_IDENTIFIER '=' expr { $$ = nu
     ;
 
 asignacion: TOKEN_IDENTIFIER '=' expr { $$ = nuevoAsignacionExpresion($1, $3, @1.first_line, @1.first_column); }
+    | TOKEN_IDENTIFIER '[' expr ']' '=' expr { $$ = nuevoAsignacionArrayExpresion($1, $3, $6, @1.first_line, @1.first_column); }
     | TOKEN_IDENTIFIER TOKEN_PLUS_ASSIGN expr { $$ = nuevoAsignacionCompuesta($1, ASIG_SUMA, $3, @1.first_line, @1.first_column); }
     | TOKEN_IDENTIFIER TOKEN_MINUS_ASSIGN expr { $$ = nuevoAsignacionCompuesta($1, ASIG_RESTA, $3, @1.first_line, @1.first_column); }
     | TOKEN_IDENTIFIER TOKEN_MULT_ASSIGN expr { $$ = nuevoAsignacionCompuesta($1, ASIG_MULT, $3, @1.first_line, @1.first_column); }
@@ -229,6 +231,7 @@ expr: expr '+' expr   { $$ =  nuevoSumaExpresion($1, $3);  }
     | TOKEN_IDENTIFIER { $$ = nuevoIdentificadorExpresion($1, @1.first_line, @1.first_column); }
     | TOKEN_IDENTIFIER '(' lista_Expr ')' { $$ = nuevoLlamadaExpresion($1, $3); }
     | TOKEN_IDENTIFIER '('')' { /* sin implementar */ }
+    | acceso_array { $$ = $1; }
     ;
 
 //---------------------- EXPRESIONES PRIMITIVAS -------------------------------
@@ -247,6 +250,25 @@ tipoPrimitivo: TOKEN_DINT { $$ = INT; }
     | TOKEN_DSTRING { $$ = STRING; }
     | TOKEN_DBOOLEAN { $$ = BOOLEAN; }
     | TOKEN_DCHAR { $$ = CHAR; }
+    ;
+
+//---------------------- DECLARACIONES DE ARRAYS -------------------------------
+tipoArray: tipoPrimitivo '[' ']' { $$ = $1; }
+    ;
+
+declaracion_array: tipoArray TOKEN_IDENTIFIER '=' TOKEN_NEW tipoPrimitivo '[' expr ']' { $$ = nuevoDeclaracionArrayNew($1, $2, $5, $7, @2.first_line, @2.first_column); }
+    | tipoArray TOKEN_IDENTIFIER '=' '{' lista_elementos '}' { $$ = nuevoDeclaracionArrayInit($1, $2, $5, @2.first_line, @2.first_column); }
+    ;
+
+lista_elementos: lista_elementos ',' expr { agregarHijo($1, $3); $$ = $1; }
+    | expr { 
+        AbstractExpresion* b = nuevoListaElementos();
+        agregarHijo(b, $1);
+        $$ = b;
+    }
+    ;
+
+acceso_array: TOKEN_IDENTIFIER '[' expr ']' { $$ = nuevoAccesoArrayExpresion($1, $3, @1.first_line, @1.first_column); }
     ;
 %%
 

@@ -1,2 +1,21 @@
-=== TEST: Múltiples errores ===
-Fin del test
+=== TEST DE ASIGNACION A ARRAYS ===
+Valores iniciales:
+0
+0
+Después de asignación:
+10
+20
+30
+Precios originales:
+100
+200
+300
+Precios modificados:
+100
+250
+350
+Decimales modificados:
+9.900000
+Letras modificadas:
+Z
+=== TEST DE ERRORES ===

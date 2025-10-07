@@ -10,6 +10,7 @@ char *labelTipoDato[TIPO_COUNT] = {
     [FLOAT] = "float",
     [DOUBLE] = "double",
     [STRING] = "string",
+    [ARRAY] = "array",
     [NULO] = "null"};
 
 Result nuevoValorResultado(void *valor, TipoDato tipo)

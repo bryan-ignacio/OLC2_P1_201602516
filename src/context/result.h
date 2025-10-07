@@ -11,11 +11,20 @@ typedef enum
     FLOAT,
     DOUBLE,
     STRING,
+    ARRAY, // Nuevo tipo para arrays
     NULO,
     TIPO_COUNT
 } TipoDato;
 
 extern char *labelTipoDato[];
+
+// Estructura para representar arrays
+typedef struct ArrayStruct
+{
+    TipoDato tipoElemento; // Tipo de los elementos del array
+    void **elementos;      // Array de punteros a los elementos
+    int tamaño;            // Número de elementos en el array
+} ArrayStruct;
 
 typedef struct Result
 {

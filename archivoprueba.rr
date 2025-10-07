@@ -28,3 +28,26 @@ System.out.println(numeroDoble);
 System.out.println(caracter);
 System.out.println(esVerdadero);
 System.out.println(cadenaTexto);
+
+System.out.println("=== SISTEMA DE GESTION DE INVENTARIO ===");
+
+// Declaración
+System.out.println("\n--- DECLARACION DE ARREGLOS ---");
+
+// Declaración con inicialización directa
+String[] productos = {"Laptop", "Mouse", "Teclado", "Monitor", "Impresora"};
+int[] precios = {15000, 250, 800, 3500, 2200};
+int[] cantidades = {10, 50, 30, 15, 8};
+boolean[] disponibles = {true, true, true, true, false};
+
+// Declaración con tamaño específico
+int[] codigosProducto = new int[5];
+String[] proveedores = new String[5];
+
+System.out.println(productos[2]);
+System.out.println(precios[3]);
+System.out.println(disponibles[4]);
+
+System.out.println("----MODIFICACION----");
+productos[2] = "Teclado RGB";
+System.out.println(productos[2]);

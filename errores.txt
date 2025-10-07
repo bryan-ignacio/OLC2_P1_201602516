@@ -1,7 +1,6 @@
 
 Reporte de errores:
 ---------------------------------------------
-Ambito: 3 | Linea: 11, Columna: 5 | [SEMANTICO] Break esta fuera de un bucle o de un switch.
-Ambito: 1 | Linea: 7, Columna: 1 | [SEMANTICO] Continue esta fuera del bucle.
-Ambito: 1 | Linea: 4, Columna: 1 | [SEMANTICO] Break esta fuera de un bucle o de un switch.
+Ambito: 1 | Linea: 51, Columna: 1 | [SEMANTICO] Índice fuera de rango: 10. Rango válido: 0 a 4
+Ambito: 0 | Linea: 54, Columna: 50 | [LEXICO] Fin de archivo en comentario de línea
 ---------------------------------------------

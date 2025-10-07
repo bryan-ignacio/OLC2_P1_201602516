@@ -256,6 +256,7 @@ switch              return(TOKEN_SWITCH);
 case                return(TOKEN_CASE);
 break               return(TOKEN_BREAK);
 default             return(TOKEN_DEFAULT);
+new                 return(TOKEN_NEW);
 final               return(TOKEN_FINAL);
 System\.out\.println    return(TOKEN_PRINT);
 func                return(TOKEN_FUNC);
