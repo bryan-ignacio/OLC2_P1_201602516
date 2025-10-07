@@ -1,10 +1,8 @@
-=== TEST FINAL WHILE COMPLETO ===
-1. While basico:
-1
-2
-3
-2. While con break:
-1
-2
-3
-Breaking
+=== SISTEMA DE CALCULO CIENTIFICO ===
+Calculadora Científica v1.0
+100
+5.670000
+2.718281828
+Z
+false
+Nuevo resultado

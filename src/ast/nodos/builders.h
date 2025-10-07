@@ -78,6 +78,12 @@ AbstractExpresion *nuevoListaCasos();
 AbstractExpresion *nuevoWhileExpresion(AbstractExpresion *condicion, AbstractExpresion *bloque);
 AbstractExpresion *nuevoContinueExpresion();
 
+/*
+    Builds for
+*/
+AbstractExpresion *nuevoForExpresion(AbstractExpresion *inicializacion, AbstractExpresion *condicion, AbstractExpresion *incremento, AbstractExpresion *bloque);
+AbstractExpresion *nuevoForEachExpresion(TipoDato tipo, char *variable, AbstractExpresion *iterable, AbstractExpresion *bloque);
+
 AbstractExpresion *nuevoFuncionExpresion(TipoDato tipoDato, char *nombre, AbstractExpresion *listaExpr, AbstractExpresion *bloque);
 AbstractExpresion *nuevoLlamadaExpresion(char *id, AbstractExpresion *listaExpresiones);
 AbstractExpresion *nuevoListaParametros();

@@ -35,10 +35,10 @@
 /* Tokens tipados */
 %token <string> TOKEN_PRINT TOKEN_DINT TOKEN_DFLOAT TOKEN_DDOUBLE TOKEN_IF TOKEN_ELSE TOKEN_TRUE TOKEN_FALSE TOKEN_FUNC
 TOKEN_DSTRING TOKEN_DBOOLEAN TOKEN_DCHAR TOKEN_UNSIGNED_INTEGER TOKEN_REAL TOKEN_DOUBLE TOKEN_STRING TOKEN_CHAR TOKEN_IDENTIFIER TOKEN_RETURN TOKEN_FINAL TOKEN_LEFT_SHIFT TOKEN_RIGHT_SHIFT TOKEN_EQ TOKEN_NE TOKEN_GE TOKEN_LE TOKEN_AND TOKEN_OR
-TOKEN_PLUS_ASSIGN TOKEN_MINUS_ASSIGN TOKEN_MULT_ASSIGN TOKEN_DIV_ASSIGN TOKEN_MOD_ASSIGN TOKEN_AND_ASSIGN TOKEN_OR_ASSIGN TOKEN_XOR_ASSIGN TOKEN_LSHIFT_ASSIGN TOKEN_RSHIFT_ASSIGN TOKEN_SWITCH TOKEN_CASE TOKEN_BREAK TOKEN_DEFAULT TOKEN_WHILE TOKEN_CONTINUE
+TOKEN_PLUS_ASSIGN TOKEN_MINUS_ASSIGN TOKEN_MULT_ASSIGN TOKEN_DIV_ASSIGN TOKEN_MOD_ASSIGN TOKEN_AND_ASSIGN TOKEN_OR_ASSIGN TOKEN_XOR_ASSIGN TOKEN_LSHIFT_ASSIGN TOKEN_RSHIFT_ASSIGN TOKEN_SWITCH TOKEN_CASE TOKEN_BREAK TOKEN_DEFAULT TOKEN_WHILE TOKEN_CONTINUE TOKEN_FOR
 
 /* Tipo de los no-terminales que llevan valor */
-%type <nodo> s lSentencia sentencia expr imprimir lista_Expr bloque declaracion_var declaracion_const asignacion primitivo sentencia_if sentencia_funcion lista_parametros sentencia_switch lista_casos caso sentencia_while
+%type <nodo> s lSentencia sentencia expr imprimir lista_Expr bloque declaracion_var declaracion_const asignacion primitivo sentencia_if sentencia_funcion lista_parametros sentencia_switch lista_casos caso sentencia_while sentencia_for
 
 %type <tipoDato> tipoPrimitivo
 
@@ -84,6 +84,12 @@ lSentencia: lSentencia sentencia ';' { agregarHijo($1, $2); $$ = $1;}
     }
     | lSentencia sentencia_while { agregarHijo($1, $2); $$ = $1; }
     | sentencia_while {
+        AbstractExpresion* b = nuevoInstruccionesExpresion();
+        agregarHijo(b, $1);
+        $$ = b;
+    }
+    | lSentencia sentencia_for { agregarHijo($1, $2); $$ = $1; }
+    | sentencia_for {
         AbstractExpresion* b = nuevoInstruccionesExpresion();
         agregarHijo(b, $1);
         $$ = b;
@@ -168,6 +174,13 @@ caso: TOKEN_CASE expr ':' lSentencia { $$ = nuevoCaseExpresion($2, $4); }
     ;
 
 sentencia_while: TOKEN_WHILE '(' expr ')' bloque { $$ = nuevoWhileExpresion($3, $5); }
+    ;
+
+sentencia_for: TOKEN_FOR '(' declaracion_var ';' expr ';' asignacion ')' bloque { $$ = nuevoForExpresion($3, $5, $7, $9); }
+    | TOKEN_FOR '(' declaracion_var ';' expr ';' ')' bloque { $$ = nuevoForExpresion($3, $5, NULL, $8); }
+    | TOKEN_FOR '(' ';' expr ';' asignacion ')' bloque { $$ = nuevoForExpresion(NULL, $4, $6, $8); }
+    | TOKEN_FOR '(' ';' expr ';' ')' bloque { $$ = nuevoForExpresion(NULL, $4, NULL, $7); }
+    | TOKEN_FOR '(' tipoPrimitivo TOKEN_IDENTIFIER ':' expr ')' bloque { $$ = nuevoForEachExpresion($3, $4, $6, $8); }
     ;
 
 /* 

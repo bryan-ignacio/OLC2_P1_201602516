@@ -250,6 +250,7 @@ bad_char          '([^'\n\\]|\\u[0-9a-fA-F]{4}|\\.)*
 if                  return(TOKEN_IF); // palabras reservadas, estructuras de control.
 else                return(TOKEN_ELSE);
 while               return(TOKEN_WHILE);
+for                 return(TOKEN_FOR);
 continue            return(TOKEN_CONTINUE);
 switch              return(TOKEN_SWITCH);
 case                return(TOKEN_CASE);
