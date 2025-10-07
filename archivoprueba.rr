@@ -11,7 +11,7 @@ String cadenaTexto = "Resultado";
 final double PI = 3.14159265359;
 final int CONSTANTE_MAXIMA = 100;
 final String MENSAJE_SISTEMA = "Calculadora Científica v1.0";
-CONSTANTE_MAXIMA = 10; // ERROR
+
 
 System.out.println(MENSAJE_SISTEMA);
 

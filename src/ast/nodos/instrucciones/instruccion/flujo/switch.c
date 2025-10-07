@@ -2,6 +2,7 @@
 #include "ast/nodos/builders.h"
 #include "context/context.h"
 #include "context/result.h"
+#include "context/error_report.h"
 #include "switch.h"
 #include "while.h" // Para acceder a las variables globales de control
 
@@ -36,6 +37,9 @@ Result interpretSwitchExpresion(AbstractExpresion *self, Context *context)
     bool ejecutarRestantes = false; // Para fall-through
     AbstractExpresion *casoDefault = NULL;
     switchBreak = false;
+
+    // Incrementar contador de switches activos
+    activeSwitchCount++;
 
     // Primera pasada: buscar coincidencias y ejecutar casos
     for (size_t i = 0; i < listaCasos->numHijos && !switchBreak; i++)
@@ -109,6 +113,9 @@ Result interpretSwitchExpresion(AbstractExpresion *self, Context *context)
         switchBreak = false;
     }
 
+    // Decrementar contador de switches activos
+    activeSwitchCount--;
+
     return nuevoValorResultadoVacio();
 }
 
@@ -123,12 +130,27 @@ Result interpretCaseExpresion(AbstractExpresion *self, Context *context)
 
 Result interpretBreakExpresion(AbstractExpresion *self, Context *context)
 {
-    // Establecer flag para salir del switch o bucle
-    (void)self;
-    (void)context;
-    // Determinar si estamos en un switch o while basado en el contexto
-    switchBreak = true;
-    whileBreak = true; // También para compatibilidad con while
+    BreakExpresion *nodo = (BreakExpresion *)self;
+
+    // Verificar que estemos dentro de un bucle o switch
+    if (activeLoopCount == 0 && activeSwitchCount == 0)
+    {
+        int ambito = context ? context->nombre : 0;
+        agregarErrorSemantico("Break esta fuera de un bucle o de un switch.",
+                              nodo->linea, nodo->columna, ambito);
+        return nuevoValorResultadoVacio();
+    }
+
+    // Establecer flag apropiado según el contexto
+    if (activeSwitchCount > 0)
+    {
+        switchBreak = true;
+    }
+    if (activeLoopCount > 0)
+    {
+        whileBreak = true;
+    }
+
     return nuevoValorResultadoVacio();
 }
 
@@ -187,13 +209,15 @@ AbstractExpresion *nuevoDefaultExpresion(AbstractExpresion *bloque)
     return (AbstractExpresion *)nodo;
 }
 
-AbstractExpresion *nuevoBreakExpresion()
+AbstractExpresion *nuevoBreakExpresion(int linea, int columna)
 {
     BreakExpresion *nodo = malloc(sizeof(BreakExpresion));
     if (!nodo)
         return NULL;
 
     buildAbstractExpresion(&nodo->base, interpretBreakExpresion);
+    nodo->linea = linea;
+    nodo->columna = columna;
 
     return (AbstractExpresion *)nodo;
 }

@@ -24,6 +24,9 @@ Result interpretForExpresion(AbstractExpresion *self, Context *context)
     whileBreak = false;
     whileContinue = false;
 
+    // Incrementar contador de bucles activos
+    activeLoopCount++;
+
     // Ejecutar inicialización (solo una vez)
     if (inicializacion)
     {
@@ -53,9 +56,6 @@ Result interpretForExpresion(AbstractExpresion *self, Context *context)
             }
         }
 
-        // Resetear flag de continue para esta iteración
-        whileContinue = false;
-
         // Ejecutar el bloque
         bloque->interpret(bloque, nuevoContexto);
 
@@ -64,12 +64,6 @@ Result interpretForExpresion(AbstractExpresion *self, Context *context)
         {
             whileBreak = false; // Reset para bucles anidados
             break;
-        }
-
-        // Ejecutar incremento (antes de continuar)
-        if (incremento && !whileContinue)
-        {
-            incremento->interpret(incremento, nuevoContexto);
         }
 
         // Si se ejecutó continue, continuar con la siguiente iteración
@@ -83,7 +77,17 @@ Result interpretForExpresion(AbstractExpresion *self, Context *context)
             }
             continue;
         }
+
+        // Ejecutar incremento (solo si no hubo continue)
+        // Ejecutar incremento (solo si no hubo continue)
+        if (incremento)
+        {
+            incremento->interpret(incremento, nuevoContexto);
+        }
     }
+
+    // Decrementar contador de bucles activos
+    activeLoopCount--;
 
     return nuevoValorResultadoVacio();
 }

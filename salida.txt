@@ -1,8 +1,2 @@
-=== SISTEMA DE CALCULO CIENTIFICO ===
-Calculadora Científica v1.0
-100
-5.670000
-2.718281828
-Z
-false
-Nuevo resultado
+=== TEST: Múltiples errores ===
+Fin del test

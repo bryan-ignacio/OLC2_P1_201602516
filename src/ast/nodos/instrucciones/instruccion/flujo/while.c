@@ -2,6 +2,7 @@
 #include "ast/nodos/builders.h"
 #include "context/context.h"
 #include "context/result.h"
+#include "context/error_report.h"
 #include "while.h"
 
 #include <stdlib.h>
@@ -12,6 +13,10 @@
 bool whileBreak = false;
 bool whileContinue = false;
 bool switchBreak = false;
+
+// Variables para rastrear el contexto de control de flujo
+int activeLoopCount = 0;   // Contador de bucles activos (while, for)
+int activeSwitchCount = 0; // Contador de switches activos
 
 Result interpretWhileExpresion(AbstractExpresion *self, Context *context)
 {
@@ -25,6 +30,9 @@ Result interpretWhileExpresion(AbstractExpresion *self, Context *context)
     // Resetear flags de control
     whileBreak = false;
     whileContinue = false;
+
+    // Incrementar contador de bucles activos
+    activeLoopCount++;
 
     // Bucle while principal
     while (true)
@@ -67,14 +75,26 @@ Result interpretWhileExpresion(AbstractExpresion *self, Context *context)
         }
     }
 
+    // Decrementar contador de bucles activos
+    activeLoopCount--;
+
     return nuevoValorResultadoVacio();
 }
 
 Result interpretContinueExpresion(AbstractExpresion *self, Context *context)
 {
+    ContinueExpresion *nodo = (ContinueExpresion *)self;
+
+    // Verificar que estemos dentro de un bucle
+    if (activeLoopCount == 0)
+    {
+        int ambito = context ? context->nombre : 0;
+        agregarErrorSemantico("Continue esta fuera del bucle.",
+                              nodo->linea, nodo->columna, ambito);
+        return nuevoValorResultadoVacio();
+    }
+
     // Establecer flag para continuar con la siguiente iteración
-    (void)self;
-    (void)context;
     whileContinue = true;
     return nuevoValorResultadoVacio();
 }
@@ -93,13 +113,15 @@ AbstractExpresion *nuevoWhileExpresion(AbstractExpresion *condicion, AbstractExp
     return (AbstractExpresion *)nodo;
 }
 
-AbstractExpresion *nuevoContinueExpresion()
+AbstractExpresion *nuevoContinueExpresion(int linea, int columna)
 {
     ContinueExpresion *nodo = malloc(sizeof(ContinueExpresion));
     if (!nodo)
         return NULL;
 
     buildAbstractExpresion(&nodo->base, interpretContinueExpresion);
+    nodo->linea = linea;
+    nodo->columna = columna;
 
     return (AbstractExpresion *)nodo;
 }

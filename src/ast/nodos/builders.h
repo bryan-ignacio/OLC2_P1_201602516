@@ -69,14 +69,14 @@ AbstractExpresion *nuevoElseIfExpresion(AbstractExpresion *expresion, AbstractEx
 AbstractExpresion *nuevoSwitchExpresion(AbstractExpresion *expresion, AbstractExpresion *listaCasos);
 AbstractExpresion *nuevoCaseExpresion(AbstractExpresion *valor, AbstractExpresion *bloque);
 AbstractExpresion *nuevoDefaultExpresion(AbstractExpresion *bloque);
-AbstractExpresion *nuevoBreakExpresion();
+AbstractExpresion *nuevoBreakExpresion(int linea, int columna);
 AbstractExpresion *nuevoListaCasos();
 
 /*
     Builds while
 */
 AbstractExpresion *nuevoWhileExpresion(AbstractExpresion *condicion, AbstractExpresion *bloque);
-AbstractExpresion *nuevoContinueExpresion();
+AbstractExpresion *nuevoContinueExpresion(int linea, int columna);
 
 /*
     Builds for

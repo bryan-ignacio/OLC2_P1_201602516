@@ -15,7 +15,7 @@ void agregarError(const char *descripcion, int linea, int columna, int ambito)
     nuevo->siguiente = listaErrores;
     listaErrores = nuevo;
     // Imprimir el error en consola inmediatamente
-    fprintf(stderr, "[ERROR] Ambito: %d | Linea: %d, Columna: %d | %s\n", ambito, linea, columna, descripcion);
+    // fprintf(stderr, "[ERROR] Ambito: %d | Linea: %d, Columna: %d | %s\n", ambito, linea, columna, descripcion);
 }
 
 void agregarErrorLexico(const char *descripcion, int linea, int columna)

@@ -25,6 +25,8 @@ typedef struct
 typedef struct
 {
     AbstractExpresion base;
+    int linea;
+    int columna;
 } BreakExpresion;
 
 // Funciones de interpretación
@@ -36,6 +38,6 @@ Result interpretBreakExpresion(AbstractExpresion *, Context *);
 AbstractExpresion *nuevoSwitchExpresion(AbstractExpresion *expresion, AbstractExpresion *listaCasos);
 AbstractExpresion *nuevoCaseExpresion(AbstractExpresion *valor, AbstractExpresion *bloque);
 AbstractExpresion *nuevoDefaultExpresion(AbstractExpresion *bloque);
-AbstractExpresion *nuevoBreakExpresion();
+AbstractExpresion *nuevoBreakExpresion(int linea, int columna);
 
 #endif

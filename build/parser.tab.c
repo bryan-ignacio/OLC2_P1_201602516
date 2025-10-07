@@ -1693,13 +1693,13 @@ yyreduce:
 
   case 23: /* sentencia: TOKEN_BREAK  */
 #line 106 "src/entriesTools/parser.y"
-                  { (yyval.nodo) = nuevoBreakExpresion(); }
+                  { (yyval.nodo) = nuevoBreakExpresion((yylsp[0]).first_line, (yylsp[0]).first_column); }
 #line 1698 "build/parser.tab.c"
     break;
 
   case 24: /* sentencia: TOKEN_CONTINUE  */
 #line 107 "src/entriesTools/parser.y"
-                     { (yyval.nodo) = nuevoContinueExpresion(); }
+                     { (yyval.nodo) = nuevoContinueExpresion((yylsp[0]).first_line, (yylsp[0]).first_column); }
 #line 1704 "build/parser.tab.c"
     break;
 

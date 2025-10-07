@@ -103,8 +103,8 @@ sentencia: imprimir {$$ = $1; }
     | declaracion_const {$$ = $1;}
     | asignacion {$$ = $1;}
     | sentencia_funcion { $$ = $1; }
-    | TOKEN_BREAK { $$ = nuevoBreakExpresion(); }
-    | TOKEN_CONTINUE { $$ = nuevoContinueExpresion(); }
+    | TOKEN_BREAK { $$ = nuevoBreakExpresion(@1.first_line, @1.first_column); }
+    | TOKEN_CONTINUE { $$ = nuevoContinueExpresion(@1.first_line, @1.first_column); }
     | TOKEN_RETURN { $$ = NULL; }/* sin implementar */
     | TOKEN_RETURN expr { $$ = nuevoReturnExpresion($2); } /* sin implementar */
     ;
