@@ -35,10 +35,10 @@
 /* Tokens tipados */
 %token <string> TOKEN_PRINT TOKEN_DINT TOKEN_DFLOAT TOKEN_DDOUBLE TOKEN_IF TOKEN_ELSE TOKEN_TRUE TOKEN_FALSE TOKEN_FUNC
 TOKEN_DSTRING TOKEN_DBOOLEAN TOKEN_DCHAR TOKEN_UNSIGNED_INTEGER TOKEN_REAL TOKEN_DOUBLE TOKEN_STRING TOKEN_CHAR TOKEN_IDENTIFIER TOKEN_RETURN TOKEN_FINAL TOKEN_LEFT_SHIFT TOKEN_RIGHT_SHIFT TOKEN_EQ TOKEN_NE TOKEN_GE TOKEN_LE TOKEN_AND TOKEN_OR
-TOKEN_PLUS_ASSIGN TOKEN_MINUS_ASSIGN TOKEN_MULT_ASSIGN TOKEN_DIV_ASSIGN TOKEN_MOD_ASSIGN TOKEN_AND_ASSIGN TOKEN_OR_ASSIGN TOKEN_XOR_ASSIGN TOKEN_LSHIFT_ASSIGN TOKEN_RSHIFT_ASSIGN TOKEN_SWITCH TOKEN_CASE TOKEN_BREAK TOKEN_DEFAULT
+TOKEN_PLUS_ASSIGN TOKEN_MINUS_ASSIGN TOKEN_MULT_ASSIGN TOKEN_DIV_ASSIGN TOKEN_MOD_ASSIGN TOKEN_AND_ASSIGN TOKEN_OR_ASSIGN TOKEN_XOR_ASSIGN TOKEN_LSHIFT_ASSIGN TOKEN_RSHIFT_ASSIGN TOKEN_SWITCH TOKEN_CASE TOKEN_BREAK TOKEN_DEFAULT TOKEN_WHILE TOKEN_CONTINUE
 
 /* Tipo de los no-terminales que llevan valor */
-%type <nodo> s lSentencia sentencia expr imprimir lista_Expr bloque declaracion_var declaracion_const asignacion primitivo sentencia_if sentencia_funcion lista_parametros sentencia_switch lista_casos caso
+%type <nodo> s lSentencia sentencia expr imprimir lista_Expr bloque declaracion_var declaracion_const asignacion primitivo sentencia_if sentencia_funcion lista_parametros sentencia_switch lista_casos caso sentencia_while
 
 %type <tipoDato> tipoPrimitivo
 
@@ -82,6 +82,12 @@ lSentencia: lSentencia sentencia ';' { agregarHijo($1, $2); $$ = $1;}
         agregarHijo(b, $1);
         $$ = b;
     }
+    | lSentencia sentencia_while { agregarHijo($1, $2); $$ = $1; }
+    | sentencia_while {
+        AbstractExpresion* b = nuevoInstruccionesExpresion();
+        agregarHijo(b, $1);
+        $$ = b;
+    }
     | lSentencia error ';' { yyerrok; $$ = $1; }
     ;
 // una sentencia puede ser un print, un bloque, una declaración de variable, un if o una función
@@ -92,6 +98,7 @@ sentencia: imprimir {$$ = $1; }
     | asignacion {$$ = $1;}
     | sentencia_funcion { $$ = $1; }
     | TOKEN_BREAK { $$ = nuevoBreakExpresion(); }
+    | TOKEN_CONTINUE { $$ = nuevoContinueExpresion(); }
     | TOKEN_RETURN { $$ = NULL; }/* sin implementar */
     | TOKEN_RETURN expr { $$ = nuevoReturnExpresion($2); } /* sin implementar */
     ;
@@ -158,6 +165,9 @@ lista_casos: lista_casos caso { agregarHijo($1, $2); $$ = $1; }
 
 caso: TOKEN_CASE expr ':' lSentencia { $$ = nuevoCaseExpresion($2, $4); }
     | TOKEN_DEFAULT ':' lSentencia { $$ = nuevoDefaultExpresion($3); }
+    ;
+
+sentencia_while: TOKEN_WHILE '(' expr ')' bloque { $$ = nuevoWhileExpresion($3, $5); }
     ;
 
 /* 

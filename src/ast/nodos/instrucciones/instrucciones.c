@@ -3,6 +3,7 @@
 #include "context/context.h"
 #include "context/result.h"
 #include "instrucciones.h"
+#include "instruccion/flujo/while.h" // Para acceder a los flags de control
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -18,6 +19,18 @@ Result interpretInstrucciones(AbstractExpresion *self, Context *context)
         if (resultadoSentencia.isReturn)
         {
             return resultadoSentencia;
+        }
+
+        // Verificar flags de control de bucle
+        if (whileBreak || whileContinue)
+        {
+            break; // Salir del bloque inmediatamente
+        }
+
+        // Verificar flag de control de switch (solo para switch)
+        if (switchBreak)
+        {
+            break; // Salir del bloque inmediatamente
         }
     }
     return nuevoValorResultadoVacio();

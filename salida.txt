@@ -1,5 +1,10 @@
-=== TEST CASOS ESPECIALES ===
-La suma es 8 - CORRECTO
-Nivel 1
-Subnivel 2 - CORRECTO
-=== FIN CASOS ESPECIALES ===
+=== TEST FINAL WHILE COMPLETO ===
+1. While basico:
+1
+2
+3
+2. While con break:
+1
+2
+3
+Breaking

@@ -3,6 +3,7 @@
 #include "context/context.h"
 #include "context/result.h"
 #include "switch.h"
+#include "while.h" // Para acceder a las variables globales de control
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -10,7 +11,15 @@
 #include <string.h>
 
 // Variable global para controlar break en switch
-static bool switchBreak = false;
+extern bool switchBreak;
+
+#include <stdlib.h>
+#include <stdio.h>
+#include <stdbool.h>
+#include <string.h>
+
+// Variable global para controlar break en switch (usa la misma que while)
+extern bool whileBreak;
 
 Result interpretSwitchExpresion(AbstractExpresion *self, Context *context)
 {
@@ -93,6 +102,13 @@ Result interpretSwitchExpresion(AbstractExpresion *self, Context *context)
         }
     }
 
+    // Reset break flags that were set by break within the switch
+    if (whileBreak || switchBreak)
+    {
+        whileBreak = false;
+        switchBreak = false;
+    }
+
     return nuevoValorResultadoVacio();
 }
 
@@ -107,10 +123,12 @@ Result interpretCaseExpresion(AbstractExpresion *self, Context *context)
 
 Result interpretBreakExpresion(AbstractExpresion *self, Context *context)
 {
-    // Establecer flag para salir del switch
+    // Establecer flag para salir del switch o bucle
     (void)self;
     (void)context;
+    // Determinar si estamos en un switch o while basado en el contexto
     switchBreak = true;
+    whileBreak = true; // También para compatibilidad con while
     return nuevoValorResultadoVacio();
 }
 

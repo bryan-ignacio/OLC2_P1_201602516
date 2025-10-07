@@ -103,7 +103,9 @@ extern int yydebug;
     TOKEN_CASE = 297,              /* TOKEN_CASE  */
     TOKEN_BREAK = 298,             /* TOKEN_BREAK  */
     TOKEN_DEFAULT = 299,           /* TOKEN_DEFAULT  */
-    NEG = 300                      /* NEG  */
+    TOKEN_WHILE = 300,             /* TOKEN_WHILE  */
+    TOKEN_CONTINUE = 301,          /* TOKEN_CONTINUE  */
+    NEG = 302                      /* NEG  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -118,7 +120,7 @@ union YYSTYPE
   AbstractExpresion* nodo;
   TipoDato tipoDato;
 
-#line 122 "build/parser.tab.h"
+#line 124 "build/parser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;
