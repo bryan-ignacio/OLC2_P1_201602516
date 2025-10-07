@@ -11,7 +11,8 @@ typedef enum
     FLOAT,
     DOUBLE,
     STRING,
-    ARRAY, // Nuevo tipo para arrays
+    ARRAY,  // Nuevo tipo para arrays
+    MATRIX, // Nuevo tipo para matrices
     NULO,
     TIPO_COUNT
 } TipoDato;
@@ -25,6 +26,15 @@ typedef struct ArrayStruct
     void **elementos;      // Array de punteros a los elementos
     int tamaño;            // Número de elementos en el array
 } ArrayStruct;
+
+// Estructura para representar matrices (arrays bidimensionales)
+typedef struct MatrixStruct
+{
+    TipoDato tipoElemento; // Tipo de los elementos de la matriz
+    void ***elementos;     // Matriz de punteros a los elementos [fila][columna]
+    int filas;             // Número de filas
+    int columnas;          // Número de columnas
+} MatrixStruct;
 
 typedef struct Result
 {

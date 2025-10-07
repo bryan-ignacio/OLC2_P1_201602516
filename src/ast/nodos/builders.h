@@ -93,6 +93,13 @@ AbstractExpresion *nuevoAccesoArrayExpresion(char *identificador, AbstractExpres
 AbstractExpresion *nuevoAsignacionArrayExpresion(char *identificador, AbstractExpresion *indice, AbstractExpresion *valor, int linea, int columna);
 AbstractExpresion *nuevoListaElementos();
 
+// Matrix functions
+AbstractExpresion *nuevoDeclaracionMatrixNew(TipoDato tipoMatrix, char *identificador, TipoDato tipoElemento, AbstractExpresion *filas, AbstractExpresion *columnas, int linea, int columna);
+AbstractExpresion *nuevoDeclaracionMatrixInit(TipoDato tipoMatrix, char *identificador, AbstractExpresion *listaFilas, int linea, int columna);
+AbstractExpresion *nuevoAccesoMatrixExpresion(char *identificador, AbstractExpresion *fila, AbstractExpresion *columna, int linea, int columna_pos);
+AbstractExpresion *nuevoAsignacionMatrixExpresion(char *identificador, AbstractExpresion *fila, AbstractExpresion *columna, AbstractExpresion *valor, int linea, int columna_pos);
+AbstractExpresion *nuevoListaFilas();
+
 AbstractExpresion *nuevoFuncionExpresion(TipoDato tipoDato, char *nombre, AbstractExpresion *listaExpr, AbstractExpresion *bloque);
 AbstractExpresion *nuevoLlamadaExpresion(char *id, AbstractExpresion *listaExpresiones);
 AbstractExpresion *nuevoListaParametros();

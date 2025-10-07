@@ -1,21 +1,18 @@
-=== TEST DE ASIGNACION A ARRAYS ===
-Valores iniciales:
-0
-0
-Después de asignación:
-10
-20
-30
-Precios originales:
+=== SISTEMA DE CALCULO CIENTIFICO ===
+Calculadora Científica v1.0
 100
-200
-300
-Precios modificados:
-100
-250
-350
-Decimales modificados:
-9.900000
-Letras modificadas:
+5.670000
+2.718281828
 Z
-=== TEST DE ERRORES ===
+false
+Nuevo resultado
+=== SISTEMA DE GESTION DE INVENTARIO ===
+
+--- DECLARACION DE ARREGLOS ---
+Teclado
+3500
+false
+----MODIFICACION----
+Teclado RGB
+----MATRICES----
+0

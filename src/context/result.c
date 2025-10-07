@@ -11,6 +11,7 @@ char *labelTipoDato[TIPO_COUNT] = {
     [DOUBLE] = "double",
     [STRING] = "string",
     [ARRAY] = "array",
+    [MATRIX] = "matrix",
     [NULO] = "null"};
 
 Result nuevoValorResultado(void *valor, TipoDato tipo)

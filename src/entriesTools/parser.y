@@ -38,9 +38,9 @@ TOKEN_DSTRING TOKEN_DBOOLEAN TOKEN_DCHAR TOKEN_UNSIGNED_INTEGER TOKEN_REAL TOKEN
 TOKEN_PLUS_ASSIGN TOKEN_MINUS_ASSIGN TOKEN_MULT_ASSIGN TOKEN_DIV_ASSIGN TOKEN_MOD_ASSIGN TOKEN_AND_ASSIGN TOKEN_OR_ASSIGN TOKEN_XOR_ASSIGN TOKEN_LSHIFT_ASSIGN TOKEN_RSHIFT_ASSIGN TOKEN_SWITCH TOKEN_CASE TOKEN_BREAK TOKEN_DEFAULT TOKEN_WHILE TOKEN_CONTINUE TOKEN_FOR TOKEN_NEW
 
 /* Tipo de los no-terminales que llevan valor */
-%type <nodo> s lSentencia sentencia expr imprimir lista_Expr bloque declaracion_var declaracion_const asignacion primitivo sentencia_if sentencia_funcion lista_parametros sentencia_switch lista_casos caso sentencia_while sentencia_for declaracion_array lista_elementos acceso_array
+%type <nodo> s lSentencia sentencia expr imprimir lista_Expr bloque declaracion_var declaracion_const asignacion primitivo sentencia_if sentencia_funcion lista_parametros sentencia_switch lista_casos caso sentencia_while sentencia_for declaracion_array lista_elementos acceso_array declaracion_matrix lista_filas lista_fila acceso_matrix
 
-%type <tipoDato> tipoPrimitivo tipoArray
+%type <tipoDato> tipoPrimitivo tipoArray tipoMatrix
 
 // precedencia menor a mayor
 //%left NUMERO
@@ -102,6 +102,7 @@ sentencia: imprimir {$$ = $1; }
     | declaracion_var {$$ = $1;}
     | declaracion_const {$$ = $1;}
     | declaracion_array {$$ = $1;}
+    | declaracion_matrix {$$ = $1;}
     | asignacion {$$ = $1;}
     | sentencia_funcion { $$ = $1; }
     | TOKEN_BREAK { $$ = nuevoBreakExpresion(@1.first_line, @1.first_column); }
@@ -133,6 +134,7 @@ declaracion_const: TOKEN_FINAL tipoPrimitivo TOKEN_IDENTIFIER '=' expr { $$ = nu
 
 asignacion: TOKEN_IDENTIFIER '=' expr { $$ = nuevoAsignacionExpresion($1, $3, @1.first_line, @1.first_column); }
     | TOKEN_IDENTIFIER '[' expr ']' '=' expr { $$ = nuevoAsignacionArrayExpresion($1, $3, $6, @1.first_line, @1.first_column); }
+    | TOKEN_IDENTIFIER '[' expr ']' '[' expr ']' '=' expr { $$ = nuevoAsignacionMatrixExpresion($1, $3, $6, $9, @1.first_line, @1.first_column); }
     | TOKEN_IDENTIFIER TOKEN_PLUS_ASSIGN expr { $$ = nuevoAsignacionCompuesta($1, ASIG_SUMA, $3, @1.first_line, @1.first_column); }
     | TOKEN_IDENTIFIER TOKEN_MINUS_ASSIGN expr { $$ = nuevoAsignacionCompuesta($1, ASIG_RESTA, $3, @1.first_line, @1.first_column); }
     | TOKEN_IDENTIFIER TOKEN_MULT_ASSIGN expr { $$ = nuevoAsignacionCompuesta($1, ASIG_MULT, $3, @1.first_line, @1.first_column); }
@@ -232,6 +234,7 @@ expr: expr '+' expr   { $$ =  nuevoSumaExpresion($1, $3);  }
     | TOKEN_IDENTIFIER '(' lista_Expr ')' { $$ = nuevoLlamadaExpresion($1, $3); }
     | TOKEN_IDENTIFIER '('')' { /* sin implementar */ }
     | acceso_array { $$ = $1; }
+    | acceso_matrix { $$ = $1; }
     ;
 
 //---------------------- EXPRESIONES PRIMITIVAS -------------------------------
@@ -269,6 +272,28 @@ lista_elementos: lista_elementos ',' expr { agregarHijo($1, $3); $$ = $1; }
     ;
 
 acceso_array: TOKEN_IDENTIFIER '[' expr ']' { $$ = nuevoAccesoArrayExpresion($1, $3, @1.first_line, @1.first_column); }
+    ;
+
+//---------------------- DECLARACIONES DE MATRICES -------------------------------
+tipoMatrix: tipoPrimitivo '[' ']' '[' ']' { $$ = $1; }
+    ;
+
+declaracion_matrix: tipoMatrix TOKEN_IDENTIFIER '=' TOKEN_NEW tipoPrimitivo '[' expr ']' '[' expr ']' { $$ = nuevoDeclaracionMatrixNew($1, $2, $5, $7, $10, @2.first_line, @2.first_column); }
+    | tipoMatrix TOKEN_IDENTIFIER '=' '{' lista_filas '}' { $$ = nuevoDeclaracionMatrixInit($1, $2, $5, @2.first_line, @2.first_column); }
+    ;
+
+lista_filas: lista_filas ',' lista_fila { agregarHijo($1, $3); $$ = $1; }
+    | lista_fila { 
+        AbstractExpresion* b = nuevoListaFilas();
+        agregarHijo(b, $1);
+        $$ = b;
+    }
+    ;
+
+lista_fila: '{' lista_elementos '}' { $$ = $2; }
+    ;
+
+acceso_matrix: TOKEN_IDENTIFIER '[' expr ']' '[' expr ']' { $$ = nuevoAccesoMatrixExpresion($1, $3, $6, @1.first_line, @1.first_column); }
     ;
 %%
 
