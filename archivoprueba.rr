@@ -88,3 +88,14 @@ int cubo3D_2 [][][] = {
 */
 
 System.out.println("FIn archivo");
+
+
+sintaxis:
+<tipoPrimitivo> <nombre>(<tipo1> param1, <tipo2> param2, ...){
+    //sentencias.
+}
+
+ejemplo:
+int suma(int a, int b){
+    return a + b;
+}

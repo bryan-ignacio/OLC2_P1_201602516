@@ -19,25 +19,44 @@ Result interpretLlamadaFuncionExpresion(AbstractExpresion *self, Context *contex
         if (symbolEncontrado->nodo->numHijos > 1)
         {
             AbstractExpresion *listaParametros = symbolEncontrado->nodo->hijos[0];
-            AbstractExpresion *listaArgumentos = self->hijos[0];
-            if (listaParametros->numHijos != listaArgumentos->numHijos)
+            // Verificar si tenemos argumentos en la llamada
+            if (self->numHijos > 0)
             {
+                AbstractExpresion *listaArgumentos = self->hijos[0];
+                if (listaParametros->numHijos != listaArgumentos->numHijos)
+                {
+                    printf("La cantidad de argumentos es inesperada\n");
+                    return nuevoValorResultadoVacio();
+                }
+                for (size_t i = 0; i < listaParametros->numHijos; ++i)
+                {
+                    Result resultDeclararParametro = listaParametros->hijos[i]->interpret(listaParametros->hijos[i], contextFuncion);
+                    Result resultadoArgumento = listaArgumentos->hijos[i]->interpret(listaArgumentos->hijos[i], context);
+                    // asignar el valor del argumento
+                    if (contextFuncion->ultimoSymbol->tipo != resultadoArgumento.tipo)
+                    {
+                        printf("Error el tipo del parametro no coincide, %s %s\n", labelTipoDato[contextFuncion->ultimoSymbol->tipo], labelTipoDato[resultadoArgumento.tipo]);
+                        return nuevoValorResultadoVacio();
+                    }
+                    contextFuncion->ultimoSymbol->valor = resultadoArgumento.valor;
+                }
+            }
+            else
+            {
+                // No hay argumentos pero la función espera parámetros
                 printf("La cantidad de argumentos es inesperada\n");
                 return nuevoValorResultadoVacio();
             }
-            for (size_t i = 0; i < listaParametros->numHijos; ++i)
-            {
-                Result resultDeclararParametro = listaParametros->hijos[i]->interpret(listaParametros->hijos[i], contextFuncion);
-                Result resultadoArgumento = listaArgumentos->hijos[i]->interpret(listaArgumentos->hijos[i], context);
-                // asignar el valor del argumento
-                if (contextFuncion->ultimoSymbol->tipo != resultadoArgumento.tipo)
-                {
-                    printf("Error el tipo del parametro no coincide, %s %s\n", labelTipoDato[contextFuncion->ultimoSymbol->tipo], labelTipoDato[resultadoArgumento.tipo]);
-                    return nuevoValorResultadoVacio();
-                }
-                contextFuncion->ultimoSymbol->valor = resultadoArgumento.valor;
-            }
             posicionInstruccciones = 1;
+        }
+        else
+        {
+            // Función sin parámetros
+            if (self->numHijos > 0)
+            {
+                printf("La función no espera argumentos\n");
+                return nuevoValorResultadoVacio();
+            }
         }
         Result resultadoFuncion = symbolEncontrado->nodo->hijos[posicionInstruccciones]->interpret(symbolEncontrado->nodo->hijos[posicionInstruccciones], contextFuncion);
         if (resultadoFuncion.tipo != symbolEncontrado->tipo)

@@ -1,21 +1,13 @@
-=== SISTEMA DE CALCULO CIENTIFICO ===
-Calculadora Científica v1.0
-100
-5.670000
-2.718281828
-Z
-false
-Nuevo resultado
-=== SISTEMA DE GESTION DE INVENTARIO ===
-
---- DECLARACION DE ARREGLOS ---
-Teclado
-3500
-false
-----MODIFICACION----
-Teclado RGB
-----MATRICES----
-0
--------- MATRICES OPERACIONES ---------
+=== DEMOSTRACION DE FUNCIONES CON PARAMETROS ===
+=== PROBANDO FUNCIONES ===
+suma(15, 25) = 
+40
+promedioIntFloat(10, 5.5) = 
 1.000000
-FIn archivo
+multiplicarTres(2, 3, 4) = 
+24
+areaRectangulo(7.5, 4.2) = 
+31.5
+obtenerConstante() = 
+100
+=== FUNCIONES CON PARAMETROS IMPLEMENTADAS EXITOSAMENTE ===

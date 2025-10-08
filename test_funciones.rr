@@ -1,0 +1,26 @@
+System.out.println("=== PRUEBA DE FUNCIONES CON PARAMETROS ===");
+
+// Función simple con dos parámetros
+int func suma(int a, int b) {
+    return a + b;
+};
+
+// Función sin parámetros para comparar
+int func contador() {
+    return 42;
+};
+
+System.out.println("Funciones definidas");
+
+// Llamadas a las funciones
+int resultado1;
+resultado1 = suma(5, 3);
+System.out.println("suma(5, 3) = ");
+System.out.println(resultado1);
+
+int resultado2;
+resultado2 = contador();
+System.out.println("contador() = ");
+System.out.println(resultado2);
+
+System.out.println("=== FIN PRUEBA FUNCIONES ===");

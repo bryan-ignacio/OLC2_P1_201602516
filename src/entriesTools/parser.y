@@ -232,7 +232,7 @@ expr: expr '+' expr   { $$ =  nuevoSumaExpresion($1, $3);  }
     | primitivo { $$ = $1; }
     | TOKEN_IDENTIFIER { $$ = nuevoIdentificadorExpresion($1, @1.first_line, @1.first_column); }
     | TOKEN_IDENTIFIER '(' lista_Expr ')' { $$ = nuevoLlamadaExpresion($1, $3); }
-    | TOKEN_IDENTIFIER '('')' { /* sin implementar */ }
+    | TOKEN_IDENTIFIER '(' ')' { $$ = nuevoLlamadaExpresion($1, NULL); }
     | acceso_array { $$ = $1; }
     | acceso_matrix { $$ = $1; }
     ;

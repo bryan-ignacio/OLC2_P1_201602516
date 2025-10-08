@@ -2218,7 +2218,7 @@ yyreduce:
 
   case 96: /* expr: TOKEN_IDENTIFIER '(' ')'  */
 #line 235 "src/entriesTools/parser.y"
-                              { /* sin implementar */ }
+                               { (yyval.nodo) = nuevoLlamadaExpresion((yyvsp[-2].string), NULL); }
 #line 2223 "build/parser.tab.c"
     break;
 
