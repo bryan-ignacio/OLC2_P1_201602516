@@ -399,13 +399,13 @@ static const flex_int16_t yy_accept[220] =
        43,   43,   43,   58,   51,    5,    7,    2,   41,   40,
         0,   41,    0,   37,   38,   60,   61,   43,   43,   43,
        43,   43,   43,   43,   43,   43,   43,   43,   43,   43,
-       43,   43,   43,   12,   43,   26,   18,   43,   43,   43,
+       43,   43,   43,   12,   43,   27,   18,   43,   43,   43,
        43,   43,   41,   41,    0,   38,   43,   43,   43,   43,
        43,   43,   43,   15,   31,   43,   43,   43,   10,   43,
-       43,   43,   24,   43,   43,   32,   25,   43,   41,   41,
+       43,   43,   25,   43,   43,   32,   26,   43,   41,   41,
        43,   23,   43,   43,   43,   43,   16,   43,   43,   43,
-       33,   19,   27,   43,   43,   11,   41,   41,   22,   43,
-       29,   43,   43,   43,   43,   28,   34,   14,   41,   41,
+       33,   19,   28,   43,   43,   11,   41,   41,   22,   43,
+       24,   43,   43,   43,   43,   29,   34,   14,   41,   41,
 
        21,    0,   30,   43,   17,   41,    0,   13,    0,    0,
         0,    0,    0,    0,    0,    0,    0,   20,    0
@@ -1265,32 +1265,32 @@ return(TOKEN_FLOAT_CLASS);
 case 24:
 YY_RULE_SETUP
 #line 265 "src/entriesTools/lexer.l"
-return(TOKEN_FUNC);
+return(TOKEN_STRING_CLASS);
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
 #line 266 "src/entriesTools/lexer.l"
-return(TOKEN_DVOID); // tipo void para funciones sin retorno
+return(TOKEN_FUNC);
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
 #line 267 "src/entriesTools/lexer.l"
-return(TOKEN_DINT); // aqui comienzan las declaraciones de tipos primitivos.
+return(TOKEN_DVOID); // tipo void para funciones sin retorno
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
 #line 268 "src/entriesTools/lexer.l"
-return(TOKEN_DFLOAT);
+return(TOKEN_DINT); // aqui comienzan las declaraciones de tipos primitivos.
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
 #line 269 "src/entriesTools/lexer.l"
-return(TOKEN_DDOUBLE);
+return(TOKEN_DFLOAT);
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
 #line 270 "src/entriesTools/lexer.l"
-return(TOKEN_DSTRING);
+return(TOKEN_DDOUBLE);
 	YY_BREAK
 case 30:
 YY_RULE_SETUP

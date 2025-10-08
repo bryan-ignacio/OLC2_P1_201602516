@@ -1,22 +1,9 @@
-=== VALORES BÁSICOS ===
-Pi aproximado: 3.14159
-e aproximado: 2.718
-Decimal: 123.456
-=== CASOS ESPECIALES ===
-Cero: 0
-Negativo: -45.67
-Entero como float: 100
-=== FORMATOS LÍMITE ===
-Punto final: 123
-Punto inicial: 0.456
-=== CÁLCULOS CON PARSEO ===
-Radio: 5
-Pi: 3.14159265358979
-Area: 78.5398163397448
-Circunferencia: 31.4159265358979
-=== NOTACIÓN CIENTÍFICA ===
-Numero grande: 1500000
-Numero pequeno: 0.0025
-=== COMBINACIÓN TIPOS ===
-Entero x Flotante: 42 x 3.14 = 131.88
-=== PARSEO DE FLOTANTES COMPLETO ===
+=== INTEGRACIÓN DE FUNCIONES EMBEBIDAS ===
+Parse y convert: 123 -> 123 -> 246
+Parse double: 3.14159 + 1 = 4.14159
+Potencia: 10^3 = 1000
+15 > 10 es: true
+Cadena de conversiones: 42 -> 42 -> 42.5 -> 42.5
+Reporte: Sistema: true, Usuarios: 1250, Promedio: 87.5
+100 < 200 = true
+=== TODAS LAS FUNCIONES EMBEBIDAS FUNCIONANDO ===

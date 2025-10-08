@@ -262,12 +262,12 @@ System\.out\.println    return(TOKEN_PRINT);
 Integer             return(TOKEN_INTEGER);
 Double              return(TOKEN_DOUBLE_CLASS);
 Float               return(TOKEN_FLOAT_CLASS);
+String              return(TOKEN_STRING_CLASS);
 func                return(TOKEN_FUNC);
 void                return(TOKEN_DVOID); // tipo void para funciones sin retorno
 int                 return(TOKEN_DINT); // aqui comienzan las declaraciones de tipos primitivos.
 float               return(TOKEN_DFLOAT);
 double              return(TOKEN_DDOUBLE);
-String              return(TOKEN_DSTRING);
 boolean             return(TOKEN_DBOOLEAN);
 char                return(TOKEN_DCHAR);
 true                return(TOKEN_TRUE);

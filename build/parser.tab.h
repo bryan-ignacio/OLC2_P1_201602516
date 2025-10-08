@@ -74,7 +74,7 @@ extern int yydebug;
     TOKEN_INTEGER = 268,           /* TOKEN_INTEGER  */
     TOKEN_DOUBLE_CLASS = 269,      /* TOKEN_DOUBLE_CLASS  */
     TOKEN_FLOAT_CLASS = 270,       /* TOKEN_FLOAT_CLASS  */
-    TOKEN_DSTRING = 271,           /* TOKEN_DSTRING  */
+    TOKEN_STRING_CLASS = 271,      /* TOKEN_STRING_CLASS  */
     TOKEN_DBOOLEAN = 272,          /* TOKEN_DBOOLEAN  */
     TOKEN_DCHAR = 273,             /* TOKEN_DCHAR  */
     TOKEN_UNSIGNED_INTEGER = 274,  /* TOKEN_UNSIGNED_INTEGER  */
