@@ -5,6 +5,7 @@
 // El orden es la jerarquia del resultado en la operación
 typedef enum
 {
+    VOID,
     BOOLEAN,
     CHAR,
     INT,

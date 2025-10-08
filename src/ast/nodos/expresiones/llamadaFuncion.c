@@ -59,6 +59,13 @@ Result interpretLlamadaFuncionExpresion(AbstractExpresion *self, Context *contex
             }
         }
         Result resultadoFuncion = symbolEncontrado->nodo->hijos[posicionInstruccciones]->interpret(symbolEncontrado->nodo->hijos[posicionInstruccciones], contextFuncion);
+
+        // Para funciones void, no importa lo que retorne el bloque
+        if (symbolEncontrado->tipo == VOID)
+        {
+            return nuevoValorResultado(NULL, VOID);
+        }
+
         if (resultadoFuncion.tipo != symbolEncontrado->tipo)
         {
             printf("Error el tipo no coincide con la funcion, %s %s\n", labelTipoDato[resultadoFuncion.tipo], labelTipoDato[symbolEncontrado->tipo]);

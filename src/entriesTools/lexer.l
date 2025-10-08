@@ -260,6 +260,7 @@ new                 return(TOKEN_NEW);
 final               return(TOKEN_FINAL);
 System\.out\.println    return(TOKEN_PRINT);
 func                return(TOKEN_FUNC);
+void                return(TOKEN_DVOID); // tipo void para funciones sin retorno
 int                 return(TOKEN_DINT); // aqui comienzan las declaraciones de tipos primitivos.
 float               return(TOKEN_DFLOAT);
 double              return(TOKEN_DDOUBLE);

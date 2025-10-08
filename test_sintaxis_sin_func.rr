@@ -1,0 +1,77 @@
+System.out.println("=== PRUEBA SINTAXIS FUNCIONES CON PARAMETROS SIN 'func' ===");
+
+// Sintaxis solicitada: <tipo><nombre>(<tipo1> param1, <tipo2> param2, ...){//sentencias};
+int suma(int a, int b){
+    return a + b;
+};
+
+int resta(int x, int y){
+    return x - y;
+};
+
+float multiplicar(float a, float b){
+    return a * b;
+};
+
+double dividir(double num, double den){
+    return num / den;
+};
+
+String concatenar(String str1, String str2){
+    return str1;
+};
+
+int calcularTriple(int numero){
+    return numero * 3;
+};
+
+boolean esMayor(int a, int b){
+    if (a > b) {
+        return true;
+    } else {
+        return false;
+    }
+};
+
+System.out.println("=== PROBANDO FUNCIONES CON PARAMETROS ===");
+
+// Prueba función suma
+int resultadoSuma = suma(15, 25);
+System.out.println("suma(15, 25) = ");
+System.out.println(resultadoSuma);
+
+// Prueba función resta
+int resultadoResta = resta(30, 12);
+System.out.println("resta(30, 12) = ");
+System.out.println(resultadoResta);
+
+// Prueba función multiplicar
+float resultadoMult = multiplicar(3.5f, 2.0f);
+System.out.println("multiplicar(3.5, 2.0) = ");
+System.out.println(resultadoMult);
+
+// Prueba función dividir
+double resultadoDiv = dividir(10.0, 3.0);
+System.out.println("dividir(10.0, 3.0) = ");
+System.out.println(resultadoDiv);
+
+// Prueba función concatenar
+String resultadoConcat = concatenar("Hola ", "Mundo");
+System.out.println("concatenar('Hola ', 'Mundo') = ");
+System.out.println(resultadoConcat);
+
+// Prueba función con un parámetro
+int resultadoTriple = calcularTriple(7);
+System.out.println("calcularTriple(7) = ");
+System.out.println(resultadoTriple);
+
+// Prueba función con lógica
+boolean resultadoMayor = esMayor(10, 5);
+System.out.println("esMayor(10, 5) = ");
+System.out.println(resultadoMayor);
+
+boolean resultadoMenor = esMayor(3, 8);
+System.out.println("esMayor(3, 8) = ");
+System.out.println(resultadoMenor);
+
+System.out.println("=== SINTAXIS IMPLEMENTADA CORRECTAMENTE ===");

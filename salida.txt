@@ -1,13 +1,16 @@
-=== DEMOSTRACION DE FUNCIONES CON PARAMETROS ===
-=== PROBANDO FUNCIONES ===
-suma(15, 25) = 
+=== DEMOSTRACION COMPLETA: FUNCIONES CON RETORNO Y VOID ===
+=== PROBANDO TODAS LAS FUNCIONES ===
+--- RESULTADOS ---
+El valor es: 
 40
-promedioIntFloat(10, 5.5) = 
-1.000000
-multiplicarTres(2, 3, 4) = 
-24
-areaRectangulo(7.5, 4.2) = 
-31.5
-obtenerConstante() = 
-100
-=== FUNCIONES CON PARAMETROS IMPLEMENTADAS EXITOSAMENTE ===
+Saludo: 
+Hola Mundo
+¿Es 10 positivo?: 
+true
+Analizando número: 
+5
+Es positivo
+Analizando número: 
+-3
+Es negativo o cero
+=== SISTEMA DE FUNCIONES COMPLETO ===

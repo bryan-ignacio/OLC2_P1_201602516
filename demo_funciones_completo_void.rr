@@ -1,0 +1,68 @@
+System.out.println("=== DEMOSTRACION COMPLETA: FUNCIONES CON RETORNO Y VOID ===");
+
+// ===============================================
+// FUNCIONES CON RETORNO
+// ===============================================
+
+// Función que retorna int
+int sumar(int a, int b){
+    return a + b;
+};
+
+// Función que retorna String
+String obtenerSaludo(){
+    return "Hola Mundo";
+};
+
+// Función que retorna boolean simple
+boolean esPositivo(int numero){
+    return numero > 0;
+};
+
+// ===============================================
+// FUNCIONES VOID (SIN RETORNO)
+// ===============================================
+
+// Función void sin parámetros
+void mostrarTitulo(){
+    System.out.println("--- RESULTADOS ---");
+};
+
+// Función void con parámetros
+void mostrarNumero(int valor){
+    System.out.println("El valor es: ");
+    System.out.println(valor);
+};
+
+// Función void con lógica
+void analizarNumero(int num){
+    System.out.println("Analizando número: ");
+    System.out.println(num);
+    if (num > 0) {
+        System.out.println("Es positivo");
+    } else {
+        System.out.println("Es negativo o cero");
+    }
+};
+
+System.out.println("=== PROBANDO TODAS LAS FUNCIONES ===");
+
+// Usar funciones con retorno
+int suma = sumar(15, 25);
+String saludo = obtenerSaludo();
+boolean positivo = esPositivo(10);
+
+// Usar funciones void para mostrar resultados
+mostrarTitulo();
+mostrarNumero(suma);
+System.out.println("Saludo: ");
+System.out.println(saludo);
+
+System.out.println("¿Es 10 positivo?: ");
+System.out.println(positivo);
+
+// Usar función void con lógica
+analizarNumero(5);
+analizarNumero(-3);
+
+System.out.println("=== SISTEMA DE FUNCIONES COMPLETO ===");

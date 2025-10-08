@@ -1,0 +1,66 @@
+System.out.println("=== DEMOSTRACION SINTAXIS EXACTA SOLICITADA ===");
+
+// Ejemplo exacto de la sintaxis solicitada:
+// int suma(int a, int b){ return a +b;};
+int suma(int a, int b){
+    return a + b;
+};
+
+// Más ejemplos con la misma sintaxis
+float promedio(int x, int y){
+    return ((float)x + (float)y) / 2.0f;
+};
+
+double potencia(double base, double exponente){
+    return base * exponente;
+};
+
+String formatear(String texto, int numero){
+    return texto;
+};
+
+boolean esIgual(int a, int b){
+    return a == b;
+};
+
+char obtenerPrimero(String cadena){
+    return 'A';
+};
+
+// Función con múltiples parámetros
+int sumarTres(int a, int b, int c){
+    return a + b + c;
+};
+
+System.out.println("=== PRUEBAS DE LA SINTAXIS ===");
+
+// Llamadas usando la sintaxis implementada
+int resultado1 = suma(10, 20);
+System.out.println("suma(10, 20) = ");
+System.out.println(resultado1);
+
+float resultado2 = promedio(8, 12);
+System.out.println("promedio(8, 12) = ");
+System.out.println(resultado2);
+
+double resultado3 = potencia(2.0, 3.0);
+System.out.println("potencia(2.0, 3.0) = ");
+System.out.println(resultado3);
+
+String resultado4 = formatear("Texto", 123);
+System.out.println("formatear('Texto', 123) = ");
+System.out.println(resultado4);
+
+boolean resultado5 = esIgual(5, 5);
+System.out.println("esIgual(5, 5) = ");
+System.out.println(resultado5);
+
+char resultado6 = obtenerPrimero("Hola");
+System.out.println("obtenerPrimero('Hola') = ");
+System.out.println(resultado6);
+
+int resultado7 = sumarTres(1, 2, 3);
+System.out.println("sumarTres(1, 2, 3) = ");
+System.out.println(resultado7);
+
+System.out.println("=== SINTAXIS COMPLETAMENTE FUNCIONAL ===");

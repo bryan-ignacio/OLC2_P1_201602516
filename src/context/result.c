@@ -4,6 +4,7 @@
 #include <stdio.h>
 
 char *labelTipoDato[TIPO_COUNT] = {
+    [VOID] = "void",
     [BOOLEAN] = "boolean",
     [CHAR] = "char",
     [INT] = "int",

@@ -33,7 +33,7 @@
 }
 
 /* Tokens tipados */
-%token <string> TOKEN_PRINT TOKEN_DINT TOKEN_DFLOAT TOKEN_DDOUBLE TOKEN_IF TOKEN_ELSE TOKEN_TRUE TOKEN_FALSE TOKEN_FUNC
+%token <string> TOKEN_PRINT TOKEN_DINT TOKEN_DFLOAT TOKEN_DDOUBLE TOKEN_DVOID TOKEN_IF TOKEN_ELSE TOKEN_TRUE TOKEN_FALSE TOKEN_FUNC
 TOKEN_DSTRING TOKEN_DBOOLEAN TOKEN_DCHAR TOKEN_UNSIGNED_INTEGER TOKEN_REAL TOKEN_DOUBLE TOKEN_STRING TOKEN_CHAR TOKEN_IDENTIFIER TOKEN_RETURN TOKEN_FINAL TOKEN_LEFT_SHIFT TOKEN_RIGHT_SHIFT TOKEN_EQ TOKEN_NE TOKEN_GE TOKEN_LE TOKEN_AND TOKEN_OR
 TOKEN_PLUS_ASSIGN TOKEN_MINUS_ASSIGN TOKEN_MULT_ASSIGN TOKEN_DIV_ASSIGN TOKEN_MOD_ASSIGN TOKEN_AND_ASSIGN TOKEN_OR_ASSIGN TOKEN_XOR_ASSIGN TOKEN_LSHIFT_ASSIGN TOKEN_RSHIFT_ASSIGN TOKEN_SWITCH TOKEN_CASE TOKEN_BREAK TOKEN_DEFAULT TOKEN_WHILE TOKEN_CONTINUE TOKEN_FOR TOKEN_NEW
 
@@ -105,6 +105,8 @@ sentencia: imprimir {$$ = $1; }
     | declaracion_matrix {$$ = $1;}
     | asignacion {$$ = $1;}
     | sentencia_funcion { $$ = $1; }
+    | TOKEN_IDENTIFIER '(' lista_Expr ')' { $$ = nuevoLlamadaExpresion($1, $3); }
+    | TOKEN_IDENTIFIER '(' ')' { $$ = nuevoLlamadaExpresion($1, NULL); }
     | TOKEN_BREAK { $$ = nuevoBreakExpresion(@1.first_line, @1.first_column); }
     | TOKEN_CONTINUE { $$ = nuevoContinueExpresion(@1.first_line, @1.first_column); }
     | TOKEN_RETURN { $$ = NULL; }/* sin implementar */
@@ -160,6 +162,8 @@ lista_parametros: lista_parametros ',' declaracion_var { agregarHijo($1, $3); $$
 
 sentencia_funcion: tipoPrimitivo TOKEN_FUNC TOKEN_IDENTIFIER '(' lista_parametros ')' bloque {  $$ = nuevoFuncionExpresion($1, $3, $5, $7);}
     | tipoPrimitivo TOKEN_FUNC TOKEN_IDENTIFIER '(' ')' bloque {  $$ = nuevoFuncionExpresion($1, $3, NULL, $6);}
+    | tipoPrimitivo TOKEN_IDENTIFIER '(' lista_parametros ')' bloque {  $$ = nuevoFuncionExpresion($1, $2, $4, $6);}
+    | tipoPrimitivo TOKEN_IDENTIFIER '(' ')' bloque {  $$ = nuevoFuncionExpresion($1, $2, NULL, $5);}
     ;
 
 sentencia_switch: TOKEN_SWITCH '(' expr ')' '{' lista_casos '}' { $$ = nuevoSwitchExpresion($3, $6); }
@@ -225,6 +229,7 @@ expr: expr '+' expr   { $$ =  nuevoSumaExpresion($1, $3);  }
     | expr TOKEN_AND expr { $$ = nuevoLogicAndExpresion($1, $3); }
     | expr TOKEN_OR expr { $$ = nuevoLogicOrExpresion($1, $3); }
     | '!' expr %prec NEG { $$ = nuevoLogicNotExpresion($2); }
+    | '(' TOKEN_DVOID ')' expr { $$ = nuevoCastingExpresion($4, VOID); }
     | '(' TOKEN_DINT ')' expr { $$ = nuevoCastingExpresion($4, INT); }
     | '(' TOKEN_DFLOAT ')' expr { $$ = nuevoCastingExpresion($4, FLOAT); }
     | '(' TOKEN_DDOUBLE ')' expr { $$ = nuevoCastingExpresion($4, DOUBLE); }
@@ -247,7 +252,8 @@ primitivo: TOKEN_UNSIGNED_INTEGER { $$ =  nuevoPrimitivoExpresion($1, INT); }
     | TOKEN_FALSE { $$ =  nuevoPrimitivoExpresion("F", BOOLEAN); }
     ;
 
-tipoPrimitivo: TOKEN_DINT { $$ = INT; }
+tipoPrimitivo: TOKEN_DVOID { $$ = VOID; }
+    | TOKEN_DINT { $$ = INT; }
     | TOKEN_DFLOAT { $$ = FLOAT; }
     | TOKEN_DDOUBLE { $$ = DOUBLE; }
     | TOKEN_DSTRING { $$ = STRING; }
