@@ -4,6 +4,7 @@
 #include "ast/AbstractExpresion.h"
 #include "ast/nodos/instrucciones/instruccion/declaracion.h"
 #include "ast/nodos/expresiones/integerParseInt.h"
+#include "ast/nodos/expresiones/floatParse.h"
 
 /*
     Estructura de un builder:
@@ -110,5 +111,11 @@ AbstractExpresion *nuevoReturnExpresion(AbstractExpresion *expresion);
     Integer functions
 */
 AbstractExpresion *nuevoIntegerParseIntExpresion(AbstractExpresion *expresion, int linea, int columna);
+
+/*
+    Float and Double functions
+*/
+AbstractExpresion *nuevoDoubleParseDoubleExpresion(AbstractExpresion *expresion, int linea, int columna);
+AbstractExpresion *nuevoFloatParseFloatExpresion(AbstractExpresion *expresion, int linea, int columna);
 
 #endif

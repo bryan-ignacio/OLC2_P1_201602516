@@ -34,7 +34,7 @@
 }
 
 /* Tokens tipados */
-%token <string> TOKEN_PRINT TOKEN_DINT TOKEN_DFLOAT TOKEN_DDOUBLE TOKEN_DVOID TOKEN_IF TOKEN_ELSE TOKEN_TRUE TOKEN_FALSE TOKEN_FUNC TOKEN_INTEGER
+%token <string> TOKEN_PRINT TOKEN_DINT TOKEN_DFLOAT TOKEN_DDOUBLE TOKEN_DVOID TOKEN_IF TOKEN_ELSE TOKEN_TRUE TOKEN_FALSE TOKEN_FUNC TOKEN_INTEGER TOKEN_DOUBLE_CLASS TOKEN_FLOAT_CLASS
 TOKEN_DSTRING TOKEN_DBOOLEAN TOKEN_DCHAR TOKEN_UNSIGNED_INTEGER TOKEN_REAL TOKEN_DOUBLE TOKEN_STRING TOKEN_CHAR TOKEN_IDENTIFIER TOKEN_RETURN TOKEN_FINAL TOKEN_LEFT_SHIFT TOKEN_RIGHT_SHIFT TOKEN_EQ TOKEN_NE TOKEN_GE TOKEN_LE TOKEN_AND TOKEN_OR
 TOKEN_PLUS_ASSIGN TOKEN_MINUS_ASSIGN TOKEN_MULT_ASSIGN TOKEN_DIV_ASSIGN TOKEN_MOD_ASSIGN TOKEN_AND_ASSIGN TOKEN_OR_ASSIGN TOKEN_XOR_ASSIGN TOKEN_LSHIFT_ASSIGN TOKEN_RSHIFT_ASSIGN TOKEN_SWITCH TOKEN_CASE TOKEN_BREAK TOKEN_DEFAULT TOKEN_WHILE TOKEN_CONTINUE TOKEN_FOR TOKEN_NEW
 
@@ -244,6 +244,22 @@ expr: expr '+' expr   { $$ =  nuevoSumaExpresion($1, $3);  }
             $$ = nuevoIntegerParseIntExpresion($5, @1.first_line, @1.first_column);
         } else {
             yyerror("Método no reconocido en clase Integer");
+            $$ = NULL;
+        }
+    }
+    | TOKEN_DOUBLE_CLASS '.' TOKEN_IDENTIFIER '(' expr ')' { 
+        if (strcmp($3, "parseDouble") == 0) {
+            $$ = nuevoDoubleParseDoubleExpresion($5, @1.first_line, @1.first_column);
+        } else {
+            yyerror("Método no reconocido en clase Double");
+            $$ = NULL;
+        }
+    }
+    | TOKEN_FLOAT_CLASS '.' TOKEN_IDENTIFIER '(' expr ')' { 
+        if (strcmp($3, "parseFloat") == 0) {
+            $$ = nuevoFloatParseFloatExpresion($5, @1.first_line, @1.first_column);
+        } else {
+            yyerror("Método no reconocido en clase Float");
             $$ = NULL;
         }
     }

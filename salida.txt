@@ -1,8 +1,22 @@
-=== DEMOSTRACIÓN COMPLETA INTEGER.PARSEINT() ===
-Convertido: '42' = 42
-Operación: 10 * 20 + 5 = 205
-Suma de strings: '15' + '25' = 40
-Rango válido: -2147483648 a 2147483647
-La persona tiene 25 años
-Es mayor de edad
-=== DEMOSTRACIÓN COMPLETA ===
+=== VALORES BÁSICOS ===
+Pi aproximado: 3.14159
+e aproximado: 2.718
+Decimal: 123.456
+=== CASOS ESPECIALES ===
+Cero: 0
+Negativo: -45.67
+Entero como float: 100
+=== FORMATOS LÍMITE ===
+Punto final: 123
+Punto inicial: 0.456
+=== CÁLCULOS CON PARSEO ===
+Radio: 5
+Pi: 3.14159265358979
+Area: 78.5398163397448
+Circunferencia: 31.4159265358979
+=== NOTACIÓN CIENTÍFICA ===
+Numero grande: 1500000
+Numero pequeno: 0.0025
+=== COMBINACIÓN TIPOS ===
+Entero x Flotante: 42 x 3.14 = 131.88
+=== PARSEO DE FLOTANTES COMPLETO ===

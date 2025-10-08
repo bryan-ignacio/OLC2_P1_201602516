@@ -72,44 +72,46 @@ extern int yydebug;
     TOKEN_FALSE = 266,             /* TOKEN_FALSE  */
     TOKEN_FUNC = 267,              /* TOKEN_FUNC  */
     TOKEN_INTEGER = 268,           /* TOKEN_INTEGER  */
-    TOKEN_DSTRING = 269,           /* TOKEN_DSTRING  */
-    TOKEN_DBOOLEAN = 270,          /* TOKEN_DBOOLEAN  */
-    TOKEN_DCHAR = 271,             /* TOKEN_DCHAR  */
-    TOKEN_UNSIGNED_INTEGER = 272,  /* TOKEN_UNSIGNED_INTEGER  */
-    TOKEN_REAL = 273,              /* TOKEN_REAL  */
-    TOKEN_DOUBLE = 274,            /* TOKEN_DOUBLE  */
-    TOKEN_STRING = 275,            /* TOKEN_STRING  */
-    TOKEN_CHAR = 276,              /* TOKEN_CHAR  */
-    TOKEN_IDENTIFIER = 277,        /* TOKEN_IDENTIFIER  */
-    TOKEN_RETURN = 278,            /* TOKEN_RETURN  */
-    TOKEN_FINAL = 279,             /* TOKEN_FINAL  */
-    TOKEN_LEFT_SHIFT = 280,        /* TOKEN_LEFT_SHIFT  */
-    TOKEN_RIGHT_SHIFT = 281,       /* TOKEN_RIGHT_SHIFT  */
-    TOKEN_EQ = 282,                /* TOKEN_EQ  */
-    TOKEN_NE = 283,                /* TOKEN_NE  */
-    TOKEN_GE = 284,                /* TOKEN_GE  */
-    TOKEN_LE = 285,                /* TOKEN_LE  */
-    TOKEN_AND = 286,               /* TOKEN_AND  */
-    TOKEN_OR = 287,                /* TOKEN_OR  */
-    TOKEN_PLUS_ASSIGN = 288,       /* TOKEN_PLUS_ASSIGN  */
-    TOKEN_MINUS_ASSIGN = 289,      /* TOKEN_MINUS_ASSIGN  */
-    TOKEN_MULT_ASSIGN = 290,       /* TOKEN_MULT_ASSIGN  */
-    TOKEN_DIV_ASSIGN = 291,        /* TOKEN_DIV_ASSIGN  */
-    TOKEN_MOD_ASSIGN = 292,        /* TOKEN_MOD_ASSIGN  */
-    TOKEN_AND_ASSIGN = 293,        /* TOKEN_AND_ASSIGN  */
-    TOKEN_OR_ASSIGN = 294,         /* TOKEN_OR_ASSIGN  */
-    TOKEN_XOR_ASSIGN = 295,        /* TOKEN_XOR_ASSIGN  */
-    TOKEN_LSHIFT_ASSIGN = 296,     /* TOKEN_LSHIFT_ASSIGN  */
-    TOKEN_RSHIFT_ASSIGN = 297,     /* TOKEN_RSHIFT_ASSIGN  */
-    TOKEN_SWITCH = 298,            /* TOKEN_SWITCH  */
-    TOKEN_CASE = 299,              /* TOKEN_CASE  */
-    TOKEN_BREAK = 300,             /* TOKEN_BREAK  */
-    TOKEN_DEFAULT = 301,           /* TOKEN_DEFAULT  */
-    TOKEN_WHILE = 302,             /* TOKEN_WHILE  */
-    TOKEN_CONTINUE = 303,          /* TOKEN_CONTINUE  */
-    TOKEN_FOR = 304,               /* TOKEN_FOR  */
-    TOKEN_NEW = 305,               /* TOKEN_NEW  */
-    NEG = 306                      /* NEG  */
+    TOKEN_DOUBLE_CLASS = 269,      /* TOKEN_DOUBLE_CLASS  */
+    TOKEN_FLOAT_CLASS = 270,       /* TOKEN_FLOAT_CLASS  */
+    TOKEN_DSTRING = 271,           /* TOKEN_DSTRING  */
+    TOKEN_DBOOLEAN = 272,          /* TOKEN_DBOOLEAN  */
+    TOKEN_DCHAR = 273,             /* TOKEN_DCHAR  */
+    TOKEN_UNSIGNED_INTEGER = 274,  /* TOKEN_UNSIGNED_INTEGER  */
+    TOKEN_REAL = 275,              /* TOKEN_REAL  */
+    TOKEN_DOUBLE = 276,            /* TOKEN_DOUBLE  */
+    TOKEN_STRING = 277,            /* TOKEN_STRING  */
+    TOKEN_CHAR = 278,              /* TOKEN_CHAR  */
+    TOKEN_IDENTIFIER = 279,        /* TOKEN_IDENTIFIER  */
+    TOKEN_RETURN = 280,            /* TOKEN_RETURN  */
+    TOKEN_FINAL = 281,             /* TOKEN_FINAL  */
+    TOKEN_LEFT_SHIFT = 282,        /* TOKEN_LEFT_SHIFT  */
+    TOKEN_RIGHT_SHIFT = 283,       /* TOKEN_RIGHT_SHIFT  */
+    TOKEN_EQ = 284,                /* TOKEN_EQ  */
+    TOKEN_NE = 285,                /* TOKEN_NE  */
+    TOKEN_GE = 286,                /* TOKEN_GE  */
+    TOKEN_LE = 287,                /* TOKEN_LE  */
+    TOKEN_AND = 288,               /* TOKEN_AND  */
+    TOKEN_OR = 289,                /* TOKEN_OR  */
+    TOKEN_PLUS_ASSIGN = 290,       /* TOKEN_PLUS_ASSIGN  */
+    TOKEN_MINUS_ASSIGN = 291,      /* TOKEN_MINUS_ASSIGN  */
+    TOKEN_MULT_ASSIGN = 292,       /* TOKEN_MULT_ASSIGN  */
+    TOKEN_DIV_ASSIGN = 293,        /* TOKEN_DIV_ASSIGN  */
+    TOKEN_MOD_ASSIGN = 294,        /* TOKEN_MOD_ASSIGN  */
+    TOKEN_AND_ASSIGN = 295,        /* TOKEN_AND_ASSIGN  */
+    TOKEN_OR_ASSIGN = 296,         /* TOKEN_OR_ASSIGN  */
+    TOKEN_XOR_ASSIGN = 297,        /* TOKEN_XOR_ASSIGN  */
+    TOKEN_LSHIFT_ASSIGN = 298,     /* TOKEN_LSHIFT_ASSIGN  */
+    TOKEN_RSHIFT_ASSIGN = 299,     /* TOKEN_RSHIFT_ASSIGN  */
+    TOKEN_SWITCH = 300,            /* TOKEN_SWITCH  */
+    TOKEN_CASE = 301,              /* TOKEN_CASE  */
+    TOKEN_BREAK = 302,             /* TOKEN_BREAK  */
+    TOKEN_DEFAULT = 303,           /* TOKEN_DEFAULT  */
+    TOKEN_WHILE = 304,             /* TOKEN_WHILE  */
+    TOKEN_CONTINUE = 305,          /* TOKEN_CONTINUE  */
+    TOKEN_FOR = 306,               /* TOKEN_FOR  */
+    TOKEN_NEW = 307,               /* TOKEN_NEW  */
+    NEG = 308                      /* NEG  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -124,7 +126,7 @@ union YYSTYPE
   AbstractExpresion* nodo;
   TipoDato tipoDato;
 
-#line 128 "build/parser.tab.h"
+#line 130 "build/parser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;
