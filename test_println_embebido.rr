@@ -1,0 +1,37 @@
+System.out.println("=== PRUEBA FUNCIONES EMBEBIDAS ===");
+
+// Declarar variables de diferentes tipos
+int total = 120;
+float precio = 25.99;
+boolean activo = true;
+String nombre = "Juan";
+
+// Pruebas de concatenación automática con +
+System.out.println("Resultado: " + total);
+System.out.println("El precio es: $" + precio);
+System.out.println("Estado activo: " + activo);
+System.out.println("Hola " + nombre + ", bienvenido!");
+
+// Concatenación de múltiples tipos
+System.out.println("Total: " + total + ", Precio: " + precio + ", Activo: " + activo);
+
+// Pruebas con operaciones aritméticas
+int a = 10;
+int b = 5;
+System.out.println("La suma de " + a + " + " + b + " = " + (a + b));
+System.out.println("La multiplicación de " + a + " * " + b + " = " + (a * b));
+
+// Concatenación con caracteres
+char inicial = 'J';
+System.out.println("Tu inicial es: " + inicial);
+
+// Concatenación con diferentes tipos primitivos
+System.out.println("Entero: " + 42 + ", Float: " + 3.14 + ", Boolean: " + false);
+
+// Demostrar que se convierte automáticamente a string
+System.out.println(total);
+System.out.println(precio);
+System.out.println(activo);
+System.out.println(nombre);
+
+System.out.println("=== FIN PRUEBAS ===");

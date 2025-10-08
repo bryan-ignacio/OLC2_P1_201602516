@@ -1,13 +1,15 @@
-=== BUSQUEDA BINARIA RECURSIVA ===
-Array simulado: [1, 3, 5, 7, 9, 11, 13, 15]
-buscarEnArray(7) = 
-3
-buscarEnArray(13) = 
-6
-buscarEnArray(1) = 
-0
-buscarEnArray(15) = 
-7
-buscarEnArray(8) = 
--1
-=== BUSQUEDA BINARIA COMPLETA ===
+=== DEMOSTRACIÓN AVANZADA DE SYSTEM.OUT.PRINTLN ===
+Hola María! Tienes 25 años.
+Cálculo: 25 (resultado de 5*3+10)
+Perfil: María, Edad: 25, Altura: 1.67m, Mayor: true, Categoría: A
+En 5 años tendrás: 30 años
+Tu altura en cm: 167
+Concatenar con expresión: true (es mayor de edad)
+Valor nulo maneja: test
+Saludo calculado: Hola Ana - Total: 60
+=== CONVERSIÓN AUTOMÁTICA ===
+42
+3.14159
+true
+X
+=== FUNCIÓN EMBEBIDA COMPLETA ===

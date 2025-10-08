@@ -88,3 +88,14 @@ int cubo3D_2 [][][] = {
 */
 
 System.out.println("FIn archivo");
+
+ahora quiero implementar funciones embebidas
+System.out.println()
+Imprime la representacion en texto de una expresion y agrega un salto de linea.
+sintaxis:
+System.out.println(<expr>);
+Ejemplo:
+int total = 120;
+System.out.println("Resultado: " + total);
+
+esta funcion tambien convierte implicitamente valores primitivos a String.

@@ -12,52 +12,111 @@
 Result interpretPrintExpresion(AbstractExpresion *self, Context *context)
 {
     // interpretar la lista de expresiones
-    // recorremos  cada expresion y lo que nos devuelva imprimimos el valor
+    // recorremos cada expresion y lo que nos devuelva imprimimos el valor
     AbstractExpresion *listaExpresiones = self->hijos[0];
-    for (size_t i = 0; i < listaExpresiones->numHijos; ++i)
+
+    // Si solo hay una expresión, la evaluamos e imprimimos
+    if (listaExpresiones->numHijos == 1)
     {
-        Result result = listaExpresiones->hijos[i]->interpret(listaExpresiones->hijos[i], context);
+        Result result = listaExpresiones->hijos[0]->interpret(listaExpresiones->hijos[0], context);
         switch (result.tipo)
         {
         case STRING:
             if (result.valor == NULL)
             {
-                fprintf(context->global->archivo, "null\n");
+                fprintf(context->global->archivo, "null");
             }
             else
             {
-                fprintf(context->global->archivo, "%s\n", (char *)result.valor);
+                fprintf(context->global->archivo, "%s", (char *)result.valor);
             }
             break;
         case INT:
-            fprintf(context->global->archivo, "%d\n", *(int *)result.valor);
+            fprintf(context->global->archivo, "%d", *(int *)result.valor);
             break;
         case FLOAT:
-            fprintf(context->global->archivo, "%f\n", *(float *)result.valor);
+            fprintf(context->global->archivo, "%g", *(float *)result.valor);
             break;
         case DOUBLE:
-            fprintf(context->global->archivo, "%.15g\n", *(double *)result.valor);
+            fprintf(context->global->archivo, "%.15g", *(double *)result.valor);
             break;
         case BOOLEAN:
-            fprintf(context->global->archivo, "%s\n", *(bool *)result.valor ? "true" : "false");
+            fprintf(context->global->archivo, "%s", *(bool *)result.valor ? "true" : "false");
             break;
         case CHAR:
             if (*(wchar_t *)result.valor == L'\0')
             {
-                fprintf(context->global->archivo, "\\0\n");
+                fprintf(context->global->archivo, "\\0");
             }
             else
             {
-                fprintf(context->global->archivo, "%lc\n", *(wchar_t *)result.valor);
+                fprintf(context->global->archivo, "%lc", *(wchar_t *)result.valor);
             }
             break;
         case NULO:
-            fprintf(context->global->archivo, "NULL\n");
+            fprintf(context->global->archivo, "null");
+            break;
+        case VOID:
+            // No imprimir nada para void
             break;
         default:
-            fprintf(context->global->archivo, "Tipo no implementado\n");
+            fprintf(context->global->archivo, "undefined");
         }
     }
+    else
+    {
+        // Si hay múltiples expresiones, las concatenamos como strings
+        for (size_t i = 0; i < listaExpresiones->numHijos; ++i)
+        {
+            Result result = listaExpresiones->hijos[i]->interpret(listaExpresiones->hijos[i], context);
+            switch (result.tipo)
+            {
+            case STRING:
+                if (result.valor == NULL)
+                {
+                    fprintf(context->global->archivo, "null");
+                }
+                else
+                {
+                    fprintf(context->global->archivo, "%s", (char *)result.valor);
+                }
+                break;
+            case INT:
+                fprintf(context->global->archivo, "%d", *(int *)result.valor);
+                break;
+            case FLOAT:
+                fprintf(context->global->archivo, "%g", *(float *)result.valor);
+                break;
+            case DOUBLE:
+                fprintf(context->global->archivo, "%.15g", *(double *)result.valor);
+                break;
+            case BOOLEAN:
+                fprintf(context->global->archivo, "%s", *(bool *)result.valor ? "true" : "false");
+                break;
+            case CHAR:
+                if (*(wchar_t *)result.valor == L'\0')
+                {
+                    fprintf(context->global->archivo, "\\0");
+                }
+                else
+                {
+                    fprintf(context->global->archivo, "%lc", *(wchar_t *)result.valor);
+                }
+                break;
+            case NULO:
+                fprintf(context->global->archivo, "null");
+                break;
+            case VOID:
+                // No imprimir nada para void
+                break;
+            default:
+                fprintf(context->global->archivo, "undefined");
+            }
+        }
+    }
+
+    // Agregar salto de línea al final
+    fprintf(context->global->archivo, "\n");
     return nuevoValorResultadoVacio();
 }
 
