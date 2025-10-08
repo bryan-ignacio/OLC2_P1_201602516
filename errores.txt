@@ -1,15 +1,1 @@
-
-Reporte de errores:
----------------------------------------------
-Ambito: 1 | Linea: 93, Columna: 20 | [SEMANTICO] Índice fuera de rango: 5. Rango válido: 0 a 2
-Ambito: 1 | Linea: 80, Columna: 1 | [SEMANTICO] Índice de fila fuera de rango: 3. Rango válido: 0 a 1
-Ambito: 1 | Linea: 77, Columna: 1 | [SEMANTICO] Índice fuera de rango: 5. Rango válido: 0 a 2
-Ambito: 1 | Linea: 54, Columna: 20 | [SEMANTICO] Índice de fila fuera de rango: 10. Rango válido: 0 a 1
-Ambito: 1 | Linea: 51, Columna: 20 | [SEMANTICO] Índice de columna fuera de rango: 3. Rango válido: 0 a 2
-Ambito: 1 | Linea: 48, Columna: 20 | [SEMANTICO] Índice de fila fuera de rango: 2. Rango válido: 0 a 1
-Ambito: 1 | Linea: 45, Columna: 20 | [SEMANTICO] Índice de columna fuera de rango: -1. Rango válido: 0 a 2
-Ambito: 1 | Linea: 42, Columna: 20 | [SEMANTICO] Índice de fila fuera de rango: -1. Rango válido: 0 a 1
-Ambito: 1 | Linea: 25, Columna: 20 | [SEMANTICO] Índice fuera de rango: 100. Rango válido: 0 a 4
-Ambito: 1 | Linea: 22, Columna: 20 | [SEMANTICO] Índice fuera de rango: 5. Rango válido: 0 a 4
-Ambito: 1 | Linea: 19, Columna: 20 | [SEMANTICO] Índice fuera de rango: -1. Rango válido: 0 a 4
----------------------------------------------
+No se encontraron errores.
