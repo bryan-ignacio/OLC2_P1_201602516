@@ -36,10 +36,10 @@ Result dividirIntInt(Result izquierda, Result derecha)
         return nuevoValorResultadoVacio();
     }
 
-    // División entera: resultado es float para preservar decimales
-    float *res = malloc(sizeof(float));
-    *res = (float)*((int *)izquierda.valor) / (float)*((int *)derecha.valor);
-    return nuevoValorResultado(res, FLOAT);
+    // División entera: mantener resultado como int (división entera)
+    int *res = malloc(sizeof(int));
+    *res = *((int *)izquierda.valor) / *((int *)derecha.valor);
+    return nuevoValorResultado(res, INT);
 }
 
 Result dividirFloatFloat(Result izquierda, Result derecha)

@@ -1,16 +1,13 @@
-=== DEMOSTRACION COMPLETA: FUNCIONES CON RETORNO Y VOID ===
-=== PROBANDO TODAS LAS FUNCIONES ===
---- RESULTADOS ---
-El valor es: 
-40
-Saludo: 
-Hola Mundo
-¿Es 10 positivo?: 
-true
-Analizando número: 
-5
-Es positivo
-Analizando número: 
--3
-Es negativo o cero
-=== SISTEMA DE FUNCIONES COMPLETO ===
+=== BUSQUEDA BINARIA RECURSIVA ===
+Array simulado: [1, 3, 5, 7, 9, 11, 13, 15]
+buscarEnArray(7) = 
+3
+buscarEnArray(13) = 
+6
+buscarEnArray(1) = 
+0
+buscarEnArray(15) = 
+7
+buscarEnArray(8) = 
+-1
+=== BUSQUEDA BINARIA COMPLETA ===

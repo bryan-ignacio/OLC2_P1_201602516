@@ -13,8 +13,8 @@ Result interpretLlamadaFuncionExpresion(AbstractExpresion *self, Context *contex
     Symbol *symbolEncontrado = buscarTablaSimbolos(context, nodo->id);
     if (symbolEncontrado && symbolEncontrado->clase == FUNCION)
     {
-        // crear nuevo contexto
-        Context *contextFuncion = nuevoContext(context->global);
+        // crear nuevo contexto - permitir acceso al contexto actual para recursión
+        Context *contextFuncion = nuevoContext(context);
         int posicionInstruccciones = 0;
         if (symbolEncontrado->nodo->numHijos > 1)
         {
