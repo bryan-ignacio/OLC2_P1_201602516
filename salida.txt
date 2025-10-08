@@ -1,20 +1,35 @@
-=== SISTEMA DE CALCULO CIENTIFICO ===
-Calculadora Científica v1.0
-100
-5.670000
-2.718281828
-Z
-false
-Nuevo resultado
-=== SISTEMA DE GESTION DE INVENTARIO ===
-
---- DECLARACION DE ARREGLOS ---
-Teclado
-3500
-false
-----MODIFICACION----
-Teclado RGB
-----MATRICES----
-0
--------- MATRICES OPERACIONES ---------
-1.000000
+=== TEST DE VALIDACION DE INDICES ===
+--- VECTORES: Validación de índices ---
+Accesos válidos:
+10
+30
+50
+Errores en vectores:
+NULL
+NULL
+NULL
+--- MATRICES: Validación de índices ---
+Accesos válidos:
+1
+3
+5
+6
+Errores en matrices:
+NULL
+NULL
+NULL
+NULL
+NULL
+--- ASIGNACIONES: Validación de índices ---
+Asignaciones válidas:
+1.500000
+3.500000
+2.500000
+4.500000
+Errores en asignaciones:
+--- INDICES CON VARIABLES ---
+Con índice válido:
+B
+Con índice inválido:
+NULL
+=== FIN TEST VALIDACION ===
