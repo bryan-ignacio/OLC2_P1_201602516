@@ -3,6 +3,7 @@
 
 #include "ast/AbstractExpresion.h"
 #include "ast/nodos/instrucciones/instruccion/declaracion.h"
+#include "ast/nodos/expresiones/integerParseInt.h"
 
 /*
     Estructura de un builder:
@@ -104,5 +105,10 @@ AbstractExpresion *nuevoFuncionExpresion(TipoDato tipoDato, char *nombre, Abstra
 AbstractExpresion *nuevoLlamadaExpresion(char *id, AbstractExpresion *listaExpresiones);
 AbstractExpresion *nuevoListaParametros();
 AbstractExpresion *nuevoReturnExpresion(AbstractExpresion *expresion);
+
+/*
+    Integer functions
+*/
+AbstractExpresion *nuevoIntegerParseIntExpresion(AbstractExpresion *expresion, int linea, int columna);
 
 #endif

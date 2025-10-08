@@ -259,6 +259,7 @@ default             return(TOKEN_DEFAULT);
 new                 return(TOKEN_NEW);
 final               return(TOKEN_FINAL);
 System\.out\.println    return(TOKEN_PRINT);
+Integer             return(TOKEN_INTEGER);
 func                return(TOKEN_FUNC);
 void                return(TOKEN_DVOID); // tipo void para funciones sin retorno
 int                 return(TOKEN_DINT); // aqui comienzan las declaraciones de tipos primitivos.
@@ -382,7 +383,7 @@ return              return(TOKEN_RETURN);
 "<<="                return(TOKEN_LSHIFT_ASSIGN); // operador de asignación desplazamiento izquierda
 ">>="                return(TOKEN_RSHIFT_ASSIGN); // operador de asignación desplazamiento derecha
 
-[*/+\-%,^&|~()\[\]{}\;=\>\<!:]      return(yytext[0]); // esta es una expresion regular que reconoce varios simbolos de uno solo caracter y retorna el mismo caracter como token.
+[*/+\-%,^&|~()\[\]{}\;=\>\<!:.]      return(yytext[0]); // esta es una expresion regular que reconoce varios simbolos de uno solo caracter y retorna el mismo caracter como token.
 
 {white_space}        // este white_space se utiliza para espacios en blanco y no hace nada.
 [\n\r]               {yycolumn=1;} // este patron reconoce saltos de linea y reinicia el contador de columna.

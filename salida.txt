@@ -1,15 +1,8 @@
-=== DEMOSTRACIÓN AVANZADA DE SYSTEM.OUT.PRINTLN ===
-Hola María! Tienes 25 años.
-Cálculo: 25 (resultado de 5*3+10)
-Perfil: María, Edad: 25, Altura: 1.67m, Mayor: true, Categoría: A
-En 5 años tendrás: 30 años
-Tu altura en cm: 167
-Concatenar con expresión: true (es mayor de edad)
-Valor nulo maneja: test
-Saludo calculado: Hola Ana - Total: 60
-=== CONVERSIÓN AUTOMÁTICA ===
-42
-3.14159
-true
-X
-=== FUNCIÓN EMBEBIDA COMPLETA ===
+=== DEMOSTRACIÓN COMPLETA INTEGER.PARSEINT() ===
+Convertido: '42' = 42
+Operación: 10 * 20 + 5 = 205
+Suma de strings: '15' + '25' = 40
+Rango válido: -2147483648 a 2147483647
+La persona tiene 25 años
+Es mayor de edad
+=== DEMOSTRACIÓN COMPLETA ===
