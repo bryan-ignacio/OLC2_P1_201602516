@@ -60,3 +60,8 @@ mat[1][2] = 5.5f;
 // Sintaxis 2  
 int[][] board = {{0,1,0}, {1,0,1}, {0,1,0}};
 System.out.println(board[1][1]);  // Imprime: 0
+
+
+System.out.println("-------- MATRICES OPERACIONES ---------");
+float y = board[1][2];
+System.out.println(y);

@@ -1,5 +1,1 @@
-
-Reporte de errores:
----------------------------------------------
-Ambito: 0 | Linea: 62, Columna: 48 | [LEXICO] Fin de archivo en comentario de línea
----------------------------------------------
+No se encontraron errores.
