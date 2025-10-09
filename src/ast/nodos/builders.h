@@ -8,6 +8,8 @@
 #include "ast/nodos/expresiones/stringValueOf.h"
 #include "ast/nodos/expresiones/stringJoin.h"
 #include "ast/nodos/expresiones/arraysIndexOf.h"
+#include "ast/nodos/expresiones/arrayLength.h"
+#include "ast/nodos/expresiones/aritmeticas/incrementoDecremento.h"
 
 /*
     Estructura de un builder:
@@ -35,6 +37,14 @@ AbstractExpresion *nuevoDivisionExpresion(AbstractExpresion *izquierda, Abstract
 AbstractExpresion *nuevoModuloExpresion(AbstractExpresion *izquierda, AbstractExpresion *derecha);
 AbstractExpresion *nuevoUnarioExpresion(AbstractExpresion *expresion);
 AbstractExpresion *nuevoCastingExpresion(AbstractExpresion *expresion, TipoDato tipoDestino);
+
+/*
+    Builds increment/decrement operations
+*/
+AbstractExpresion *nuevoPreIncrementoExpresion(char *identificador, int linea, int columna);
+AbstractExpresion *nuevoPostIncrementoExpresion(char *identificador, int linea, int columna);
+AbstractExpresion *nuevoPreDecrementoExpresion(char *identificador, int linea, int columna);
+AbstractExpresion *nuevoPostDecrementoExpresion(char *identificador, int linea, int columna);
 
 AbstractExpresion *nuevoComparacionExpresion(AbstractExpresion *izquierda, AbstractExpresion *derecha);
 AbstractExpresion *nuevoIgualdadExpresion(AbstractExpresion *izquierda, AbstractExpresion *derecha);
@@ -127,5 +137,6 @@ AbstractExpresion *nuevoStringJoinExpresion(AbstractExpresion *argumentos, int l
     Arrays functions
 */
 AbstractExpresion *nuevoArraysIndexOfExpresion(AbstractExpresion *argumentos, int linea, int columna);
+AbstractExpresion *nuevoArrayLengthExpresion(AbstractExpresion *arrayExpresion, int linea, int columna);
 
 #endif

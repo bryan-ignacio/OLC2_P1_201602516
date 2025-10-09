@@ -34,8 +34,8 @@
 }
 
 /* Tokens tipados */
-%token <string> TOKEN_PRINT TOKEN_DINT TOKEN_DFLOAT TOKEN_DDOUBLE TOKEN_DVOID TOKEN_IF TOKEN_ELSE TOKEN_TRUE TOKEN_FALSE TOKEN_FUNC TOKEN_INTEGER TOKEN_DOUBLE_CLASS TOKEN_FLOAT_CLASS TOKEN_STRING_CLASS TOKEN_ARRAYS
-TOKEN_DBOOLEAN TOKEN_DCHAR TOKEN_UNSIGNED_INTEGER TOKEN_REAL TOKEN_DOUBLE TOKEN_STRING TOKEN_CHAR TOKEN_IDENTIFIER TOKEN_RETURN TOKEN_FINAL TOKEN_LEFT_SHIFT TOKEN_RIGHT_SHIFT TOKEN_EQ TOKEN_NE TOKEN_GE TOKEN_LE TOKEN_AND TOKEN_OR
+%token <string> TOKEN_PRINT TOKEN_DINT TOKEN_DFLOAT TOKEN_DDOUBLE TOKEN_DVOID TOKEN_IF TOKEN_ELSE TOKEN_TRUE TOKEN_FALSE TOKEN_FUNC TOKEN_INTEGER TOKEN_DOUBLE_CLASS TOKEN_FLOAT_CLASS TOKEN_STRING_CLASS TOKEN_ARRAYS TOKEN_LENGTH
+TOKEN_DBOOLEAN TOKEN_DCHAR TOKEN_UNSIGNED_INTEGER TOKEN_REAL TOKEN_DOUBLE TOKEN_STRING TOKEN_CHAR TOKEN_IDENTIFIER TOKEN_RETURN TOKEN_FINAL TOKEN_LEFT_SHIFT TOKEN_RIGHT_SHIFT TOKEN_EQ TOKEN_NE TOKEN_GE TOKEN_LE TOKEN_AND TOKEN_OR TOKEN_INCREMENT TOKEN_DECREMENT
 TOKEN_PLUS_ASSIGN TOKEN_MINUS_ASSIGN TOKEN_MULT_ASSIGN TOKEN_DIV_ASSIGN TOKEN_MOD_ASSIGN TOKEN_AND_ASSIGN TOKEN_OR_ASSIGN TOKEN_XOR_ASSIGN TOKEN_LSHIFT_ASSIGN TOKEN_RSHIFT_ASSIGN TOKEN_SWITCH TOKEN_CASE TOKEN_BREAK TOKEN_DEFAULT TOKEN_WHILE TOKEN_CONTINUE TOKEN_FOR TOKEN_NEW
 
 /* Tipo de los no-terminales que llevan valor */
@@ -148,6 +148,10 @@ asignacion: TOKEN_IDENTIFIER '=' expr { $$ = nuevoAsignacionExpresion($1, $3, @1
     | TOKEN_IDENTIFIER TOKEN_XOR_ASSIGN expr { $$ = nuevoAsignacionCompuesta($1, ASIG_XOR, $3, @1.first_line, @1.first_column); }
     | TOKEN_IDENTIFIER TOKEN_LSHIFT_ASSIGN expr { $$ = nuevoAsignacionCompuesta($1, ASIG_LSHIFT, $3, @1.first_line, @1.first_column); }
     | TOKEN_IDENTIFIER TOKEN_RSHIFT_ASSIGN expr { $$ = nuevoAsignacionCompuesta($1, ASIG_RSHIFT, $3, @1.first_line, @1.first_column); }
+    | TOKEN_INCREMENT TOKEN_IDENTIFIER { $$ = nuevoPreIncrementoExpresion($2, @1.first_line, @1.first_column); }
+    | TOKEN_IDENTIFIER TOKEN_INCREMENT { $$ = nuevoPostIncrementoExpresion($1, @1.first_line, @1.first_column); }
+    | TOKEN_DECREMENT TOKEN_IDENTIFIER { $$ = nuevoPreDecrementoExpresion($2, @1.first_line, @1.first_column); }
+    | TOKEN_IDENTIFIER TOKEN_DECREMENT { $$ = nuevoPostDecrementoExpresion($1, @1.first_line, @1.first_column); }
     ;
 
 sentencia_if: TOKEN_IF '(' expr ')' bloque { $$ = nuevoIfExpresion($3, $5); }
@@ -289,6 +293,11 @@ expr: expr '+' expr   { $$ =  nuevoSumaExpresion($1, $3);  }
     }
     | acceso_array { $$ = $1; }
     | acceso_matrix { $$ = $1; }
+    | expr '.' TOKEN_LENGTH { $$ = nuevoArrayLengthExpresion($1, @1.first_line, @1.first_column); }
+    | TOKEN_INCREMENT TOKEN_IDENTIFIER { $$ = nuevoPreIncrementoExpresion($2, @1.first_line, @1.first_column); }
+    | TOKEN_IDENTIFIER TOKEN_INCREMENT { $$ = nuevoPostIncrementoExpresion($1, @1.first_line, @1.first_column); }
+    | TOKEN_DECREMENT TOKEN_IDENTIFIER { $$ = nuevoPreDecrementoExpresion($2, @1.first_line, @1.first_column); }
+    | TOKEN_IDENTIFIER TOKEN_DECREMENT { $$ = nuevoPostDecrementoExpresion($1, @1.first_line, @1.first_column); }
     ;
 
 //---------------------- EXPRESIONES PRIMITIVAS -------------------------------

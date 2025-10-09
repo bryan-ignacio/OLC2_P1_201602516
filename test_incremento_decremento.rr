@@ -1,0 +1,52 @@
+System.out.println("=== PRUEBA DE OPERADORES DE INCREMENTO Y DECREMENTO ===");
+
+// Variables para probar
+int numero = 5;
+float decimal = 3.5f;
+double doble = 2.7;
+
+System.out.println("=== VALORES INICIALES ===");
+System.out.println("numero = " + String.valueOf(numero));
+System.out.println("decimal = " + String.valueOf(decimal));
+System.out.println("doble = " + String.valueOf(doble));
+
+System.out.println("=== POST-INCREMENTO (variable++) ===");
+int resultadoPost1 = numero++;
+System.out.println("numero++ devolvió: " + String.valueOf(resultadoPost1) + " (valor anterior)");
+System.out.println("numero ahora es: " + String.valueOf(numero));
+
+float resultadoPost2 = decimal++;
+System.out.println("decimal++ devolvió: " + String.valueOf(resultadoPost2) + " (valor anterior)");
+System.out.println("decimal ahora es: " + String.valueOf(decimal));
+
+System.out.println("=== PRE-INCREMENTO (++variable) ===");
+int resultadoPre1 = ++numero;
+System.out.println("++numero devolvió: " + String.valueOf(resultadoPre1) + " (valor nuevo)");
+System.out.println("numero ahora es: " + String.valueOf(numero));
+
+double resultadoPre2 = ++doble;
+System.out.println("++doble devolvió: " + String.valueOf(resultadoPre2) + " (valor nuevo)");
+System.out.println("doble ahora es: " + String.valueOf(doble));
+
+System.out.println("=== POST-DECREMENTO (variable--) ===");
+int resultadoPostDec1 = numero--;
+System.out.println("numero-- devolvió: " + String.valueOf(resultadoPostDec1) + " (valor anterior)");
+System.out.println("numero ahora es: " + String.valueOf(numero));
+
+System.out.println("=== PRE-DECREMENTO (--variable) ===");
+int resultadoPreDec1 = --numero;
+System.out.println("--numero devolvió: " + String.valueOf(resultadoPreDec1) + " (valor nuevo)");
+System.out.println("numero ahora es: " + String.valueOf(numero));
+
+System.out.println("=== USANDO EN FOR ===");
+System.out.println("Contando de 0 a 4 con i++:");
+for (int i = 0; i < 5; i++) {
+    System.out.println("i = " + String.valueOf(i));
+}
+
+System.out.println("=== VERIFICACIÓN FINAL ===");
+System.out.println("numero final = " + String.valueOf(numero));
+System.out.println("decimal final = " + String.valueOf(decimal));
+System.out.println("doble final = " + String.valueOf(doble));
+
+System.out.println("¡OPERADORES DE INCREMENTO Y DECREMENTO FUNCIONAN!");

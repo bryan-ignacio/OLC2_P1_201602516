@@ -56,3 +56,8 @@ Detalles:
 Código 1003 encontrado en posición: 2
 Corresponde al producto: Teclado RGB
 Búsqueda de 'Tablet': -1 (no encontrado)
+  dispositivo: Laptop
+  dispositivo: Mouse
+  dispositivo: Teclado
+  dispositivo: Monitor
+  dispositivo: Impresora

@@ -264,6 +264,7 @@ Double              return(TOKEN_DOUBLE_CLASS);
 Float               return(TOKEN_FLOAT_CLASS);
 String              return(TOKEN_STRING_CLASS);
 Arrays              return(TOKEN_ARRAYS);
+length              return(TOKEN_LENGTH);
 func                return(TOKEN_FUNC);
 void                return(TOKEN_DVOID); // tipo void para funciones sin retorno
 int                 return(TOKEN_DINT); // aqui comienzan las declaraciones de tipos primitivos.
@@ -375,6 +376,8 @@ return              return(TOKEN_RETURN);
 "<="                 return(TOKEN_LE); // operador menor o igual
 "&&"                 return(TOKEN_AND); // operador lógico AND
 "||"                 return(TOKEN_OR); // operador lógico OR
+"++"                 return(TOKEN_INCREMENT); // operador de incremento
+"--"                 return(TOKEN_DECREMENT); // operador de decremento
 "+="                 return(TOKEN_PLUS_ASSIGN); // operador de asignación suma
 "-="                 return(TOKEN_MINUS_ASSIGN); // operador de asignación resta
 "*="                 return(TOKEN_MULT_ASSIGN); // operador de asignación multiplicación
