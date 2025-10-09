@@ -6,6 +6,7 @@
 #include "ast/nodos/expresiones/integerParseInt.h"
 #include "ast/nodos/expresiones/floatParse.h"
 #include "ast/nodos/expresiones/stringValueOf.h"
+#include "ast/nodos/expresiones/stringJoin.h"
 
 /*
     Estructura de un builder:
@@ -119,5 +120,6 @@ AbstractExpresion *nuevoIntegerParseIntExpresion(AbstractExpresion *expresion, i
 AbstractExpresion *nuevoDoubleParseDoubleExpresion(AbstractExpresion *expresion, int linea, int columna);
 AbstractExpresion *nuevoFloatParseFloatExpresion(AbstractExpresion *expresion, int linea, int columna);
 AbstractExpresion *nuevoStringValueOfExpresion(AbstractExpresion *expresion, int linea, int columna);
+AbstractExpresion *nuevoStringJoinExpresion(AbstractExpresion *argumentos, int linea, int columna);
 
 #endif

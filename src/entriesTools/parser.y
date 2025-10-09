@@ -271,6 +271,14 @@ expr: expr '+' expr   { $$ =  nuevoSumaExpresion($1, $3);  }
             $$ = NULL;
         }
     }
+    | TOKEN_STRING_CLASS '.' TOKEN_IDENTIFIER '(' lista_Expr ')' { 
+        if (strcmp($3, "join") == 0) {
+            $$ = nuevoStringJoinExpresion($5, @1.first_line, @1.first_column);
+        } else {
+            yyerror("Método no reconocido en clase String");
+            $$ = NULL;
+        }
+    }
     | acceso_array { $$ = $1; }
     | acceso_matrix { $$ = $1; }
     ;
