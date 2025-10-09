@@ -1,1 +1,10 @@
-No se encontraron errores.
+
+Reporte de errores:
+---------------------------------------------
+Ambito: 1 | Linea: 0, Columna: 0 | [SEMANTICO] La variable 'proveedores' ya existe como variable.
+Ambito: 1 | Linea: 0, Columna: 0 | [SEMANTICO] La variable 'codigosProducto' ya existe como variable.
+Ambito: 1 | Linea: 0, Columna: 0 | [SEMANTICO] La variable 'disponibles' ya existe como variable.
+Ambito: 1 | Linea: 0, Columna: 0 | [SEMANTICO] La variable 'cantidades' ya existe como variable.
+Ambito: 1 | Linea: 0, Columna: 0 | [SEMANTICO] La variable 'precios' ya existe como variable.
+Ambito: 1 | Linea: 0, Columna: 0 | [SEMANTICO] La variable 'productos' ya existe como variable.
+---------------------------------------------

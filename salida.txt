@@ -1,8 +1,58 @@
-=== String.join() - AMBOS MODOS ===
-Modo 1 (argumentos): año-mes-dia
-Modo 1 (con conversión): 10 + 20 + 30
-Modo 2 (array): manzana, banana, cereza, uva
-Modo 2 (array con pipe): rojo | verde | azul
-Modo 2 (un elemento): elemento
-Modo 2 (sin delimitador): ABCDE
-=== String.join() FUNCIONA EN AMBOS MODOS ===
+=== SISTEMA DE CALCULO CIENTIFICO ===
+Calculadora Científica v1.0
+100
+5.67
+2.718281828
+Z
+false
+Nuevo resultado
+=== SISTEMA DE GESTION DE INVENTARIO ===
+
+--- DECLARACION DE ARREGLOS ---
+Teclado
+3500
+false
+----MODIFICACION----
+Teclado RGB
+----MATRICES----
+0
+-------- MATRICES OPERACIONES ---------
+1
+FIn archivo
+
+--- UNIR CADENAS CON Strings.join ---
+Lista de estudiantes: Ana, Luis, Maria, Carlos
+Materias disponibles: Matematicas | Fisica | Quimica
+Reporte de calificaciones: 85 - 92 - 78 - 95
+=== SISTEMA DE GESTION DE INVENTARIO ===
+
+--- DECLARACION DE ARREGLOS ---
+Arreglos declarados exitosamente:
+
+--- MODIFICACION DE ELEMENTOS ---
+Estado inicial del Mouse:
+- Precio: 250
+- Cantidad: 50
+- Disponible: true
+
+Después de modificaciones:
+- Nuevo precio Mouse: 280
+- Nueva cantidad Mouse: 45
+- Impresora ahora disponible: true
+Códigos y proveedores asignados correctamente
+
+--- ACCESO A ELEMENTOS ---
+Inventario completo:
+Acceso directo a elementos específicos:
+Primer producto: Laptop
+
+--- BUSQUEDA CON Arrays.indexOf ---
+Producto 'Monitor' encontrado en posición: 3
+Detalles:
+  Código: 1004
+  Precio: Q3500
+  Cantidad: 15
+  Proveedor: ScreenTech
+Código 1003 encontrado en posición: 2
+Corresponde al producto: Teclado RGB
+Búsqueda de 'Tablet': -1 (no encontrado)

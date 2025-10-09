@@ -7,6 +7,7 @@
 #include "ast/nodos/expresiones/floatParse.h"
 #include "ast/nodos/expresiones/stringValueOf.h"
 #include "ast/nodos/expresiones/stringJoin.h"
+#include "ast/nodos/expresiones/arraysIndexOf.h"
 
 /*
     Estructura de un builder:
@@ -121,5 +122,10 @@ AbstractExpresion *nuevoDoubleParseDoubleExpresion(AbstractExpresion *expresion,
 AbstractExpresion *nuevoFloatParseFloatExpresion(AbstractExpresion *expresion, int linea, int columna);
 AbstractExpresion *nuevoStringValueOfExpresion(AbstractExpresion *expresion, int linea, int columna);
 AbstractExpresion *nuevoStringJoinExpresion(AbstractExpresion *argumentos, int linea, int columna);
+
+/*
+    Arrays functions
+*/
+AbstractExpresion *nuevoArraysIndexOfExpresion(AbstractExpresion *argumentos, int linea, int columna);
 
 #endif

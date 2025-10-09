@@ -103,3 +103,95 @@ System.out.println("FIn archivo");
     String[] calificacionesTexto = {"85", "92", "78", "95"};
     String reporteCalificaciones = String.join(" - ", calificacionesTexto);
     System.out.println("Reporte de calificaciones: " + reporteCalificaciones);
+
+    System.out.println("=== SISTEMA DE GESTION DE INVENTARIO ===");
+    
+    // Declaración
+    System.out.println("\n--- DECLARACION DE ARREGLOS ---");
+    
+    // Declaración con inicialización directa
+    String[] productos = {"Laptop", "Mouse", "Teclado", "Monitor", "Impresora"};
+    int[] precios = {15000, 250, 800, 3500, 2200};
+    int[] cantidades = {10, 50, 30, 15, 8};
+    boolean[] disponibles = {true, true, true, true, false};
+    
+    // Declaración con tamaño específico
+    int[] codigosProducto = new int[5];
+    String[] proveedores = new String[5];
+    
+    System.out.println("Arreglos declarados exitosamente:");
+    
+    
+    // Modificación de un elemento
+    System.out.println("\n--- MODIFICACION DE ELEMENTOS ---");
+    
+    // Modificar elementos en diferentes posiciones
+    System.out.println("Estado inicial del Mouse:");
+    System.out.println("- Precio: " + String.valueOf(precios[1]));
+    System.out.println("- Cantidad: " + String.valueOf(cantidades[1]));
+    System.out.println("- Disponible: " + String.valueOf(disponibles[1]));
+    
+    // Realizar modificaciones
+    precios[1] = 280; // Aumentar precio del mouse
+    cantidades[1] = 45; // Reducir cantidad
+    disponibles[4] = true; // Activar disponibilidad de impresora
+    
+    System.out.println("\nDespués de modificaciones:");
+    System.out.println("- Nuevo precio Mouse: " + String.valueOf(precios[1]));
+    System.out.println("- Nueva cantidad Mouse: " + String.valueOf(cantidades[1]));
+    System.out.println("- Impresora ahora disponible: " + String.valueOf(disponibles[4]));
+    
+    // Llenar arreglos vacíos
+    codigosProducto[0] = 1001;
+    codigosProducto[1] = 1002;
+    codigosProducto[2] = 1003;
+    codigosProducto[3] = 1004;
+    codigosProducto[4] = 1005;
+    
+    proveedores[0] = "TechCorp";
+    proveedores[1] = "DeviceMax";
+    proveedores[2] = "KeyboardPro";
+    proveedores[3] = "ScreenTech";
+    proveedores[4] = "PrintSolutions";
+    
+    System.out.println("Códigos y proveedores asignados correctamente");
+    
+    // Acceso a elementos
+    System.out.println("\n--- ACCESO A ELEMENTOS ---");
+    
+    System.out.println("Inventario completo:");
+    
+    // Acceso a elementos específicos
+    System.out.println("Acceso directo a elementos específicos:");
+    System.out.println("Primer producto: " + productos[0]);
+
+    // Función para encontrar el índice de un elemento
+    System.out.println("\n--- BUSQUEDA CON Arrays.indexOf ---");
+    
+    // Buscar productos por nombre
+    String productoBuscado = "Monitor";
+    int posicionProducto = Arrays.indexOf(productos, productoBuscado);
+    
+    if (posicionProducto != -1) {
+        System.out.println("Producto '" + productoBuscado + "' encontrado en posición: " + String.valueOf(posicionProducto));
+        System.out.println("Detalles:");
+        System.out.println("  Código: " + String.valueOf(codigosProducto[posicionProducto]));
+        System.out.println("  Precio: Q" + String.valueOf(precios[posicionProducto]));
+        System.out.println("  Cantidad: " + String.valueOf(cantidades[posicionProducto]));
+        System.out.println("  Proveedor: " + proveedores[posicionProducto]);
+    } else {
+        System.out.println("Producto '" + productoBuscado + "' no encontrado");
+    }
+    
+    // Buscar por código
+    int codigoBuscado = 1003;
+    int posicionCodigo = Arrays.indexOf(codigosProducto, codigoBuscado);
+    System.out.println("Código " + String.valueOf(codigoBuscado) + " encontrado en posición: " + String.valueOf(posicionCodigo));
+    if (posicionCodigo != -1) {
+        System.out.println("Corresponde al producto: " + productos[posicionCodigo]);
+    }
+    
+    // Buscar elemento que no existe
+    String productoInexistente = "Tablet";
+    int posicionInexistente = Arrays.indexOf(productos, productoInexistente);
+    System.out.println("Búsqueda de '" + productoInexistente + "': " + String.valueOf(posicionInexistente) + " (no encontrado)");
