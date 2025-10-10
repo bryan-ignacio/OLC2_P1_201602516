@@ -203,7 +203,43 @@ public static void main() {
             System.out.println(String.valueOf(i) + " x " + String.valueOf(j) + " = " + String.valueOf(resultado));
         }
     }
-
+    
+    // FOREACH
+    System.out.println("\n--- FOREACH CON ARRAY SIMPLE ---");
+    
+    // Array simple solo para forEach
+    int[] notasParaForeach = {85, 92, 78, 95, 88};
+    
+    System.out.println("Procesando notas con forEach:");
+    int suma = 0;
+    int contadorNotas = 0;
+    
+    for (int nota : notasParaForeach) {
+        contadorNotas++;
+        suma += nota;
+        System.out.println("Nota " + String.valueOf(contadorNotas) + ": " + String.valueOf(nota));
+    }
+    
+    double promedio = suma / 5.0;
+    System.out.println("Promedio calculado con forEach: " + String.valueOf(promedio));
+    
+    // ForEach para contar categorias
+    System.out.println("\nConteo de categorias con forEach:");
+    int notasAltas = 0;
+    int notasBajas = 0;
+    
+    for (int nota : notasParaForeach) {
+        if (nota >= 90) {
+            notasAltas++;
+            System.out.println("Nota alta encontrada: " + String.valueOf(nota));
+        } else if (nota < 80) {
+            notasBajas++;
+            System.out.println("Nota baja encontrada: " + String.valueOf(nota));
+        }
+    }
+    
+    System.out.println("Total notas altas (>=90): " + String.valueOf(notasAltas));
+    System.out.println("Total notas bajas (<80): " + String.valueOf(notasBajas));
 
 
     System.out.println("\n=== FIN DEL SISTEMA ===");

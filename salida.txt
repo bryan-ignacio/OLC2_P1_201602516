@@ -66,12 +66,18 @@ Tabla de multiplicar (1-3 x 1-4):
 
 --- FOREACH CON ARRAY SIMPLE ---
 Procesando notas con forEach:
-Nota 1: 0
-Promedio calculado con forEach: 0
+Nota 1: 85
+Nota 2: 92
+Nota 3: 78
+Nota 4: 95
+Nota 5: 88
+Promedio calculado con forEach: 87.6
 
 Conteo de categorias con forEach:
-Nota baja encontrada: 0
-Total notas altas (>=90): 0
+Nota alta encontrada: 92
+Nota baja encontrada: 78
+Nota alta encontrada: 95
+Total notas altas (>=90): 2
 Total notas bajas (<80): 1
 
 === FIN DEL SISTEMA ===
