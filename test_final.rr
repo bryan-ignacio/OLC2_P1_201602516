@@ -1,0 +1,4 @@
+int x = 5;
+final int CONSTANTE = 100;
+String mensaje = "Hola";
+System.out.println("Prueba");

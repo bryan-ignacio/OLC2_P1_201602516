@@ -7,25 +7,29 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-//solo se declara y guarda la referencia del subarbol de la funcion para ejectuar en la llamada
-Result interpretFuncionExpresion(AbstractExpresion* nodo, Context* context) {
-    FuncionExpresion* self = (FuncionExpresion*) nodo;
+// solo se declara y guarda la referencia del subarbol de la funcion para ejectuar en la llamada
+Result interpretFuncionExpresion(AbstractExpresion *nodo, Context *context)
+{
+    FuncionExpresion *self = (FuncionExpresion *)nodo;
 
-    agregarSymbol(context, nuevaFuncion(self->nombre, self->tipo, &self->base));
+    agregarSymbol(context, nuevaFuncion(self->nombre, self->tipo, &self->base, nodo->linea, nodo->columna, context ? context->nombre : 0));
     return nuevoValorResultadoVacio();
 }
 
-AbstractExpresion* nuevoFuncionExpresion(TipoDato tipoDato, char* nombre, AbstractExpresion* ListaParametros, AbstractExpresion* bloque) {
-    //reservar el espacio en memoria y obtener el puntero a este
-    FuncionExpresion* nodo = malloc(sizeof(FuncionExpresion));
-    if (!nodo) return NULL;
-    //asignar valores
+AbstractExpresion *nuevoFuncionExpresion(TipoDato tipoDato, char *nombre, AbstractExpresion *ListaParametros, AbstractExpresion *bloque)
+{
+    // reservar el espacio en memoria y obtener el puntero a este
+    FuncionExpresion *nodo = malloc(sizeof(FuncionExpresion));
+    if (!nodo)
+        return NULL;
+    // asignar valores
     buildAbstractExpresion(&nodo->base, interpretFuncionExpresion);
     nodo->nombre = nombre;
     nodo->tipo = tipoDato;
 
-    if (ListaParametros) agregarHijo((AbstractExpresion*) nodo, ListaParametros);
-    agregarHijo((AbstractExpresion*) nodo, bloque);
-    
-    return (AbstractExpresion*) nodo;
+    if (ListaParametros)
+        agregarHijo((AbstractExpresion *)nodo, ListaParametros);
+    agregarHijo((AbstractExpresion *)nodo, bloque);
+
+    return (AbstractExpresion *)nodo;
 }

@@ -115,7 +115,7 @@ Result interpretDeclaracionMatrixNewExpresion(AbstractExpresion *self, Context *
     MatrixStruct *matrix = crearMatrix(nodo->tipoElemento, filas, columnas);
 
     // Crear un Symbol para la matriz
-    Symbol *simboloMatrix = nuevoVariable(nodo->identificador, matrix, MATRIX);
+    Symbol *simboloMatrix = nuevoVariable(nodo->identificador, matrix, MATRIX, nodo->base.linea, nodo->base.columna, context ? context->nombre : 0);
 
     // Agregar la matriz al contexto
     agregarSymbol(context, simboloMatrix);
@@ -189,7 +189,7 @@ Result interpretDeclaracionMatrixInitExpresion(AbstractExpresion *self, Context 
     }
 
     // Crear un Symbol para la matriz
-    Symbol *simboloMatrix = nuevoVariable(nodo->identificador, matrix, MATRIX);
+    Symbol *simboloMatrix = nuevoVariable(nodo->identificador, matrix, MATRIX, nodo->base.linea, nodo->base.columna, context ? context->nombre : 0);
 
     // Agregar la matriz al contexto
     agregarSymbol(context, simboloMatrix);

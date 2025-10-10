@@ -10,12 +10,24 @@
 
 Result interpretInstrucciones(AbstractExpresion *self, Context *context)
 {
-    // Crear un nuevo contexto local para el bloque
-    Context *contextoLocal = nuevoContext(context);
-    contextoLocal->archivo = context->archivo; // hereda el archivo de salida
+    // Para el contexto global, usar directamente el contexto recibido
+    // Para otros contextos, crear un nuevo contexto local
+    Context *contextoEjecucion;
+    if (context->anterior == NULL)
+    {
+        // Es el contexto global, usar directamente
+        contextoEjecucion = context;
+    }
+    else
+    {
+        // Crear un nuevo contexto local para el bloque
+        contextoEjecucion = nuevoContext(context);
+        contextoEjecucion->archivo = context->archivo; // hereda el archivo de salida
+    }
+
     for (size_t i = 0; i < self->numHijos; ++i)
     {
-        Result resultadoSentencia = self->hijos[i]->interpret(self->hijos[i], contextoLocal);
+        Result resultadoSentencia = self->hijos[i]->interpret(self->hijos[i], contextoEjecucion);
         if (resultadoSentencia.isReturn)
         {
             return resultadoSentencia;

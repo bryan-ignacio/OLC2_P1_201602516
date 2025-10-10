@@ -56,6 +56,10 @@ int main(int argc, char **argv)
             Result resultado = ast_root->interpret(ast_root, contextPadre);
             (void)resultado;
             fclose(contextPadre->archivo);
+
+            // Generar reporte de tabla de símbolos
+            generarReporteTablaSimbolos(contextPadre, "tabla_simbolos.html");
+
             printf("Fin, archivo validado.\n");
         }
         else

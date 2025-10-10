@@ -125,7 +125,7 @@ Result interpretDeclaracionArrayNewExpresion(AbstractExpresion *self, Context *c
     ArrayStruct *array = crearArray(nodo->tipoElemento, tamaño);
 
     // Crear un Symbol para el array
-    Symbol *simboloArray = nuevoVariable(nodo->identificador, array, ARRAY);
+    Symbol *simboloArray = nuevoVariable(nodo->identificador, array, ARRAY, nodo->base.linea, nodo->base.columna, context ? context->nombre : 0);
 
     // Agregar el array al contexto
     agregarSymbol(context, simboloArray);
@@ -167,7 +167,7 @@ Result interpretDeclaracionArrayInitExpresion(AbstractExpresion *self, Context *
     }
 
     // Crear un Symbol para el array
-    Symbol *simboloArray = nuevoVariable(nodo->identificador, array, ARRAY);
+    Symbol *simboloArray = nuevoVariable(nodo->identificador, array, ARRAY, nodo->base.linea, nodo->base.columna, context ? context->nombre : 0);
 
     // Agregar el array al contexto
     agregarSymbol(context, simboloArray);
@@ -449,7 +449,7 @@ Result interpretDeclaracionArrayExpresion(AbstractExpresion *self, Context *cont
     }
 
     // Crear el símbolo en la tabla de símbolos
-    Symbol *simboloArray = nuevoVariable(nodo->identificador, arrayResultante, ARRAY);
+    Symbol *simboloArray = nuevoVariable(nodo->identificador, arrayResultante, ARRAY, nodo->linea, nodo->columna, context ? context->nombre : 0);
     agregarSymbol(context, simboloArray);
 
     return nuevoValorResultadoVacio();

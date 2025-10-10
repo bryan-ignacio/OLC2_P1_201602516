@@ -129,7 +129,7 @@ Result interpretDeclaracionVariable(AbstractExpresion *nodo, Context *context)
             // Convertir el tipo si es necesario
             Result resultadoConvertido = convertir_tipo(resultado, self->tipo);
 
-            Symbol *var = nuevoVariable(self->nombre, resultadoConvertido.valor, self->tipo);
+            Symbol *var = nuevoVariable(self->nombre, resultadoConvertido.valor, self->tipo, nodo->linea, nodo->columna, context ? context->nombre : 0);
             var->nodo = nodo;
             agregarSymbol(context, var);
             return nuevoValorResultadoVacio();
@@ -194,7 +194,7 @@ Result interpretDeclaracionVariable(AbstractExpresion *nodo, Context *context)
         break;
     }
 
-    Symbol *var = nuevoVariable(self->nombre, valorPorDefecto, self->tipo);
+    Symbol *var = nuevoVariable(self->nombre, valorPorDefecto, self->tipo, nodo->linea, nodo->columna, context ? context->nombre : 0);
     var->nodo = nodo;
     agregarSymbol(context, var);
     return nuevoValorResultadoVacio();
@@ -259,7 +259,7 @@ Result interpretDeclaracionConstante(AbstractExpresion *nodo, Context *context)
         Result resultadoConvertido = convertir_tipo(resultado, self->tipo);
 
         // Crear el símbolo como constante
-        Symbol *constante = nuevoConstante(self->nombre, resultadoConvertido.valor, self->tipo);
+        Symbol *constante = nuevoConstante(self->nombre, resultadoConvertido.valor, self->tipo, nodo->linea, nodo->columna, context ? context->nombre : 0);
         constante->nodo = nodo;
         agregarSymbol(context, constante);
         return nuevoValorResultadoVacio();
