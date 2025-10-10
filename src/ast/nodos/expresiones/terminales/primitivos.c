@@ -73,6 +73,9 @@ Result interpretPrimitivoExpresion(AbstractExpresion *self, Context *context)
             *valorchar = L'\0'; // Carácter por defecto
         }
         return nuevoValorResultado((void *)valorchar, nodo->tipo);
+    case NULO:
+        // Para null, retornamos un valor NULL con tipo NULO
+        return nuevoValorResultado(NULL, nodo->tipo);
     default:
         printf("Tipo de dato primitivo no implementado\n");
     }

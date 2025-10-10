@@ -79,6 +79,12 @@ Result interpretarOperadorTernario(AbstractExpresion *expresion, Context *contex
         condicionVerdadera = (valorString != NULL && strlen(valorString) > 0);
         break;
     }
+    case NULO:
+    {
+        // null se considera falso
+        condicionVerdadera = false;
+        break;
+    }
     default:
     {
         char buffer[256];
@@ -93,26 +99,12 @@ Result interpretarOperadorTernario(AbstractExpresion *expresion, Context *contex
     {
         // Evaluar expresión verdadera
         Result resultado = ternario->expresionVerdadera->interpret(ternario->expresionVerdadera, contexto);
-        if (resultado.tipo == NULO)
-        {
-            char buffer[256];
-            snprintf(buffer, sizeof(buffer), "Error al evaluar expresión verdadera en operador ternario");
-            agregarErrorSemantico(buffer, expresion->linea, expresion->columna, contexto->nombre);
-            return nuevoValorResultadoVacio();
-        }
         return resultado;
     }
     else
     {
         // Evaluar expresión falsa
         Result resultado = ternario->expresionFalsa->interpret(ternario->expresionFalsa, contexto);
-        if (resultado.tipo == NULO)
-        {
-            char buffer[256];
-            snprintf(buffer, sizeof(buffer), "Error al evaluar expresión falsa en operador ternario");
-            agregarErrorSemantico(buffer, expresion->linea, expresion->columna, contexto->nombre);
-            return nuevoValorResultadoVacio();
-        }
         return resultado;
     }
 }

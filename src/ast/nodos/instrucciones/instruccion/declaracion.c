@@ -32,6 +32,20 @@ int es_conversion_valida(TipoDato tipoFuente, TipoDato tipoDestino)
     if (tipoFuente == tipoDestino)
         return 1;
 
+    // null puede asignarse a tipos de referencia
+    if (tipoFuente == NULO)
+    {
+        switch (tipoDestino)
+        {
+        case STRING:
+        case ARRAY:
+        case MATRIX:
+            return 1;
+        default:
+            return 0;
+        }
+    }
+
     // Conversiones numéricas válidas (sin pérdida de datos o conversiones estándar)
     switch (tipoDestino)
     {
@@ -54,6 +68,21 @@ Result convertir_tipo(Result resultado, TipoDato tipoDestino)
 {
     if (resultado.tipo == tipoDestino)
         return resultado;
+
+    // Conversión de null
+    if (resultado.tipo == NULO)
+    {
+        switch (tipoDestino)
+        {
+        case STRING:
+        case ARRAY:
+        case MATRIX:
+            // Para tipos de referencia, mantener el valor NULL pero con el tipo destino
+            return nuevoValorResultado(NULL, tipoDestino);
+        default:
+            return resultado; // Mantener como NULO
+        }
+    }
 
     switch (tipoDestino)
     {

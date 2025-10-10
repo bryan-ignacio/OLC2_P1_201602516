@@ -397,6 +397,10 @@ Operacion tablaOperacionesSuma[TIPO_COUNT][TIPO_COUNT] = {
 
     // boolean operations
     [BOOLEAN][STRING] = concatenarBooleanString,
+
+    // null operations (concatenación)
+    [NULO][STRING] = concatenarStringString, // null + string
+    [STRING][NULO] = concatenarStringString, // string + null
 };
 
 // builders.h

@@ -65,6 +65,54 @@ Result igualdadStringString(Result izquierda, Result derecha)
     return nuevoValorResultado(res, BOOLEAN);
 }
 
+// ======================= FUNCIONES PARA COMPARACIONES CON NULL =======================
+
+Result igualdadConNull(Result izquierda, Result derecha)
+{
+    bool *res = malloc(sizeof(bool));
+    // Si ambos son null o alguno es null con valor NULL
+    if ((izquierda.tipo == NULO && derecha.tipo == NULO) ||
+        (izquierda.tipo == NULO && derecha.valor == NULL) ||
+        (derecha.tipo == NULO && izquierda.valor == NULL))
+    {
+        *res = true;
+    }
+    else if (izquierda.tipo == NULO || derecha.tipo == NULO)
+    {
+        // Uno es null, el otro no
+        *res = false;
+    }
+    else
+    {
+        // Ninguno es null, usar comparación normal
+        *res = false;
+    }
+    return nuevoValorResultado(res, BOOLEAN);
+}
+
+Result desigualdadConNull(Result izquierda, Result derecha)
+{
+    bool *res = malloc(sizeof(bool));
+    // Si ambos son null o alguno es null con valor NULL
+    if ((izquierda.tipo == NULO && derecha.tipo == NULO) ||
+        (izquierda.tipo == NULO && derecha.valor == NULL) ||
+        (derecha.tipo == NULO && izquierda.valor == NULL))
+    {
+        *res = false;
+    }
+    else if (izquierda.tipo == NULO || derecha.tipo == NULO)
+    {
+        // Uno es null, el otro no
+        *res = true;
+    }
+    else
+    {
+        // Ninguno es null, usar comparación normal
+        *res = true;
+    }
+    return nuevoValorResultado(res, BOOLEAN);
+}
+
 // ======================= FUNCIONES DE DESIGUALDAD =======================
 
 Result desigualdadIntInt(Result izquierda, Result derecha)
@@ -250,6 +298,20 @@ Operacion tablaOperacionesIgualdad[TIPO_COUNT][TIPO_COUNT] = {
     [FLOAT][FLOAT] = igualdadFloatFloat,
     [DOUBLE][DOUBLE] = igualdadDoubleDouble,
     [STRING][STRING] = igualdadStringString,
+    // Comparaciones con NULL
+    [NULO][NULO] = igualdadConNull,
+    [NULO][BOOLEAN] = igualdadConNull,
+    [NULO][CHAR] = igualdadConNull,
+    [NULO][INT] = igualdadConNull,
+    [NULO][FLOAT] = igualdadConNull,
+    [NULO][DOUBLE] = igualdadConNull,
+    [NULO][STRING] = igualdadConNull,
+    [BOOLEAN][NULO] = igualdadConNull,
+    [CHAR][NULO] = igualdadConNull,
+    [INT][NULO] = igualdadConNull,
+    [FLOAT][NULO] = igualdadConNull,
+    [DOUBLE][NULO] = igualdadConNull,
+    [STRING][NULO] = igualdadConNull,
 };
 
 Operacion tablaOperacionesDesigualdad[TIPO_COUNT][TIPO_COUNT] = {
@@ -259,6 +321,20 @@ Operacion tablaOperacionesDesigualdad[TIPO_COUNT][TIPO_COUNT] = {
     [FLOAT][FLOAT] = desigualdadFloatFloat,
     [DOUBLE][DOUBLE] = desigualdadDoubleDouble,
     [STRING][STRING] = desigualdadStringString,
+    // Comparaciones con NULL
+    [NULO][NULO] = desigualdadConNull,
+    [NULO][BOOLEAN] = desigualdadConNull,
+    [NULO][CHAR] = desigualdadConNull,
+    [NULO][INT] = desigualdadConNull,
+    [NULO][FLOAT] = desigualdadConNull,
+    [NULO][DOUBLE] = desigualdadConNull,
+    [NULO][STRING] = desigualdadConNull,
+    [BOOLEAN][NULO] = desigualdadConNull,
+    [CHAR][NULO] = desigualdadConNull,
+    [INT][NULO] = desigualdadConNull,
+    [FLOAT][NULO] = desigualdadConNull,
+    [DOUBLE][NULO] = desigualdadConNull,
+    [STRING][NULO] = desigualdadConNull,
 };
 
 Operacion tablaOperacionesMayorQue[TIPO_COUNT][TIPO_COUNT] = {

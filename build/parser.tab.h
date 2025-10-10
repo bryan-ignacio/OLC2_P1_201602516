@@ -117,7 +117,8 @@ extern int yydebug;
     TOKEN_CONTINUE = 311,          /* TOKEN_CONTINUE  */
     TOKEN_FOR = 312,               /* TOKEN_FOR  */
     TOKEN_NEW = 313,               /* TOKEN_NEW  */
-    NEG = 314                      /* NEG  */
+    TOKEN_NULL = 314,              /* TOKEN_NULL  */
+    NEG = 315                      /* NEG  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -132,7 +133,7 @@ union YYSTYPE
   AbstractExpresion* nodo;
   TipoDato tipoDato;
 
-#line 136 "build/parser.tab.h"
+#line 137 "build/parser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

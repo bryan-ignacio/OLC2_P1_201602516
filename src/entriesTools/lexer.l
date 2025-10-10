@@ -276,6 +276,7 @@ boolean             return(TOKEN_DBOOLEAN);
 char                return(TOKEN_DCHAR);
 true                return(TOKEN_TRUE);
 false               return(TOKEN_FALSE);
+null                return(TOKEN_NULL);
 return              return(TOKEN_RETURN);
 
 {unsigned_integer}   {
