@@ -3,6 +3,7 @@
 
 #include "context/context.h"
 #include "context/error_report.h"
+#include "context/ast_report.h" // Incluir reporte AST
 // Contexto actual para reporte de errores
 Context *contextoActualReporte = NULL;
 
@@ -43,6 +44,12 @@ int main(int argc, char **argv)
         if (ast_root)
         {
             printf("Inicio, cantidad de instrucciones: %ld \n", ast_root->numHijos);
+
+            // Generar reporte del AST antes de la interpretación
+            printf("\n=== Generando Reporte del Árbol AST ===\n");
+            generarReporteASTCompleto(ast_root, "reporte_ast");
+            printf("=======================================\n\n");
+
             Context *contextPadre = nuevoContext(NULL);
             contextoActualReporte = contextPadre;
             contextPadre->archivo = fopen("salida.txt", "w");

@@ -50,6 +50,35 @@ void buildAbstractExpresion(AbstractExpresion *base, Interpret interpretPuntero)
 {
     // asignar valores
     base->interpret = interpretPuntero;
+    base->graficar = NULL; // Inicializar puntero graficar
     base->hijos = NULL;
     base->numHijos = 0;
+    base->linea = 0;
+    base->columna = 0;
+}
+
+/*
+ * Construye una expresión abstracta con métodos interpretar y graficar específicos.
+ */
+void buildAbstractExpresionCompleta(AbstractExpresion *base, Interpret interpretPuntero, Graficar graficarPuntero)
+{
+    // asignar valores
+    base->interpret = interpretPuntero;
+    base->graficar = graficarPuntero;
+    base->hijos = NULL;
+    base->numHijos = 0;
+    base->linea = 0;
+    base->columna = 0;
+}
+
+/*
+ * Establece la posición en el código fuente para un nodo del AST
+ */
+void establecerPosicion(AbstractExpresion *nodo, int linea, int columna)
+{
+    if (nodo)
+    {
+        nodo->linea = linea;
+        nodo->columna = columna;
+    }
 }

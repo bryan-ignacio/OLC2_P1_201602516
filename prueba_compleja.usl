@@ -1,0 +1,20 @@
+System.out.println("Prueba de tipos de nodos");
+
+// Declaraciones de diferentes tipos
+int numero = 42;
+String texto = "Hola mundo";
+boolean esVerdadero = true;
+
+// Operaciones aritméticas
+int suma = numero + 10;
+int producto = numero * 2;
+
+// Operaciones lógicas
+boolean resultado = esVerdadero && (numero > 0);
+
+// Asignación compuesta
+numero += 5;
+
+System.out.println("Número: " + String.valueOf(numero));
+System.out.println("Texto: " + texto);
+System.out.println("Resultado: " + String.valueOf(resultado));

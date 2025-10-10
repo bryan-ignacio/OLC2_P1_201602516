@@ -1,1 +1,4 @@
-Prueba
+Prueba de tipos de nodos
+Número: 47
+Texto: Hola mundo
+Resultado: true
