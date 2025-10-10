@@ -1,21 +1,21 @@
-State 169 conflicts: 14 shift/reduce
-State 176 conflicts: 14 shift/reduce
-State 177 conflicts: 14 shift/reduce
+State 169 conflicts: 6 shift/reduce
+State 176 conflicts: 6 shift/reduce
+State 177 conflicts: 6 shift/reduce
 State 228 conflicts: 20 shift/reduce
 State 229 conflicts: 20 shift/reduce
-State 230 conflicts: 20 shift/reduce
-State 231 conflicts: 20 shift/reduce
-State 232 conflicts: 20 shift/reduce
-State 233 conflicts: 20 shift/reduce
-State 234 conflicts: 20 shift/reduce
-State 235 conflicts: 20 shift/reduce
-State 237 conflicts: 14 shift/reduce
-State 238 conflicts: 14 shift/reduce
-State 239 conflicts: 14 shift/reduce
-State 240 conflicts: 14 shift/reduce
-State 241 conflicts: 14 shift/reduce
-State 242 conflicts: 20 shift/reduce
-State 243 conflicts: 20 shift/reduce
+State 230 conflicts: 6 shift/reduce
+State 231 conflicts: 6 shift/reduce
+State 232 conflicts: 6 shift/reduce
+State 233 conflicts: 6 shift/reduce
+State 234 conflicts: 6 shift/reduce
+State 235 conflicts: 6 shift/reduce
+State 237 conflicts: 6 shift/reduce
+State 238 conflicts: 6 shift/reduce
+State 239 conflicts: 6 shift/reduce
+State 240 conflicts: 6 shift/reduce
+State 241 conflicts: 6 shift/reduce
+State 242 conflicts: 6 shift/reduce
+State 243 conflicts: 6 shift/reduce
 State 244 conflicts: 20 shift/reduce
 State 245 conflicts: 20 shift/reduce
 State 246 conflicts: 20 shift/reduce
@@ -25,7 +25,7 @@ State 274 conflicts: 20 shift/reduce
 State 275 conflicts: 20 shift/reduce
 State 276 conflicts: 20 shift/reduce
 State 300 conflicts: 1 shift/reduce
-State 303 conflicts: 14 shift/reduce
+State 303 conflicts: 6 shift/reduce
 
 
 Grammar
@@ -2055,16 +2055,16 @@ State 116
     TOKEN_AND          shift, and go to state 184
     TOKEN_OR           shift, and go to state 185
     '?'                shift, and go to state 186
-    '+'                shift, and go to state 187
-    '-'                shift, and go to state 188
-    '*'                shift, and go to state 189
-    '/'                shift, and go to state 190
-    '%'                shift, and go to state 191
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
+    '<'                shift, and go to state 187
+    '>'                shift, and go to state 188
+    '+'                shift, and go to state 189
+    '-'                shift, and go to state 190
+    '*'                shift, and go to state 191
+    '/'                shift, and go to state 192
+    '%'                shift, and go to state 193
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
     '.'                shift, and go to state 197
 
     $default  reduce using rule 36 (sentencia)
@@ -2332,16 +2332,16 @@ State 139
     TOKEN_AND          shift, and go to state 184
     TOKEN_OR           shift, and go to state 185
     '?'                shift, and go to state 186
-    '+'                shift, and go to state 187
-    '-'                shift, and go to state 188
-    '*'                shift, and go to state 189
-    '/'                shift, and go to state 190
-    '%'                shift, and go to state 191
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
+    '<'                shift, and go to state 187
+    '>'                shift, and go to state 188
+    '+'                shift, and go to state 189
+    '-'                shift, and go to state 190
+    '*'                shift, and go to state 191
+    '/'                shift, and go to state 192
+    '%'                shift, and go to state 193
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
     '.'                shift, and go to state 197
 
     $default  reduce using rule 43 (declaracion_var)
@@ -2397,16 +2397,16 @@ State 142
     TOKEN_AND          shift, and go to state 184
     TOKEN_OR           shift, and go to state 185
     '?'                shift, and go to state 186
-    '+'                shift, and go to state 187
-    '-'                shift, and go to state 188
-    '*'                shift, and go to state 189
-    '/'                shift, and go to state 190
-    '%'                shift, and go to state 191
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
+    '<'                shift, and go to state 187
+    '>'                shift, and go to state 188
+    '+'                shift, and go to state 189
+    '-'                shift, and go to state 190
+    '*'                shift, and go to state 191
+    '/'                shift, and go to state 192
+    '%'                shift, and go to state 193
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
     '.'                shift, and go to state 197
 
     $default  reduce using rule 38 (lista_Expr)
@@ -2448,17 +2448,17 @@ State 143
     TOKEN_AND          shift, and go to state 184
     TOKEN_OR           shift, and go to state 185
     '?'                shift, and go to state 186
-    '+'                shift, and go to state 187
-    '-'                shift, and go to state 188
-    '*'                shift, and go to state 189
-    '/'                shift, and go to state 190
-    '%'                shift, and go to state 191
+    '<'                shift, and go to state 187
+    '>'                shift, and go to state 188
+    '+'                shift, and go to state 189
+    '-'                shift, and go to state 190
+    '*'                shift, and go to state 191
+    '/'                shift, and go to state 192
+    '%'                shift, and go to state 193
     ')'                shift, and go to state 211
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
     '.'                shift, and go to state 197
 
 
@@ -2496,16 +2496,16 @@ State 144
     TOKEN_AND          shift, and go to state 184
     TOKEN_OR           shift, and go to state 185
     '?'                shift, and go to state 186
-    '+'                shift, and go to state 187
-    '-'                shift, and go to state 188
-    '*'                shift, and go to state 189
-    '/'                shift, and go to state 190
-    '%'                shift, and go to state 191
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
+    '<'                shift, and go to state 187
+    '>'                shift, and go to state 188
+    '+'                shift, and go to state 189
+    '-'                shift, and go to state 190
+    '*'                shift, and go to state 191
+    '/'                shift, and go to state 192
+    '%'                shift, and go to state 193
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
     '.'                shift, and go to state 197
 
     $default  reduce using rule 48 (asignacion)
@@ -2545,16 +2545,16 @@ State 145
     TOKEN_AND          shift, and go to state 184
     TOKEN_OR           shift, and go to state 185
     '?'                shift, and go to state 186
-    '+'                shift, and go to state 187
-    '-'                shift, and go to state 188
-    '*'                shift, and go to state 189
-    '/'                shift, and go to state 190
-    '%'                shift, and go to state 191
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
+    '<'                shift, and go to state 187
+    '>'                shift, and go to state 188
+    '+'                shift, and go to state 189
+    '-'                shift, and go to state 190
+    '*'                shift, and go to state 191
+    '/'                shift, and go to state 192
+    '%'                shift, and go to state 193
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
     '.'                shift, and go to state 197
 
     $default  reduce using rule 49 (asignacion)
@@ -2594,16 +2594,16 @@ State 146
     TOKEN_AND          shift, and go to state 184
     TOKEN_OR           shift, and go to state 185
     '?'                shift, and go to state 186
-    '+'                shift, and go to state 187
-    '-'                shift, and go to state 188
-    '*'                shift, and go to state 189
-    '/'                shift, and go to state 190
-    '%'                shift, and go to state 191
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
+    '<'                shift, and go to state 187
+    '>'                shift, and go to state 188
+    '+'                shift, and go to state 189
+    '-'                shift, and go to state 190
+    '*'                shift, and go to state 191
+    '/'                shift, and go to state 192
+    '%'                shift, and go to state 193
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
     '.'                shift, and go to state 197
 
     $default  reduce using rule 50 (asignacion)
@@ -2643,16 +2643,16 @@ State 147
     TOKEN_AND          shift, and go to state 184
     TOKEN_OR           shift, and go to state 185
     '?'                shift, and go to state 186
-    '+'                shift, and go to state 187
-    '-'                shift, and go to state 188
-    '*'                shift, and go to state 189
-    '/'                shift, and go to state 190
-    '%'                shift, and go to state 191
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
+    '<'                shift, and go to state 187
+    '>'                shift, and go to state 188
+    '+'                shift, and go to state 189
+    '-'                shift, and go to state 190
+    '*'                shift, and go to state 191
+    '/'                shift, and go to state 192
+    '%'                shift, and go to state 193
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
     '.'                shift, and go to state 197
 
     $default  reduce using rule 51 (asignacion)
@@ -2692,16 +2692,16 @@ State 148
     TOKEN_AND          shift, and go to state 184
     TOKEN_OR           shift, and go to state 185
     '?'                shift, and go to state 186
-    '+'                shift, and go to state 187
-    '-'                shift, and go to state 188
-    '*'                shift, and go to state 189
-    '/'                shift, and go to state 190
-    '%'                shift, and go to state 191
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
+    '<'                shift, and go to state 187
+    '>'                shift, and go to state 188
+    '+'                shift, and go to state 189
+    '-'                shift, and go to state 190
+    '*'                shift, and go to state 191
+    '/'                shift, and go to state 192
+    '%'                shift, and go to state 193
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
     '.'                shift, and go to state 197
 
     $default  reduce using rule 52 (asignacion)
@@ -2741,16 +2741,16 @@ State 149
     TOKEN_AND          shift, and go to state 184
     TOKEN_OR           shift, and go to state 185
     '?'                shift, and go to state 186
-    '+'                shift, and go to state 187
-    '-'                shift, and go to state 188
-    '*'                shift, and go to state 189
-    '/'                shift, and go to state 190
-    '%'                shift, and go to state 191
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
+    '<'                shift, and go to state 187
+    '>'                shift, and go to state 188
+    '+'                shift, and go to state 189
+    '-'                shift, and go to state 190
+    '*'                shift, and go to state 191
+    '/'                shift, and go to state 192
+    '%'                shift, and go to state 193
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
     '.'                shift, and go to state 197
 
     $default  reduce using rule 53 (asignacion)
@@ -2790,16 +2790,16 @@ State 150
     TOKEN_AND          shift, and go to state 184
     TOKEN_OR           shift, and go to state 185
     '?'                shift, and go to state 186
-    '+'                shift, and go to state 187
-    '-'                shift, and go to state 188
-    '*'                shift, and go to state 189
-    '/'                shift, and go to state 190
-    '%'                shift, and go to state 191
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
+    '<'                shift, and go to state 187
+    '>'                shift, and go to state 188
+    '+'                shift, and go to state 189
+    '-'                shift, and go to state 190
+    '*'                shift, and go to state 191
+    '/'                shift, and go to state 192
+    '%'                shift, and go to state 193
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
     '.'                shift, and go to state 197
 
     $default  reduce using rule 54 (asignacion)
@@ -2839,16 +2839,16 @@ State 151
     TOKEN_AND          shift, and go to state 184
     TOKEN_OR           shift, and go to state 185
     '?'                shift, and go to state 186
-    '+'                shift, and go to state 187
-    '-'                shift, and go to state 188
-    '*'                shift, and go to state 189
-    '/'                shift, and go to state 190
-    '%'                shift, and go to state 191
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
+    '<'                shift, and go to state 187
+    '>'                shift, and go to state 188
+    '+'                shift, and go to state 189
+    '-'                shift, and go to state 190
+    '*'                shift, and go to state 191
+    '/'                shift, and go to state 192
+    '%'                shift, and go to state 193
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
     '.'                shift, and go to state 197
 
     $default  reduce using rule 55 (asignacion)
@@ -2888,16 +2888,16 @@ State 152
     TOKEN_AND          shift, and go to state 184
     TOKEN_OR           shift, and go to state 185
     '?'                shift, and go to state 186
-    '+'                shift, and go to state 187
-    '-'                shift, and go to state 188
-    '*'                shift, and go to state 189
-    '/'                shift, and go to state 190
-    '%'                shift, and go to state 191
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
+    '<'                shift, and go to state 187
+    '>'                shift, and go to state 188
+    '+'                shift, and go to state 189
+    '-'                shift, and go to state 190
+    '*'                shift, and go to state 191
+    '/'                shift, and go to state 192
+    '%'                shift, and go to state 193
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
     '.'                shift, and go to state 197
 
     $default  reduce using rule 56 (asignacion)
@@ -2937,16 +2937,16 @@ State 153
     TOKEN_AND          shift, and go to state 184
     TOKEN_OR           shift, and go to state 185
     '?'                shift, and go to state 186
-    '+'                shift, and go to state 187
-    '-'                shift, and go to state 188
-    '*'                shift, and go to state 189
-    '/'                shift, and go to state 190
-    '%'                shift, and go to state 191
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
+    '<'                shift, and go to state 187
+    '>'                shift, and go to state 188
+    '+'                shift, and go to state 189
+    '-'                shift, and go to state 190
+    '*'                shift, and go to state 191
+    '/'                shift, and go to state 192
+    '%'                shift, and go to state 193
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
     '.'                shift, and go to state 197
 
     $default  reduce using rule 57 (asignacion)
@@ -3002,16 +3002,16 @@ State 156
     TOKEN_AND          shift, and go to state 184
     TOKEN_OR           shift, and go to state 185
     '?'                shift, and go to state 186
-    '+'                shift, and go to state 187
-    '-'                shift, and go to state 188
-    '*'                shift, and go to state 189
-    '/'                shift, and go to state 190
-    '%'                shift, and go to state 191
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
+    '<'                shift, and go to state 187
+    '>'                shift, and go to state 188
+    '+'                shift, and go to state 189
+    '-'                shift, and go to state 190
+    '*'                shift, and go to state 191
+    '/'                shift, and go to state 192
+    '%'                shift, and go to state 193
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
     '.'                shift, and go to state 197
 
     $default  reduce using rule 45 (asignacion)
@@ -3052,17 +3052,17 @@ State 157
     TOKEN_AND          shift, and go to state 184
     TOKEN_OR           shift, and go to state 185
     '?'                shift, and go to state 186
-    '+'                shift, and go to state 187
-    '-'                shift, and go to state 188
-    '*'                shift, and go to state 189
-    '/'                shift, and go to state 190
-    '%'                shift, and go to state 191
+    '<'                shift, and go to state 187
+    '>'                shift, and go to state 188
+    '+'                shift, and go to state 189
+    '-'                shift, and go to state 190
+    '*'                shift, and go to state 191
+    '/'                shift, and go to state 192
+    '%'                shift, and go to state 193
     ']'                shift, and go to state 213
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
     '.'                shift, and go to state 197
 
 
@@ -3223,32 +3223,16 @@ State 169
 
     TOKEN_LEFT_SHIFT   shift, and go to state 178
     TOKEN_RIGHT_SHIFT  shift, and go to state 179
-    TOKEN_EQ           shift, and go to state 180
-    TOKEN_NE           shift, and go to state 181
-    TOKEN_GE           shift, and go to state 182
-    TOKEN_LE           shift, and go to state 183
-    TOKEN_AND          shift, and go to state 184
-    TOKEN_OR           shift, and go to state 185
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
     '.'                shift, and go to state 197
 
     TOKEN_LEFT_SHIFT   [reduce using rule 93 (expr)]
     TOKEN_RIGHT_SHIFT  [reduce using rule 93 (expr)]
-    TOKEN_EQ           [reduce using rule 93 (expr)]
-    TOKEN_NE           [reduce using rule 93 (expr)]
-    TOKEN_GE           [reduce using rule 93 (expr)]
-    TOKEN_LE           [reduce using rule 93 (expr)]
-    TOKEN_AND          [reduce using rule 93 (expr)]
-    TOKEN_OR           [reduce using rule 93 (expr)]
     '&'                [reduce using rule 93 (expr)]
     '|'                [reduce using rule 93 (expr)]
     '^'                [reduce using rule 93 (expr)]
-    '>'                [reduce using rule 93 (expr)]
-    '<'                [reduce using rule 93 (expr)]
     '.'                [reduce using rule 93 (expr)]
     $default           reduce using rule 93 (expr)
 
@@ -3322,17 +3306,17 @@ State 175
     TOKEN_AND          shift, and go to state 184
     TOKEN_OR           shift, and go to state 185
     '?'                shift, and go to state 186
-    '+'                shift, and go to state 187
-    '-'                shift, and go to state 188
-    '*'                shift, and go to state 189
-    '/'                shift, and go to state 190
-    '%'                shift, and go to state 191
+    '<'                shift, and go to state 187
+    '>'                shift, and go to state 188
+    '+'                shift, and go to state 189
+    '-'                shift, and go to state 190
+    '*'                shift, and go to state 191
+    '/'                shift, and go to state 192
+    '%'                shift, and go to state 193
     ')'                shift, and go to state 227
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
     '.'                shift, and go to state 197
 
 
@@ -3363,32 +3347,16 @@ State 176
 
     TOKEN_LEFT_SHIFT   shift, and go to state 178
     TOKEN_RIGHT_SHIFT  shift, and go to state 179
-    TOKEN_EQ           shift, and go to state 180
-    TOKEN_NE           shift, and go to state 181
-    TOKEN_GE           shift, and go to state 182
-    TOKEN_LE           shift, and go to state 183
-    TOKEN_AND          shift, and go to state 184
-    TOKEN_OR           shift, and go to state 185
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
     '.'                shift, and go to state 197
 
     TOKEN_LEFT_SHIFT   [reduce using rule 94 (expr)]
     TOKEN_RIGHT_SHIFT  [reduce using rule 94 (expr)]
-    TOKEN_EQ           [reduce using rule 94 (expr)]
-    TOKEN_NE           [reduce using rule 94 (expr)]
-    TOKEN_GE           [reduce using rule 94 (expr)]
-    TOKEN_LE           [reduce using rule 94 (expr)]
-    TOKEN_AND          [reduce using rule 94 (expr)]
-    TOKEN_OR           [reduce using rule 94 (expr)]
     '&'                [reduce using rule 94 (expr)]
     '|'                [reduce using rule 94 (expr)]
     '^'                [reduce using rule 94 (expr)]
-    '>'                [reduce using rule 94 (expr)]
-    '<'                [reduce using rule 94 (expr)]
     '.'                [reduce using rule 94 (expr)]
     $default           reduce using rule 94 (expr)
 
@@ -3420,32 +3388,16 @@ State 177
 
     TOKEN_LEFT_SHIFT   shift, and go to state 178
     TOKEN_RIGHT_SHIFT  shift, and go to state 179
-    TOKEN_EQ           shift, and go to state 180
-    TOKEN_NE           shift, and go to state 181
-    TOKEN_GE           shift, and go to state 182
-    TOKEN_LE           shift, and go to state 183
-    TOKEN_AND          shift, and go to state 184
-    TOKEN_OR           shift, and go to state 185
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
     '.'                shift, and go to state 197
 
     TOKEN_LEFT_SHIFT   [reduce using rule 103 (expr)]
     TOKEN_RIGHT_SHIFT  [reduce using rule 103 (expr)]
-    TOKEN_EQ           [reduce using rule 103 (expr)]
-    TOKEN_NE           [reduce using rule 103 (expr)]
-    TOKEN_GE           [reduce using rule 103 (expr)]
-    TOKEN_LE           [reduce using rule 103 (expr)]
-    TOKEN_AND          [reduce using rule 103 (expr)]
-    TOKEN_OR           [reduce using rule 103 (expr)]
     '&'                [reduce using rule 103 (expr)]
     '|'                [reduce using rule 103 (expr)]
     '^'                [reduce using rule 103 (expr)]
-    '>'                [reduce using rule 103 (expr)]
-    '<'                [reduce using rule 103 (expr)]
     '.'                [reduce using rule 103 (expr)]
     $default           reduce using rule 103 (expr)
 
@@ -3731,7 +3683,7 @@ State 186
 
 State 187
 
-   82 expr: expr '+' • expr
+   98 expr: expr '<' • expr
 
     TOKEN_TRUE              shift, and go to state 96
     TOKEN_FALSE             shift, and go to state 97
@@ -3762,7 +3714,7 @@ State 187
 
 State 188
 
-   83 expr: expr '-' • expr
+   97 expr: expr '>' • expr
 
     TOKEN_TRUE              shift, and go to state 96
     TOKEN_FALSE             shift, and go to state 97
@@ -3793,7 +3745,7 @@ State 188
 
 State 189
 
-   84 expr: expr '*' • expr
+   82 expr: expr '+' • expr
 
     TOKEN_TRUE              shift, and go to state 96
     TOKEN_FALSE             shift, and go to state 97
@@ -3824,7 +3776,7 @@ State 189
 
 State 190
 
-   85 expr: expr '/' • expr
+   83 expr: expr '-' • expr
 
     TOKEN_TRUE              shift, and go to state 96
     TOKEN_FALSE             shift, and go to state 97
@@ -3855,7 +3807,7 @@ State 190
 
 State 191
 
-   86 expr: expr '%' • expr
+   84 expr: expr '*' • expr
 
     TOKEN_TRUE              shift, and go to state 96
     TOKEN_FALSE             shift, and go to state 97
@@ -3886,7 +3838,7 @@ State 191
 
 State 192
 
-   87 expr: expr '&' • expr
+   85 expr: expr '/' • expr
 
     TOKEN_TRUE              shift, and go to state 96
     TOKEN_FALSE             shift, and go to state 97
@@ -3917,7 +3869,7 @@ State 192
 
 State 193
 
-   88 expr: expr '|' • expr
+   86 expr: expr '%' • expr
 
     TOKEN_TRUE              shift, and go to state 96
     TOKEN_FALSE             shift, and go to state 97
@@ -3948,7 +3900,7 @@ State 193
 
 State 194
 
-   89 expr: expr '^' • expr
+   87 expr: expr '&' • expr
 
     TOKEN_TRUE              shift, and go to state 96
     TOKEN_FALSE             shift, and go to state 97
@@ -3979,7 +3931,7 @@ State 194
 
 State 195
 
-   97 expr: expr '>' • expr
+   88 expr: expr '|' • expr
 
     TOKEN_TRUE              shift, and go to state 96
     TOKEN_FALSE             shift, and go to state 97
@@ -4010,7 +3962,7 @@ State 195
 
 State 196
 
-   98 expr: expr '<' • expr
+   89 expr: expr '^' • expr
 
     TOKEN_TRUE              shift, and go to state 96
     TOKEN_FALSE             shift, and go to state 97
@@ -4089,17 +4041,17 @@ State 199
     TOKEN_AND          shift, and go to state 184
     TOKEN_OR           shift, and go to state 185
     '?'                shift, and go to state 186
-    '+'                shift, and go to state 187
-    '-'                shift, and go to state 188
-    '*'                shift, and go to state 189
-    '/'                shift, and go to state 190
-    '%'                shift, and go to state 191
+    '<'                shift, and go to state 187
+    '>'                shift, and go to state 188
+    '+'                shift, and go to state 189
+    '-'                shift, and go to state 190
+    '*'                shift, and go to state 191
+    '/'                shift, and go to state 192
+    '%'                shift, and go to state 193
     ')'                shift, and go to state 250
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
     '.'                shift, and go to state 197
 
 
@@ -4137,17 +4089,17 @@ State 200
     TOKEN_AND          shift, and go to state 184
     TOKEN_OR           shift, and go to state 185
     '?'                shift, and go to state 186
-    '+'                shift, and go to state 187
-    '-'                shift, and go to state 188
-    '*'                shift, and go to state 189
-    '/'                shift, and go to state 190
-    '%'                shift, and go to state 191
+    '<'                shift, and go to state 187
+    '>'                shift, and go to state 188
+    '+'                shift, and go to state 189
+    '-'                shift, and go to state 190
+    '*'                shift, and go to state 191
+    '/'                shift, and go to state 192
+    '%'                shift, and go to state 193
     ')'                shift, and go to state 251
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
     '.'                shift, and go to state 197
 
 
@@ -4420,17 +4372,17 @@ State 221
     TOKEN_AND          shift, and go to state 184
     TOKEN_OR           shift, and go to state 185
     '?'                shift, and go to state 186
-    '+'                shift, and go to state 187
-    '-'                shift, and go to state 188
-    '*'                shift, and go to state 189
-    '/'                shift, and go to state 190
-    '%'                shift, and go to state 191
+    '<'                shift, and go to state 187
+    '>'                shift, and go to state 188
+    '+'                shift, and go to state 189
+    '-'                shift, and go to state 190
+    '*'                shift, and go to state 191
+    '/'                shift, and go to state 192
+    '%'                shift, and go to state 193
     ']'                shift, and go to state 271
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
     '.'                shift, and go to state 197
 
 
@@ -4630,16 +4582,16 @@ State 228
     TOKEN_AND          shift, and go to state 184
     TOKEN_OR           shift, and go to state 185
     '?'                shift, and go to state 186
-    '+'                shift, and go to state 187
-    '-'                shift, and go to state 188
-    '*'                shift, and go to state 189
-    '/'                shift, and go to state 190
-    '%'                shift, and go to state 191
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
+    '<'                shift, and go to state 187
+    '>'                shift, and go to state 188
+    '+'                shift, and go to state 189
+    '-'                shift, and go to state 190
+    '*'                shift, and go to state 191
+    '/'                shift, and go to state 192
+    '%'                shift, and go to state 193
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
     '.'                shift, and go to state 197
 
     TOKEN_LEFT_SHIFT   [reduce using rule 90 (expr)]
@@ -4651,6 +4603,8 @@ State 228
     TOKEN_AND          [reduce using rule 90 (expr)]
     TOKEN_OR           [reduce using rule 90 (expr)]
     '?'                [reduce using rule 90 (expr)]
+    '<'                [reduce using rule 90 (expr)]
+    '>'                [reduce using rule 90 (expr)]
     '+'                [reduce using rule 90 (expr)]
     '-'                [reduce using rule 90 (expr)]
     '*'                [reduce using rule 90 (expr)]
@@ -4659,8 +4613,6 @@ State 228
     '&'                [reduce using rule 90 (expr)]
     '|'                [reduce using rule 90 (expr)]
     '^'                [reduce using rule 90 (expr)]
-    '>'                [reduce using rule 90 (expr)]
-    '<'                [reduce using rule 90 (expr)]
     '.'                [reduce using rule 90 (expr)]
     $default           reduce using rule 90 (expr)
 
@@ -4699,16 +4651,16 @@ State 229
     TOKEN_AND          shift, and go to state 184
     TOKEN_OR           shift, and go to state 185
     '?'                shift, and go to state 186
-    '+'                shift, and go to state 187
-    '-'                shift, and go to state 188
-    '*'                shift, and go to state 189
-    '/'                shift, and go to state 190
-    '%'                shift, and go to state 191
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
+    '<'                shift, and go to state 187
+    '>'                shift, and go to state 188
+    '+'                shift, and go to state 189
+    '-'                shift, and go to state 190
+    '*'                shift, and go to state 191
+    '/'                shift, and go to state 192
+    '%'                shift, and go to state 193
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
     '.'                shift, and go to state 197
 
     TOKEN_LEFT_SHIFT   [reduce using rule 91 (expr)]
@@ -4720,6 +4672,8 @@ State 229
     TOKEN_AND          [reduce using rule 91 (expr)]
     TOKEN_OR           [reduce using rule 91 (expr)]
     '?'                [reduce using rule 91 (expr)]
+    '<'                [reduce using rule 91 (expr)]
+    '>'                [reduce using rule 91 (expr)]
     '+'                [reduce using rule 91 (expr)]
     '-'                [reduce using rule 91 (expr)]
     '*'                [reduce using rule 91 (expr)]
@@ -4728,8 +4682,6 @@ State 229
     '&'                [reduce using rule 91 (expr)]
     '|'                [reduce using rule 91 (expr)]
     '^'                [reduce using rule 91 (expr)]
-    '>'                [reduce using rule 91 (expr)]
-    '<'                [reduce using rule 91 (expr)]
     '.'                [reduce using rule 91 (expr)]
     $default           reduce using rule 91 (expr)
 
@@ -4761,44 +4713,25 @@ State 230
 
     TOKEN_LEFT_SHIFT   shift, and go to state 178
     TOKEN_RIGHT_SHIFT  shift, and go to state 179
-    TOKEN_EQ           shift, and go to state 180
-    TOKEN_NE           shift, and go to state 181
     TOKEN_GE           shift, and go to state 182
     TOKEN_LE           shift, and go to state 183
-    TOKEN_AND          shift, and go to state 184
-    TOKEN_OR           shift, and go to state 185
-    '?'                shift, and go to state 186
-    '+'                shift, and go to state 187
-    '-'                shift, and go to state 188
-    '*'                shift, and go to state 189
-    '/'                shift, and go to state 190
-    '%'                shift, and go to state 191
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
+    '<'                shift, and go to state 187
+    '>'                shift, and go to state 188
+    '+'                shift, and go to state 189
+    '-'                shift, and go to state 190
+    '*'                shift, and go to state 191
+    '/'                shift, and go to state 192
+    '%'                shift, and go to state 193
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
     '.'                shift, and go to state 197
 
     TOKEN_LEFT_SHIFT   [reduce using rule 95 (expr)]
     TOKEN_RIGHT_SHIFT  [reduce using rule 95 (expr)]
-    TOKEN_EQ           [reduce using rule 95 (expr)]
-    TOKEN_NE           [reduce using rule 95 (expr)]
-    TOKEN_GE           [reduce using rule 95 (expr)]
-    TOKEN_LE           [reduce using rule 95 (expr)]
-    TOKEN_AND          [reduce using rule 95 (expr)]
-    TOKEN_OR           [reduce using rule 95 (expr)]
-    '?'                [reduce using rule 95 (expr)]
-    '+'                [reduce using rule 95 (expr)]
-    '-'                [reduce using rule 95 (expr)]
-    '*'                [reduce using rule 95 (expr)]
-    '/'                [reduce using rule 95 (expr)]
-    '%'                [reduce using rule 95 (expr)]
     '&'                [reduce using rule 95 (expr)]
     '|'                [reduce using rule 95 (expr)]
     '^'                [reduce using rule 95 (expr)]
-    '>'                [reduce using rule 95 (expr)]
-    '<'                [reduce using rule 95 (expr)]
     '.'                [reduce using rule 95 (expr)]
     $default           reduce using rule 95 (expr)
 
@@ -4830,44 +4763,25 @@ State 231
 
     TOKEN_LEFT_SHIFT   shift, and go to state 178
     TOKEN_RIGHT_SHIFT  shift, and go to state 179
-    TOKEN_EQ           shift, and go to state 180
-    TOKEN_NE           shift, and go to state 181
     TOKEN_GE           shift, and go to state 182
     TOKEN_LE           shift, and go to state 183
-    TOKEN_AND          shift, and go to state 184
-    TOKEN_OR           shift, and go to state 185
-    '?'                shift, and go to state 186
-    '+'                shift, and go to state 187
-    '-'                shift, and go to state 188
-    '*'                shift, and go to state 189
-    '/'                shift, and go to state 190
-    '%'                shift, and go to state 191
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
+    '<'                shift, and go to state 187
+    '>'                shift, and go to state 188
+    '+'                shift, and go to state 189
+    '-'                shift, and go to state 190
+    '*'                shift, and go to state 191
+    '/'                shift, and go to state 192
+    '%'                shift, and go to state 193
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
     '.'                shift, and go to state 197
 
     TOKEN_LEFT_SHIFT   [reduce using rule 96 (expr)]
     TOKEN_RIGHT_SHIFT  [reduce using rule 96 (expr)]
-    TOKEN_EQ           [reduce using rule 96 (expr)]
-    TOKEN_NE           [reduce using rule 96 (expr)]
-    TOKEN_GE           [reduce using rule 96 (expr)]
-    TOKEN_LE           [reduce using rule 96 (expr)]
-    TOKEN_AND          [reduce using rule 96 (expr)]
-    TOKEN_OR           [reduce using rule 96 (expr)]
-    '?'                [reduce using rule 96 (expr)]
-    '+'                [reduce using rule 96 (expr)]
-    '-'                [reduce using rule 96 (expr)]
-    '*'                [reduce using rule 96 (expr)]
-    '/'                [reduce using rule 96 (expr)]
-    '%'                [reduce using rule 96 (expr)]
     '&'                [reduce using rule 96 (expr)]
     '|'                [reduce using rule 96 (expr)]
     '^'                [reduce using rule 96 (expr)]
-    '>'                [reduce using rule 96 (expr)]
-    '<'                [reduce using rule 96 (expr)]
     '.'                [reduce using rule 96 (expr)]
     $default           reduce using rule 96 (expr)
 
@@ -4899,44 +4813,21 @@ State 232
 
     TOKEN_LEFT_SHIFT   shift, and go to state 178
     TOKEN_RIGHT_SHIFT  shift, and go to state 179
-    TOKEN_EQ           shift, and go to state 180
-    TOKEN_NE           shift, and go to state 181
-    TOKEN_GE           shift, and go to state 182
-    TOKEN_LE           shift, and go to state 183
-    TOKEN_AND          shift, and go to state 184
-    TOKEN_OR           shift, and go to state 185
-    '?'                shift, and go to state 186
-    '+'                shift, and go to state 187
-    '-'                shift, and go to state 188
-    '*'                shift, and go to state 189
-    '/'                shift, and go to state 190
-    '%'                shift, and go to state 191
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
+    '+'                shift, and go to state 189
+    '-'                shift, and go to state 190
+    '*'                shift, and go to state 191
+    '/'                shift, and go to state 192
+    '%'                shift, and go to state 193
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
     '.'                shift, and go to state 197
 
     TOKEN_LEFT_SHIFT   [reduce using rule 99 (expr)]
     TOKEN_RIGHT_SHIFT  [reduce using rule 99 (expr)]
-    TOKEN_EQ           [reduce using rule 99 (expr)]
-    TOKEN_NE           [reduce using rule 99 (expr)]
-    TOKEN_GE           [reduce using rule 99 (expr)]
-    TOKEN_LE           [reduce using rule 99 (expr)]
-    TOKEN_AND          [reduce using rule 99 (expr)]
-    TOKEN_OR           [reduce using rule 99 (expr)]
-    '?'                [reduce using rule 99 (expr)]
-    '+'                [reduce using rule 99 (expr)]
-    '-'                [reduce using rule 99 (expr)]
-    '*'                [reduce using rule 99 (expr)]
-    '/'                [reduce using rule 99 (expr)]
-    '%'                [reduce using rule 99 (expr)]
     '&'                [reduce using rule 99 (expr)]
     '|'                [reduce using rule 99 (expr)]
     '^'                [reduce using rule 99 (expr)]
-    '>'                [reduce using rule 99 (expr)]
-    '<'                [reduce using rule 99 (expr)]
     '.'                [reduce using rule 99 (expr)]
     $default           reduce using rule 99 (expr)
 
@@ -4968,44 +4859,21 @@ State 233
 
     TOKEN_LEFT_SHIFT   shift, and go to state 178
     TOKEN_RIGHT_SHIFT  shift, and go to state 179
-    TOKEN_EQ           shift, and go to state 180
-    TOKEN_NE           shift, and go to state 181
-    TOKEN_GE           shift, and go to state 182
-    TOKEN_LE           shift, and go to state 183
-    TOKEN_AND          shift, and go to state 184
-    TOKEN_OR           shift, and go to state 185
-    '?'                shift, and go to state 186
-    '+'                shift, and go to state 187
-    '-'                shift, and go to state 188
-    '*'                shift, and go to state 189
-    '/'                shift, and go to state 190
-    '%'                shift, and go to state 191
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
+    '+'                shift, and go to state 189
+    '-'                shift, and go to state 190
+    '*'                shift, and go to state 191
+    '/'                shift, and go to state 192
+    '%'                shift, and go to state 193
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
     '.'                shift, and go to state 197
 
     TOKEN_LEFT_SHIFT   [reduce using rule 100 (expr)]
     TOKEN_RIGHT_SHIFT  [reduce using rule 100 (expr)]
-    TOKEN_EQ           [reduce using rule 100 (expr)]
-    TOKEN_NE           [reduce using rule 100 (expr)]
-    TOKEN_GE           [reduce using rule 100 (expr)]
-    TOKEN_LE           [reduce using rule 100 (expr)]
-    TOKEN_AND          [reduce using rule 100 (expr)]
-    TOKEN_OR           [reduce using rule 100 (expr)]
-    '?'                [reduce using rule 100 (expr)]
-    '+'                [reduce using rule 100 (expr)]
-    '-'                [reduce using rule 100 (expr)]
-    '*'                [reduce using rule 100 (expr)]
-    '/'                [reduce using rule 100 (expr)]
-    '%'                [reduce using rule 100 (expr)]
     '&'                [reduce using rule 100 (expr)]
     '|'                [reduce using rule 100 (expr)]
     '^'                [reduce using rule 100 (expr)]
-    '>'                [reduce using rule 100 (expr)]
-    '<'                [reduce using rule 100 (expr)]
     '.'                [reduce using rule 100 (expr)]
     $default           reduce using rule 100 (expr)
 
@@ -5041,40 +4909,23 @@ State 234
     TOKEN_NE           shift, and go to state 181
     TOKEN_GE           shift, and go to state 182
     TOKEN_LE           shift, and go to state 183
-    TOKEN_AND          shift, and go to state 184
-    TOKEN_OR           shift, and go to state 185
-    '?'                shift, and go to state 186
-    '+'                shift, and go to state 187
-    '-'                shift, and go to state 188
-    '*'                shift, and go to state 189
-    '/'                shift, and go to state 190
-    '%'                shift, and go to state 191
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
+    '<'                shift, and go to state 187
+    '>'                shift, and go to state 188
+    '+'                shift, and go to state 189
+    '-'                shift, and go to state 190
+    '*'                shift, and go to state 191
+    '/'                shift, and go to state 192
+    '%'                shift, and go to state 193
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
     '.'                shift, and go to state 197
 
     TOKEN_LEFT_SHIFT   [reduce using rule 101 (expr)]
     TOKEN_RIGHT_SHIFT  [reduce using rule 101 (expr)]
-    TOKEN_EQ           [reduce using rule 101 (expr)]
-    TOKEN_NE           [reduce using rule 101 (expr)]
-    TOKEN_GE           [reduce using rule 101 (expr)]
-    TOKEN_LE           [reduce using rule 101 (expr)]
-    TOKEN_AND          [reduce using rule 101 (expr)]
-    TOKEN_OR           [reduce using rule 101 (expr)]
-    '?'                [reduce using rule 101 (expr)]
-    '+'                [reduce using rule 101 (expr)]
-    '-'                [reduce using rule 101 (expr)]
-    '*'                [reduce using rule 101 (expr)]
-    '/'                [reduce using rule 101 (expr)]
-    '%'                [reduce using rule 101 (expr)]
     '&'                [reduce using rule 101 (expr)]
     '|'                [reduce using rule 101 (expr)]
     '^'                [reduce using rule 101 (expr)]
-    '>'                [reduce using rule 101 (expr)]
-    '<'                [reduce using rule 101 (expr)]
     '.'                [reduce using rule 101 (expr)]
     $default           reduce using rule 101 (expr)
 
@@ -5111,39 +4962,23 @@ State 235
     TOKEN_GE           shift, and go to state 182
     TOKEN_LE           shift, and go to state 183
     TOKEN_AND          shift, and go to state 184
-    TOKEN_OR           shift, and go to state 185
-    '?'                shift, and go to state 186
-    '+'                shift, and go to state 187
-    '-'                shift, and go to state 188
-    '*'                shift, and go to state 189
-    '/'                shift, and go to state 190
-    '%'                shift, and go to state 191
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
+    '<'                shift, and go to state 187
+    '>'                shift, and go to state 188
+    '+'                shift, and go to state 189
+    '-'                shift, and go to state 190
+    '*'                shift, and go to state 191
+    '/'                shift, and go to state 192
+    '%'                shift, and go to state 193
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
     '.'                shift, and go to state 197
 
     TOKEN_LEFT_SHIFT   [reduce using rule 102 (expr)]
     TOKEN_RIGHT_SHIFT  [reduce using rule 102 (expr)]
-    TOKEN_EQ           [reduce using rule 102 (expr)]
-    TOKEN_NE           [reduce using rule 102 (expr)]
-    TOKEN_GE           [reduce using rule 102 (expr)]
-    TOKEN_LE           [reduce using rule 102 (expr)]
-    TOKEN_AND          [reduce using rule 102 (expr)]
-    TOKEN_OR           [reduce using rule 102 (expr)]
-    '?'                [reduce using rule 102 (expr)]
-    '+'                [reduce using rule 102 (expr)]
-    '-'                [reduce using rule 102 (expr)]
-    '*'                [reduce using rule 102 (expr)]
-    '/'                [reduce using rule 102 (expr)]
-    '%'                [reduce using rule 102 (expr)]
     '&'                [reduce using rule 102 (expr)]
     '|'                [reduce using rule 102 (expr)]
     '^'                [reduce using rule 102 (expr)]
-    '>'                [reduce using rule 102 (expr)]
-    '<'                [reduce using rule 102 (expr)]
     '.'                [reduce using rule 102 (expr)]
     $default           reduce using rule 102 (expr)
 
@@ -5183,20 +5018,112 @@ State 236
     TOKEN_OR           shift, and go to state 185
     '?'                shift, and go to state 186
     ':'                shift, and go to state 277
-    '+'                shift, and go to state 187
-    '-'                shift, and go to state 188
-    '*'                shift, and go to state 189
-    '/'                shift, and go to state 190
-    '%'                shift, and go to state 191
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
+    '<'                shift, and go to state 187
+    '>'                shift, and go to state 188
+    '+'                shift, and go to state 189
+    '-'                shift, and go to state 190
+    '*'                shift, and go to state 191
+    '/'                shift, and go to state 192
+    '%'                shift, and go to state 193
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
     '.'                shift, and go to state 197
 
 
 State 237
+
+   82 expr: expr • '+' expr
+   83     | expr • '-' expr
+   84     | expr • '*' expr
+   85     | expr • '/' expr
+   86     | expr • '%' expr
+   87     | expr • '&' expr
+   88     | expr • '|' expr
+   89     | expr • '^' expr
+   90     | expr • TOKEN_LEFT_SHIFT expr
+   91     | expr • TOKEN_RIGHT_SHIFT expr
+   95     | expr • TOKEN_EQ expr
+   96     | expr • TOKEN_NE expr
+   97     | expr • '>' expr
+   98     | expr • '<' expr
+   98     | expr '<' expr •
+   99     | expr • TOKEN_GE expr
+  100     | expr • TOKEN_LE expr
+  101     | expr • TOKEN_AND expr
+  102     | expr • TOKEN_OR expr
+  104     | expr • '?' expr ':' expr
+  122     | expr • '.' TOKEN_LENGTH
+  123     | expr • '.' TOKEN_IDENTIFIER '(' expr ')'
+
+    TOKEN_LEFT_SHIFT   shift, and go to state 178
+    TOKEN_RIGHT_SHIFT  shift, and go to state 179
+    '+'                shift, and go to state 189
+    '-'                shift, and go to state 190
+    '*'                shift, and go to state 191
+    '/'                shift, and go to state 192
+    '%'                shift, and go to state 193
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
+    '.'                shift, and go to state 197
+
+    TOKEN_LEFT_SHIFT   [reduce using rule 98 (expr)]
+    TOKEN_RIGHT_SHIFT  [reduce using rule 98 (expr)]
+    '&'                [reduce using rule 98 (expr)]
+    '|'                [reduce using rule 98 (expr)]
+    '^'                [reduce using rule 98 (expr)]
+    '.'                [reduce using rule 98 (expr)]
+    $default           reduce using rule 98 (expr)
+
+
+State 238
+
+   82 expr: expr • '+' expr
+   83     | expr • '-' expr
+   84     | expr • '*' expr
+   85     | expr • '/' expr
+   86     | expr • '%' expr
+   87     | expr • '&' expr
+   88     | expr • '|' expr
+   89     | expr • '^' expr
+   90     | expr • TOKEN_LEFT_SHIFT expr
+   91     | expr • TOKEN_RIGHT_SHIFT expr
+   95     | expr • TOKEN_EQ expr
+   96     | expr • TOKEN_NE expr
+   97     | expr • '>' expr
+   97     | expr '>' expr •
+   98     | expr • '<' expr
+   99     | expr • TOKEN_GE expr
+  100     | expr • TOKEN_LE expr
+  101     | expr • TOKEN_AND expr
+  102     | expr • TOKEN_OR expr
+  104     | expr • '?' expr ':' expr
+  122     | expr • '.' TOKEN_LENGTH
+  123     | expr • '.' TOKEN_IDENTIFIER '(' expr ')'
+
+    TOKEN_LEFT_SHIFT   shift, and go to state 178
+    TOKEN_RIGHT_SHIFT  shift, and go to state 179
+    '+'                shift, and go to state 189
+    '-'                shift, and go to state 190
+    '*'                shift, and go to state 191
+    '/'                shift, and go to state 192
+    '%'                shift, and go to state 193
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
+    '.'                shift, and go to state 197
+
+    TOKEN_LEFT_SHIFT   [reduce using rule 97 (expr)]
+    TOKEN_RIGHT_SHIFT  [reduce using rule 97 (expr)]
+    '&'                [reduce using rule 97 (expr)]
+    '|'                [reduce using rule 97 (expr)]
+    '^'                [reduce using rule 97 (expr)]
+    '.'                [reduce using rule 97 (expr)]
+    $default           reduce using rule 97 (expr)
+
+
+State 239
 
    82 expr: expr • '+' expr
    82     | expr '+' expr •
@@ -5223,40 +5150,24 @@ State 237
 
     TOKEN_LEFT_SHIFT   shift, and go to state 178
     TOKEN_RIGHT_SHIFT  shift, and go to state 179
-    TOKEN_EQ           shift, and go to state 180
-    TOKEN_NE           shift, and go to state 181
-    TOKEN_GE           shift, and go to state 182
-    TOKEN_LE           shift, and go to state 183
-    TOKEN_AND          shift, and go to state 184
-    TOKEN_OR           shift, and go to state 185
-    '*'                shift, and go to state 189
-    '/'                shift, and go to state 190
-    '%'                shift, and go to state 191
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
+    '*'                shift, and go to state 191
+    '/'                shift, and go to state 192
+    '%'                shift, and go to state 193
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
     '.'                shift, and go to state 197
 
     TOKEN_LEFT_SHIFT   [reduce using rule 82 (expr)]
     TOKEN_RIGHT_SHIFT  [reduce using rule 82 (expr)]
-    TOKEN_EQ           [reduce using rule 82 (expr)]
-    TOKEN_NE           [reduce using rule 82 (expr)]
-    TOKEN_GE           [reduce using rule 82 (expr)]
-    TOKEN_LE           [reduce using rule 82 (expr)]
-    TOKEN_AND          [reduce using rule 82 (expr)]
-    TOKEN_OR           [reduce using rule 82 (expr)]
     '&'                [reduce using rule 82 (expr)]
     '|'                [reduce using rule 82 (expr)]
     '^'                [reduce using rule 82 (expr)]
-    '>'                [reduce using rule 82 (expr)]
-    '<'                [reduce using rule 82 (expr)]
     '.'                [reduce using rule 82 (expr)]
     $default           reduce using rule 82 (expr)
 
 
-State 238
+State 240
 
    82 expr: expr • '+' expr
    83     | expr • '-' expr
@@ -5283,40 +5194,24 @@ State 238
 
     TOKEN_LEFT_SHIFT   shift, and go to state 178
     TOKEN_RIGHT_SHIFT  shift, and go to state 179
-    TOKEN_EQ           shift, and go to state 180
-    TOKEN_NE           shift, and go to state 181
-    TOKEN_GE           shift, and go to state 182
-    TOKEN_LE           shift, and go to state 183
-    TOKEN_AND          shift, and go to state 184
-    TOKEN_OR           shift, and go to state 185
-    '*'                shift, and go to state 189
-    '/'                shift, and go to state 190
-    '%'                shift, and go to state 191
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
+    '*'                shift, and go to state 191
+    '/'                shift, and go to state 192
+    '%'                shift, and go to state 193
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
     '.'                shift, and go to state 197
 
     TOKEN_LEFT_SHIFT   [reduce using rule 83 (expr)]
     TOKEN_RIGHT_SHIFT  [reduce using rule 83 (expr)]
-    TOKEN_EQ           [reduce using rule 83 (expr)]
-    TOKEN_NE           [reduce using rule 83 (expr)]
-    TOKEN_GE           [reduce using rule 83 (expr)]
-    TOKEN_LE           [reduce using rule 83 (expr)]
-    TOKEN_AND          [reduce using rule 83 (expr)]
-    TOKEN_OR           [reduce using rule 83 (expr)]
     '&'                [reduce using rule 83 (expr)]
     '|'                [reduce using rule 83 (expr)]
     '^'                [reduce using rule 83 (expr)]
-    '>'                [reduce using rule 83 (expr)]
-    '<'                [reduce using rule 83 (expr)]
     '.'                [reduce using rule 83 (expr)]
     $default           reduce using rule 83 (expr)
 
 
-State 239
+State 241
 
    82 expr: expr • '+' expr
    83     | expr • '-' expr
@@ -5343,37 +5238,21 @@ State 239
 
     TOKEN_LEFT_SHIFT   shift, and go to state 178
     TOKEN_RIGHT_SHIFT  shift, and go to state 179
-    TOKEN_EQ           shift, and go to state 180
-    TOKEN_NE           shift, and go to state 181
-    TOKEN_GE           shift, and go to state 182
-    TOKEN_LE           shift, and go to state 183
-    TOKEN_AND          shift, and go to state 184
-    TOKEN_OR           shift, and go to state 185
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
     '.'                shift, and go to state 197
 
     TOKEN_LEFT_SHIFT   [reduce using rule 84 (expr)]
     TOKEN_RIGHT_SHIFT  [reduce using rule 84 (expr)]
-    TOKEN_EQ           [reduce using rule 84 (expr)]
-    TOKEN_NE           [reduce using rule 84 (expr)]
-    TOKEN_GE           [reduce using rule 84 (expr)]
-    TOKEN_LE           [reduce using rule 84 (expr)]
-    TOKEN_AND          [reduce using rule 84 (expr)]
-    TOKEN_OR           [reduce using rule 84 (expr)]
     '&'                [reduce using rule 84 (expr)]
     '|'                [reduce using rule 84 (expr)]
     '^'                [reduce using rule 84 (expr)]
-    '>'                [reduce using rule 84 (expr)]
-    '<'                [reduce using rule 84 (expr)]
     '.'                [reduce using rule 84 (expr)]
     $default           reduce using rule 84 (expr)
 
 
-State 240
+State 242
 
    82 expr: expr • '+' expr
    83     | expr • '-' expr
@@ -5400,37 +5279,21 @@ State 240
 
     TOKEN_LEFT_SHIFT   shift, and go to state 178
     TOKEN_RIGHT_SHIFT  shift, and go to state 179
-    TOKEN_EQ           shift, and go to state 180
-    TOKEN_NE           shift, and go to state 181
-    TOKEN_GE           shift, and go to state 182
-    TOKEN_LE           shift, and go to state 183
-    TOKEN_AND          shift, and go to state 184
-    TOKEN_OR           shift, and go to state 185
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
     '.'                shift, and go to state 197
 
     TOKEN_LEFT_SHIFT   [reduce using rule 85 (expr)]
     TOKEN_RIGHT_SHIFT  [reduce using rule 85 (expr)]
-    TOKEN_EQ           [reduce using rule 85 (expr)]
-    TOKEN_NE           [reduce using rule 85 (expr)]
-    TOKEN_GE           [reduce using rule 85 (expr)]
-    TOKEN_LE           [reduce using rule 85 (expr)]
-    TOKEN_AND          [reduce using rule 85 (expr)]
-    TOKEN_OR           [reduce using rule 85 (expr)]
     '&'                [reduce using rule 85 (expr)]
     '|'                [reduce using rule 85 (expr)]
     '^'                [reduce using rule 85 (expr)]
-    '>'                [reduce using rule 85 (expr)]
-    '<'                [reduce using rule 85 (expr)]
     '.'                [reduce using rule 85 (expr)]
     $default           reduce using rule 85 (expr)
 
 
-State 241
+State 243
 
    82 expr: expr • '+' expr
    83     | expr • '-' expr
@@ -5457,37 +5320,21 @@ State 241
 
     TOKEN_LEFT_SHIFT   shift, and go to state 178
     TOKEN_RIGHT_SHIFT  shift, and go to state 179
-    TOKEN_EQ           shift, and go to state 180
-    TOKEN_NE           shift, and go to state 181
-    TOKEN_GE           shift, and go to state 182
-    TOKEN_LE           shift, and go to state 183
-    TOKEN_AND          shift, and go to state 184
-    TOKEN_OR           shift, and go to state 185
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
     '.'                shift, and go to state 197
 
     TOKEN_LEFT_SHIFT   [reduce using rule 86 (expr)]
     TOKEN_RIGHT_SHIFT  [reduce using rule 86 (expr)]
-    TOKEN_EQ           [reduce using rule 86 (expr)]
-    TOKEN_NE           [reduce using rule 86 (expr)]
-    TOKEN_GE           [reduce using rule 86 (expr)]
-    TOKEN_LE           [reduce using rule 86 (expr)]
-    TOKEN_AND          [reduce using rule 86 (expr)]
-    TOKEN_OR           [reduce using rule 86 (expr)]
     '&'                [reduce using rule 86 (expr)]
     '|'                [reduce using rule 86 (expr)]
     '^'                [reduce using rule 86 (expr)]
-    '>'                [reduce using rule 86 (expr)]
-    '<'                [reduce using rule 86 (expr)]
     '.'                [reduce using rule 86 (expr)]
     $default           reduce using rule 86 (expr)
 
 
-State 242
+State 244
 
    82 expr: expr • '+' expr
    83     | expr • '-' expr
@@ -5521,16 +5368,16 @@ State 242
     TOKEN_AND          shift, and go to state 184
     TOKEN_OR           shift, and go to state 185
     '?'                shift, and go to state 186
-    '+'                shift, and go to state 187
-    '-'                shift, and go to state 188
-    '*'                shift, and go to state 189
-    '/'                shift, and go to state 190
-    '%'                shift, and go to state 191
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
+    '<'                shift, and go to state 187
+    '>'                shift, and go to state 188
+    '+'                shift, and go to state 189
+    '-'                shift, and go to state 190
+    '*'                shift, and go to state 191
+    '/'                shift, and go to state 192
+    '%'                shift, and go to state 193
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
     '.'                shift, and go to state 197
 
     TOKEN_LEFT_SHIFT   [reduce using rule 87 (expr)]
@@ -5542,6 +5389,8 @@ State 242
     TOKEN_AND          [reduce using rule 87 (expr)]
     TOKEN_OR           [reduce using rule 87 (expr)]
     '?'                [reduce using rule 87 (expr)]
+    '<'                [reduce using rule 87 (expr)]
+    '>'                [reduce using rule 87 (expr)]
     '+'                [reduce using rule 87 (expr)]
     '-'                [reduce using rule 87 (expr)]
     '*'                [reduce using rule 87 (expr)]
@@ -5550,13 +5399,11 @@ State 242
     '&'                [reduce using rule 87 (expr)]
     '|'                [reduce using rule 87 (expr)]
     '^'                [reduce using rule 87 (expr)]
-    '>'                [reduce using rule 87 (expr)]
-    '<'                [reduce using rule 87 (expr)]
     '.'                [reduce using rule 87 (expr)]
     $default           reduce using rule 87 (expr)
 
 
-State 243
+State 245
 
    82 expr: expr • '+' expr
    83     | expr • '-' expr
@@ -5590,16 +5437,16 @@ State 243
     TOKEN_AND          shift, and go to state 184
     TOKEN_OR           shift, and go to state 185
     '?'                shift, and go to state 186
-    '+'                shift, and go to state 187
-    '-'                shift, and go to state 188
-    '*'                shift, and go to state 189
-    '/'                shift, and go to state 190
-    '%'                shift, and go to state 191
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
+    '<'                shift, and go to state 187
+    '>'                shift, and go to state 188
+    '+'                shift, and go to state 189
+    '-'                shift, and go to state 190
+    '*'                shift, and go to state 191
+    '/'                shift, and go to state 192
+    '%'                shift, and go to state 193
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
     '.'                shift, and go to state 197
 
     TOKEN_LEFT_SHIFT   [reduce using rule 88 (expr)]
@@ -5611,6 +5458,8 @@ State 243
     TOKEN_AND          [reduce using rule 88 (expr)]
     TOKEN_OR           [reduce using rule 88 (expr)]
     '?'                [reduce using rule 88 (expr)]
+    '<'                [reduce using rule 88 (expr)]
+    '>'                [reduce using rule 88 (expr)]
     '+'                [reduce using rule 88 (expr)]
     '-'                [reduce using rule 88 (expr)]
     '*'                [reduce using rule 88 (expr)]
@@ -5619,13 +5468,11 @@ State 243
     '&'                [reduce using rule 88 (expr)]
     '|'                [reduce using rule 88 (expr)]
     '^'                [reduce using rule 88 (expr)]
-    '>'                [reduce using rule 88 (expr)]
-    '<'                [reduce using rule 88 (expr)]
     '.'                [reduce using rule 88 (expr)]
     $default           reduce using rule 88 (expr)
 
 
-State 244
+State 246
 
    82 expr: expr • '+' expr
    83     | expr • '-' expr
@@ -5659,16 +5506,16 @@ State 244
     TOKEN_AND          shift, and go to state 184
     TOKEN_OR           shift, and go to state 185
     '?'                shift, and go to state 186
-    '+'                shift, and go to state 187
-    '-'                shift, and go to state 188
-    '*'                shift, and go to state 189
-    '/'                shift, and go to state 190
-    '%'                shift, and go to state 191
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
+    '<'                shift, and go to state 187
+    '>'                shift, and go to state 188
+    '+'                shift, and go to state 189
+    '-'                shift, and go to state 190
+    '*'                shift, and go to state 191
+    '/'                shift, and go to state 192
+    '%'                shift, and go to state 193
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
     '.'                shift, and go to state 197
 
     TOKEN_LEFT_SHIFT   [reduce using rule 89 (expr)]
@@ -5680,6 +5527,8 @@ State 244
     TOKEN_AND          [reduce using rule 89 (expr)]
     TOKEN_OR           [reduce using rule 89 (expr)]
     '?'                [reduce using rule 89 (expr)]
+    '<'                [reduce using rule 89 (expr)]
+    '>'                [reduce using rule 89 (expr)]
     '+'                [reduce using rule 89 (expr)]
     '-'                [reduce using rule 89 (expr)]
     '*'                [reduce using rule 89 (expr)]
@@ -5688,148 +5537,8 @@ State 244
     '&'                [reduce using rule 89 (expr)]
     '|'                [reduce using rule 89 (expr)]
     '^'                [reduce using rule 89 (expr)]
-    '>'                [reduce using rule 89 (expr)]
-    '<'                [reduce using rule 89 (expr)]
     '.'                [reduce using rule 89 (expr)]
     $default           reduce using rule 89 (expr)
-
-
-State 245
-
-   82 expr: expr • '+' expr
-   83     | expr • '-' expr
-   84     | expr • '*' expr
-   85     | expr • '/' expr
-   86     | expr • '%' expr
-   87     | expr • '&' expr
-   88     | expr • '|' expr
-   89     | expr • '^' expr
-   90     | expr • TOKEN_LEFT_SHIFT expr
-   91     | expr • TOKEN_RIGHT_SHIFT expr
-   95     | expr • TOKEN_EQ expr
-   96     | expr • TOKEN_NE expr
-   97     | expr • '>' expr
-   97     | expr '>' expr •
-   98     | expr • '<' expr
-   99     | expr • TOKEN_GE expr
-  100     | expr • TOKEN_LE expr
-  101     | expr • TOKEN_AND expr
-  102     | expr • TOKEN_OR expr
-  104     | expr • '?' expr ':' expr
-  122     | expr • '.' TOKEN_LENGTH
-  123     | expr • '.' TOKEN_IDENTIFIER '(' expr ')'
-
-    TOKEN_LEFT_SHIFT   shift, and go to state 178
-    TOKEN_RIGHT_SHIFT  shift, and go to state 179
-    TOKEN_EQ           shift, and go to state 180
-    TOKEN_NE           shift, and go to state 181
-    TOKEN_GE           shift, and go to state 182
-    TOKEN_LE           shift, and go to state 183
-    TOKEN_AND          shift, and go to state 184
-    TOKEN_OR           shift, and go to state 185
-    '?'                shift, and go to state 186
-    '+'                shift, and go to state 187
-    '-'                shift, and go to state 188
-    '*'                shift, and go to state 189
-    '/'                shift, and go to state 190
-    '%'                shift, and go to state 191
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
-    '.'                shift, and go to state 197
-
-    TOKEN_LEFT_SHIFT   [reduce using rule 97 (expr)]
-    TOKEN_RIGHT_SHIFT  [reduce using rule 97 (expr)]
-    TOKEN_EQ           [reduce using rule 97 (expr)]
-    TOKEN_NE           [reduce using rule 97 (expr)]
-    TOKEN_GE           [reduce using rule 97 (expr)]
-    TOKEN_LE           [reduce using rule 97 (expr)]
-    TOKEN_AND          [reduce using rule 97 (expr)]
-    TOKEN_OR           [reduce using rule 97 (expr)]
-    '?'                [reduce using rule 97 (expr)]
-    '+'                [reduce using rule 97 (expr)]
-    '-'                [reduce using rule 97 (expr)]
-    '*'                [reduce using rule 97 (expr)]
-    '/'                [reduce using rule 97 (expr)]
-    '%'                [reduce using rule 97 (expr)]
-    '&'                [reduce using rule 97 (expr)]
-    '|'                [reduce using rule 97 (expr)]
-    '^'                [reduce using rule 97 (expr)]
-    '>'                [reduce using rule 97 (expr)]
-    '<'                [reduce using rule 97 (expr)]
-    '.'                [reduce using rule 97 (expr)]
-    $default           reduce using rule 97 (expr)
-
-
-State 246
-
-   82 expr: expr • '+' expr
-   83     | expr • '-' expr
-   84     | expr • '*' expr
-   85     | expr • '/' expr
-   86     | expr • '%' expr
-   87     | expr • '&' expr
-   88     | expr • '|' expr
-   89     | expr • '^' expr
-   90     | expr • TOKEN_LEFT_SHIFT expr
-   91     | expr • TOKEN_RIGHT_SHIFT expr
-   95     | expr • TOKEN_EQ expr
-   96     | expr • TOKEN_NE expr
-   97     | expr • '>' expr
-   98     | expr • '<' expr
-   98     | expr '<' expr •
-   99     | expr • TOKEN_GE expr
-  100     | expr • TOKEN_LE expr
-  101     | expr • TOKEN_AND expr
-  102     | expr • TOKEN_OR expr
-  104     | expr • '?' expr ':' expr
-  122     | expr • '.' TOKEN_LENGTH
-  123     | expr • '.' TOKEN_IDENTIFIER '(' expr ')'
-
-    TOKEN_LEFT_SHIFT   shift, and go to state 178
-    TOKEN_RIGHT_SHIFT  shift, and go to state 179
-    TOKEN_EQ           shift, and go to state 180
-    TOKEN_NE           shift, and go to state 181
-    TOKEN_GE           shift, and go to state 182
-    TOKEN_LE           shift, and go to state 183
-    TOKEN_AND          shift, and go to state 184
-    TOKEN_OR           shift, and go to state 185
-    '?'                shift, and go to state 186
-    '+'                shift, and go to state 187
-    '-'                shift, and go to state 188
-    '*'                shift, and go to state 189
-    '/'                shift, and go to state 190
-    '%'                shift, and go to state 191
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
-    '.'                shift, and go to state 197
-
-    TOKEN_LEFT_SHIFT   [reduce using rule 98 (expr)]
-    TOKEN_RIGHT_SHIFT  [reduce using rule 98 (expr)]
-    TOKEN_EQ           [reduce using rule 98 (expr)]
-    TOKEN_NE           [reduce using rule 98 (expr)]
-    TOKEN_GE           [reduce using rule 98 (expr)]
-    TOKEN_LE           [reduce using rule 98 (expr)]
-    TOKEN_AND          [reduce using rule 98 (expr)]
-    TOKEN_OR           [reduce using rule 98 (expr)]
-    '?'                [reduce using rule 98 (expr)]
-    '+'                [reduce using rule 98 (expr)]
-    '-'                [reduce using rule 98 (expr)]
-    '*'                [reduce using rule 98 (expr)]
-    '/'                [reduce using rule 98 (expr)]
-    '%'                [reduce using rule 98 (expr)]
-    '&'                [reduce using rule 98 (expr)]
-    '|'                [reduce using rule 98 (expr)]
-    '^'                [reduce using rule 98 (expr)]
-    '>'                [reduce using rule 98 (expr)]
-    '<'                [reduce using rule 98 (expr)]
-    '.'                [reduce using rule 98 (expr)]
-    $default           reduce using rule 98 (expr)
 
 
 State 247
@@ -5928,17 +5637,17 @@ State 252
     TOKEN_AND          shift, and go to state 184
     TOKEN_OR           shift, and go to state 185
     '?'                shift, and go to state 186
-    '+'                shift, and go to state 187
-    '-'                shift, and go to state 188
-    '*'                shift, and go to state 189
-    '/'                shift, and go to state 190
-    '%'                shift, and go to state 191
+    '<'                shift, and go to state 187
+    '>'                shift, and go to state 188
+    '+'                shift, and go to state 189
+    '-'                shift, and go to state 190
+    '*'                shift, and go to state 191
+    '/'                shift, and go to state 192
+    '%'                shift, and go to state 193
     ';'                shift, and go to state 282
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
     '.'                shift, and go to state 197
 
 
@@ -6074,16 +5783,16 @@ State 258
     TOKEN_AND          shift, and go to state 184
     TOKEN_OR           shift, and go to state 185
     '?'                shift, and go to state 186
-    '+'                shift, and go to state 187
-    '-'                shift, and go to state 188
-    '*'                shift, and go to state 189
-    '/'                shift, and go to state 190
-    '%'                shift, and go to state 191
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
+    '<'                shift, and go to state 187
+    '>'                shift, and go to state 188
+    '+'                shift, and go to state 189
+    '-'                shift, and go to state 190
+    '*'                shift, and go to state 191
+    '/'                shift, and go to state 192
+    '%'                shift, and go to state 193
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
     '.'                shift, and go to state 197
 
     $default  reduce using rule 146 (declaracion_array)
@@ -6148,16 +5857,16 @@ State 261
     TOKEN_AND          shift, and go to state 184
     TOKEN_OR           shift, and go to state 185
     '?'                shift, and go to state 186
-    '+'                shift, and go to state 187
-    '-'                shift, and go to state 188
-    '*'                shift, and go to state 189
-    '/'                shift, and go to state 190
-    '%'                shift, and go to state 191
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
+    '<'                shift, and go to state 187
+    '>'                shift, and go to state 188
+    '+'                shift, and go to state 189
+    '-'                shift, and go to state 190
+    '*'                shift, and go to state 191
+    '/'                shift, and go to state 192
+    '%'                shift, and go to state 193
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
     '.'                shift, and go to state 197
 
     $default  reduce using rule 37 (lista_Expr)
@@ -6445,16 +6154,16 @@ State 272
     TOKEN_AND          shift, and go to state 184
     TOKEN_OR           shift, and go to state 185
     '?'                shift, and go to state 186
-    '+'                shift, and go to state 187
-    '-'                shift, and go to state 188
-    '*'                shift, and go to state 189
-    '/'                shift, and go to state 190
-    '%'                shift, and go to state 191
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
+    '<'                shift, and go to state 187
+    '>'                shift, and go to state 188
+    '+'                shift, and go to state 189
+    '-'                shift, and go to state 190
+    '*'                shift, and go to state 191
+    '/'                shift, and go to state 192
+    '%'                shift, and go to state 193
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
     '.'                shift, and go to state 197
 
     TOKEN_LEFT_SHIFT   [reduce using rule 106 (expr)]
@@ -6466,6 +6175,8 @@ State 272
     TOKEN_AND          [reduce using rule 106 (expr)]
     TOKEN_OR           [reduce using rule 106 (expr)]
     '?'                [reduce using rule 106 (expr)]
+    '<'                [reduce using rule 106 (expr)]
+    '>'                [reduce using rule 106 (expr)]
     '+'                [reduce using rule 106 (expr)]
     '-'                [reduce using rule 106 (expr)]
     '*'                [reduce using rule 106 (expr)]
@@ -6474,8 +6185,6 @@ State 272
     '&'                [reduce using rule 106 (expr)]
     '|'                [reduce using rule 106 (expr)]
     '^'                [reduce using rule 106 (expr)]
-    '>'                [reduce using rule 106 (expr)]
-    '<'                [reduce using rule 106 (expr)]
     '.'                [reduce using rule 106 (expr)]
     $default           reduce using rule 106 (expr)
 
@@ -6514,16 +6223,16 @@ State 273
     TOKEN_AND          shift, and go to state 184
     TOKEN_OR           shift, and go to state 185
     '?'                shift, and go to state 186
-    '+'                shift, and go to state 187
-    '-'                shift, and go to state 188
-    '*'                shift, and go to state 189
-    '/'                shift, and go to state 190
-    '%'                shift, and go to state 191
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
+    '<'                shift, and go to state 187
+    '>'                shift, and go to state 188
+    '+'                shift, and go to state 189
+    '-'                shift, and go to state 190
+    '*'                shift, and go to state 191
+    '/'                shift, and go to state 192
+    '%'                shift, and go to state 193
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
     '.'                shift, and go to state 197
 
     TOKEN_LEFT_SHIFT   [reduce using rule 107 (expr)]
@@ -6535,6 +6244,8 @@ State 273
     TOKEN_AND          [reduce using rule 107 (expr)]
     TOKEN_OR           [reduce using rule 107 (expr)]
     '?'                [reduce using rule 107 (expr)]
+    '<'                [reduce using rule 107 (expr)]
+    '>'                [reduce using rule 107 (expr)]
     '+'                [reduce using rule 107 (expr)]
     '-'                [reduce using rule 107 (expr)]
     '*'                [reduce using rule 107 (expr)]
@@ -6543,8 +6254,6 @@ State 273
     '&'                [reduce using rule 107 (expr)]
     '|'                [reduce using rule 107 (expr)]
     '^'                [reduce using rule 107 (expr)]
-    '>'                [reduce using rule 107 (expr)]
-    '<'                [reduce using rule 107 (expr)]
     '.'                [reduce using rule 107 (expr)]
     $default           reduce using rule 107 (expr)
 
@@ -6583,16 +6292,16 @@ State 274
     TOKEN_AND          shift, and go to state 184
     TOKEN_OR           shift, and go to state 185
     '?'                shift, and go to state 186
-    '+'                shift, and go to state 187
-    '-'                shift, and go to state 188
-    '*'                shift, and go to state 189
-    '/'                shift, and go to state 190
-    '%'                shift, and go to state 191
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
+    '<'                shift, and go to state 187
+    '>'                shift, and go to state 188
+    '+'                shift, and go to state 189
+    '-'                shift, and go to state 190
+    '*'                shift, and go to state 191
+    '/'                shift, and go to state 192
+    '%'                shift, and go to state 193
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
     '.'                shift, and go to state 197
 
     TOKEN_LEFT_SHIFT   [reduce using rule 108 (expr)]
@@ -6604,6 +6313,8 @@ State 274
     TOKEN_AND          [reduce using rule 108 (expr)]
     TOKEN_OR           [reduce using rule 108 (expr)]
     '?'                [reduce using rule 108 (expr)]
+    '<'                [reduce using rule 108 (expr)]
+    '>'                [reduce using rule 108 (expr)]
     '+'                [reduce using rule 108 (expr)]
     '-'                [reduce using rule 108 (expr)]
     '*'                [reduce using rule 108 (expr)]
@@ -6612,8 +6323,6 @@ State 274
     '&'                [reduce using rule 108 (expr)]
     '|'                [reduce using rule 108 (expr)]
     '^'                [reduce using rule 108 (expr)]
-    '>'                [reduce using rule 108 (expr)]
-    '<'                [reduce using rule 108 (expr)]
     '.'                [reduce using rule 108 (expr)]
     $default           reduce using rule 108 (expr)
 
@@ -6652,16 +6361,16 @@ State 275
     TOKEN_AND          shift, and go to state 184
     TOKEN_OR           shift, and go to state 185
     '?'                shift, and go to state 186
-    '+'                shift, and go to state 187
-    '-'                shift, and go to state 188
-    '*'                shift, and go to state 189
-    '/'                shift, and go to state 190
-    '%'                shift, and go to state 191
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
+    '<'                shift, and go to state 187
+    '>'                shift, and go to state 188
+    '+'                shift, and go to state 189
+    '-'                shift, and go to state 190
+    '*'                shift, and go to state 191
+    '/'                shift, and go to state 192
+    '%'                shift, and go to state 193
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
     '.'                shift, and go to state 197
 
     TOKEN_LEFT_SHIFT   [reduce using rule 105 (expr)]
@@ -6673,6 +6382,8 @@ State 275
     TOKEN_AND          [reduce using rule 105 (expr)]
     TOKEN_OR           [reduce using rule 105 (expr)]
     '?'                [reduce using rule 105 (expr)]
+    '<'                [reduce using rule 105 (expr)]
+    '>'                [reduce using rule 105 (expr)]
     '+'                [reduce using rule 105 (expr)]
     '-'                [reduce using rule 105 (expr)]
     '*'                [reduce using rule 105 (expr)]
@@ -6681,8 +6392,6 @@ State 275
     '&'                [reduce using rule 105 (expr)]
     '|'                [reduce using rule 105 (expr)]
     '^'                [reduce using rule 105 (expr)]
-    '>'                [reduce using rule 105 (expr)]
-    '<'                [reduce using rule 105 (expr)]
     '.'                [reduce using rule 105 (expr)]
     $default           reduce using rule 105 (expr)
 
@@ -6721,16 +6430,16 @@ State 276
     TOKEN_AND          shift, and go to state 184
     TOKEN_OR           shift, and go to state 185
     '?'                shift, and go to state 186
-    '+'                shift, and go to state 187
-    '-'                shift, and go to state 188
-    '*'                shift, and go to state 189
-    '/'                shift, and go to state 190
-    '%'                shift, and go to state 191
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
+    '<'                shift, and go to state 187
+    '>'                shift, and go to state 188
+    '+'                shift, and go to state 189
+    '-'                shift, and go to state 190
+    '*'                shift, and go to state 191
+    '/'                shift, and go to state 192
+    '%'                shift, and go to state 193
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
     '.'                shift, and go to state 197
 
     TOKEN_LEFT_SHIFT   [reduce using rule 109 (expr)]
@@ -6742,6 +6451,8 @@ State 276
     TOKEN_AND          [reduce using rule 109 (expr)]
     TOKEN_OR           [reduce using rule 109 (expr)]
     '?'                [reduce using rule 109 (expr)]
+    '<'                [reduce using rule 109 (expr)]
+    '>'                [reduce using rule 109 (expr)]
     '+'                [reduce using rule 109 (expr)]
     '-'                [reduce using rule 109 (expr)]
     '*'                [reduce using rule 109 (expr)]
@@ -6750,8 +6461,6 @@ State 276
     '&'                [reduce using rule 109 (expr)]
     '|'                [reduce using rule 109 (expr)]
     '^'                [reduce using rule 109 (expr)]
-    '>'                [reduce using rule 109 (expr)]
-    '<'                [reduce using rule 109 (expr)]
     '.'                [reduce using rule 109 (expr)]
     $default           reduce using rule 109 (expr)
 
@@ -6852,16 +6561,16 @@ State 279
     TOKEN_AND          shift, and go to state 184
     TOKEN_OR           shift, and go to state 185
     '?'                shift, and go to state 186
-    '+'                shift, and go to state 187
-    '-'                shift, and go to state 188
-    '*'                shift, and go to state 189
-    '/'                shift, and go to state 190
-    '%'                shift, and go to state 191
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
+    '<'                shift, and go to state 187
+    '>'                shift, and go to state 188
+    '+'                shift, and go to state 189
+    '-'                shift, and go to state 190
+    '*'                shift, and go to state 191
+    '/'                shift, and go to state 192
+    '%'                shift, and go to state 193
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
     '.'                shift, and go to state 197
 
     $default  reduce using rule 44 (declaracion_const)
@@ -6933,17 +6642,17 @@ State 283
     TOKEN_AND          shift, and go to state 184
     TOKEN_OR           shift, and go to state 185
     '?'                shift, and go to state 186
-    '+'                shift, and go to state 187
-    '-'                shift, and go to state 188
-    '*'                shift, and go to state 189
-    '/'                shift, and go to state 190
-    '%'                shift, and go to state 191
+    '<'                shift, and go to state 187
+    '>'                shift, and go to state 188
+    '+'                shift, and go to state 189
+    '-'                shift, and go to state 190
+    '*'                shift, and go to state 191
+    '/'                shift, and go to state 192
+    '%'                shift, and go to state 193
     ';'                shift, and go to state 312
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
     '.'                shift, and go to state 197
 
 
@@ -7026,16 +6735,16 @@ State 287
     TOKEN_AND          shift, and go to state 184
     TOKEN_OR           shift, and go to state 185
     '?'                shift, and go to state 186
-    '+'                shift, and go to state 187
-    '-'                shift, and go to state 188
-    '*'                shift, and go to state 189
-    '/'                shift, and go to state 190
-    '%'                shift, and go to state 191
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
+    '<'                shift, and go to state 187
+    '>'                shift, and go to state 188
+    '+'                shift, and go to state 189
+    '-'                shift, and go to state 190
+    '*'                shift, and go to state 191
+    '/'                shift, and go to state 192
+    '%'                shift, and go to state 193
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
     '.'                shift, and go to state 197
 
     $default  reduce using rule 148 (lista_elementos)
@@ -7151,16 +6860,16 @@ State 294
     TOKEN_AND          shift, and go to state 184
     TOKEN_OR           shift, and go to state 185
     '?'                shift, and go to state 186
-    '+'                shift, and go to state 187
-    '-'                shift, and go to state 188
-    '*'                shift, and go to state 189
-    '/'                shift, and go to state 190
-    '%'                shift, and go to state 191
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
+    '<'                shift, and go to state 187
+    '>'                shift, and go to state 188
+    '+'                shift, and go to state 189
+    '-'                shift, and go to state 190
+    '*'                shift, and go to state 191
+    '/'                shift, and go to state 192
+    '%'                shift, and go to state 193
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
     '.'                shift, and go to state 197
 
     $default  reduce using rule 46 (asignacion)
@@ -7200,17 +6909,17 @@ State 295
     TOKEN_AND          shift, and go to state 184
     TOKEN_OR           shift, and go to state 185
     '?'                shift, and go to state 186
-    '+'                shift, and go to state 187
-    '-'                shift, and go to state 188
-    '*'                shift, and go to state 189
-    '/'                shift, and go to state 190
-    '%'                shift, and go to state 191
+    '<'                shift, and go to state 187
+    '>'                shift, and go to state 188
+    '+'                shift, and go to state 189
+    '-'                shift, and go to state 190
+    '*'                shift, and go to state 191
+    '/'                shift, and go to state 192
+    '%'                shift, and go to state 193
     ']'                shift, and go to state 323
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
     '.'                shift, and go to state 197
 
 
@@ -7248,17 +6957,17 @@ State 296
     TOKEN_AND          shift, and go to state 184
     TOKEN_OR           shift, and go to state 185
     '?'                shift, and go to state 186
-    '+'                shift, and go to state 187
-    '-'                shift, and go to state 188
-    '*'                shift, and go to state 189
-    '/'                shift, and go to state 190
-    '%'                shift, and go to state 191
+    '<'                shift, and go to state 187
+    '>'                shift, and go to state 188
+    '+'                shift, and go to state 189
+    '-'                shift, and go to state 190
+    '*'                shift, and go to state 191
+    '/'                shift, and go to state 192
+    '%'                shift, and go to state 193
     ')'                shift, and go to state 324
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
     '.'                shift, and go to state 197
 
 
@@ -7296,17 +7005,17 @@ State 297
     TOKEN_AND          shift, and go to state 184
     TOKEN_OR           shift, and go to state 185
     '?'                shift, and go to state 186
-    '+'                shift, and go to state 187
-    '-'                shift, and go to state 188
-    '*'                shift, and go to state 189
-    '/'                shift, and go to state 190
-    '%'                shift, and go to state 191
+    '<'                shift, and go to state 187
+    '>'                shift, and go to state 188
+    '+'                shift, and go to state 189
+    '-'                shift, and go to state 190
+    '*'                shift, and go to state 191
+    '/'                shift, and go to state 192
+    '%'                shift, and go to state 193
     ')'                shift, and go to state 325
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
     '.'                shift, and go to state 197
 
 
@@ -7344,17 +7053,17 @@ State 298
     TOKEN_AND          shift, and go to state 184
     TOKEN_OR           shift, and go to state 185
     '?'                shift, and go to state 186
-    '+'                shift, and go to state 187
-    '-'                shift, and go to state 188
-    '*'                shift, and go to state 189
-    '/'                shift, and go to state 190
-    '%'                shift, and go to state 191
+    '<'                shift, and go to state 187
+    '>'                shift, and go to state 188
+    '+'                shift, and go to state 189
+    '-'                shift, and go to state 190
+    '*'                shift, and go to state 191
+    '/'                shift, and go to state 192
+    '%'                shift, and go to state 193
     ')'                shift, and go to state 326
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
     '.'                shift, and go to state 197
 
 
@@ -7402,17 +7111,17 @@ State 300
     TOKEN_AND          shift, and go to state 184
     TOKEN_OR           shift, and go to state 185
     '?'                shift, and go to state 186
-    '+'                shift, and go to state 187
-    '-'                shift, and go to state 188
-    '*'                shift, and go to state 189
-    '/'                shift, and go to state 190
-    '%'                shift, and go to state 191
+    '<'                shift, and go to state 187
+    '>'                shift, and go to state 188
+    '+'                shift, and go to state 189
+    '-'                shift, and go to state 190
+    '*'                shift, and go to state 191
+    '/'                shift, and go to state 192
+    '%'                shift, and go to state 193
     ')'                shift, and go to state 328
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
     '.'                shift, and go to state 197
 
     ')'       [reduce using rule 38 (lista_Expr)]
@@ -7493,31 +7202,23 @@ State 303
     TOKEN_AND          shift, and go to state 184
     TOKEN_OR           shift, and go to state 185
     '?'                shift, and go to state 186
-    '+'                shift, and go to state 187
-    '-'                shift, and go to state 188
-    '*'                shift, and go to state 189
-    '/'                shift, and go to state 190
-    '%'                shift, and go to state 191
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
+    '<'                shift, and go to state 187
+    '>'                shift, and go to state 188
+    '+'                shift, and go to state 189
+    '-'                shift, and go to state 190
+    '*'                shift, and go to state 191
+    '/'                shift, and go to state 192
+    '%'                shift, and go to state 193
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
     '.'                shift, and go to state 197
 
     TOKEN_LEFT_SHIFT   [reduce using rule 104 (expr)]
     TOKEN_RIGHT_SHIFT  [reduce using rule 104 (expr)]
-    TOKEN_EQ           [reduce using rule 104 (expr)]
-    TOKEN_NE           [reduce using rule 104 (expr)]
-    TOKEN_GE           [reduce using rule 104 (expr)]
-    TOKEN_LE           [reduce using rule 104 (expr)]
-    TOKEN_AND          [reduce using rule 104 (expr)]
-    TOKEN_OR           [reduce using rule 104 (expr)]
     '&'                [reduce using rule 104 (expr)]
     '|'                [reduce using rule 104 (expr)]
     '^'                [reduce using rule 104 (expr)]
-    '>'                [reduce using rule 104 (expr)]
-    '<'                [reduce using rule 104 (expr)]
     '.'                [reduce using rule 104 (expr)]
     $default           reduce using rule 104 (expr)
 
@@ -7556,17 +7257,17 @@ State 304
     TOKEN_AND          shift, and go to state 184
     TOKEN_OR           shift, and go to state 185
     '?'                shift, and go to state 186
-    '+'                shift, and go to state 187
-    '-'                shift, and go to state 188
-    '*'                shift, and go to state 189
-    '/'                shift, and go to state 190
-    '%'                shift, and go to state 191
+    '<'                shift, and go to state 187
+    '>'                shift, and go to state 188
+    '+'                shift, and go to state 189
+    '-'                shift, and go to state 190
+    '*'                shift, and go to state 191
+    '/'                shift, and go to state 192
+    '%'                shift, and go to state 193
     ')'                shift, and go to state 331
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
     '.'                shift, and go to state 197
 
 
@@ -7724,17 +7425,17 @@ State 313
     TOKEN_AND          shift, and go to state 184
     TOKEN_OR           shift, and go to state 185
     '?'                shift, and go to state 186
-    '+'                shift, and go to state 187
-    '-'                shift, and go to state 188
-    '*'                shift, and go to state 189
-    '/'                shift, and go to state 190
-    '%'                shift, and go to state 191
+    '<'                shift, and go to state 187
+    '>'                shift, and go to state 188
+    '+'                shift, and go to state 189
+    '-'                shift, and go to state 190
+    '*'                shift, and go to state 191
+    '/'                shift, and go to state 192
+    '%'                shift, and go to state 193
     ')'                shift, and go to state 340
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
     '.'                shift, and go to state 197
 
 
@@ -7960,17 +7661,17 @@ State 330
     TOKEN_AND          shift, and go to state 184
     TOKEN_OR           shift, and go to state 185
     '?'                shift, and go to state 186
-    '+'                shift, and go to state 187
-    '-'                shift, and go to state 188
-    '*'                shift, and go to state 189
-    '/'                shift, and go to state 190
-    '%'                shift, and go to state 191
+    '<'                shift, and go to state 187
+    '>'                shift, and go to state 188
+    '+'                shift, and go to state 189
+    '-'                shift, and go to state 190
+    '*'                shift, and go to state 191
+    '/'                shift, and go to state 192
+    '%'                shift, and go to state 193
     ']'                shift, and go to state 347
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
     '.'                shift, and go to state 197
 
 
@@ -8016,16 +7717,16 @@ State 332
     TOKEN_OR           shift, and go to state 185
     '?'                shift, and go to state 186
     ':'                shift, and go to state 348
-    '+'                shift, and go to state 187
-    '-'                shift, and go to state 188
-    '*'                shift, and go to state 189
-    '/'                shift, and go to state 190
-    '%'                shift, and go to state 191
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
+    '<'                shift, and go to state 187
+    '>'                shift, and go to state 188
+    '+'                shift, and go to state 189
+    '-'                shift, and go to state 190
+    '*'                shift, and go to state 191
+    '/'                shift, and go to state 192
+    '%'                shift, and go to state 193
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
     '.'                shift, and go to state 197
 
 
@@ -8162,17 +7863,17 @@ State 341
     TOKEN_AND          shift, and go to state 184
     TOKEN_OR           shift, and go to state 185
     '?'                shift, and go to state 186
-    '+'                shift, and go to state 187
-    '-'                shift, and go to state 188
-    '*'                shift, and go to state 189
-    '/'                shift, and go to state 190
-    '%'                shift, and go to state 191
+    '<'                shift, and go to state 187
+    '>'                shift, and go to state 188
+    '+'                shift, and go to state 189
+    '-'                shift, and go to state 190
+    '*'                shift, and go to state 191
+    '/'                shift, and go to state 192
+    '%'                shift, and go to state 193
     ']'                shift, and go to state 354
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
     '.'                shift, and go to state 197
 
 
@@ -8210,16 +7911,16 @@ State 342
     TOKEN_AND          shift, and go to state 184
     TOKEN_OR           shift, and go to state 185
     '?'                shift, and go to state 186
-    '+'                shift, and go to state 187
-    '-'                shift, and go to state 188
-    '*'                shift, and go to state 189
-    '/'                shift, and go to state 190
-    '%'                shift, and go to state 191
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
+    '<'                shift, and go to state 187
+    '>'                shift, and go to state 188
+    '+'                shift, and go to state 189
+    '-'                shift, and go to state 190
+    '*'                shift, and go to state 191
+    '/'                shift, and go to state 192
+    '%'                shift, and go to state 193
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
     '.'                shift, and go to state 197
 
     $default  reduce using rule 147 (lista_elementos)
@@ -8259,17 +7960,17 @@ State 343
     TOKEN_AND          shift, and go to state 184
     TOKEN_OR           shift, and go to state 185
     '?'                shift, and go to state 186
-    '+'                shift, and go to state 187
-    '-'                shift, and go to state 188
-    '*'                shift, and go to state 189
-    '/'                shift, and go to state 190
-    '%'                shift, and go to state 191
+    '<'                shift, and go to state 187
+    '>'                shift, and go to state 188
+    '+'                shift, and go to state 189
+    '-'                shift, and go to state 190
+    '*'                shift, and go to state 191
+    '/'                shift, and go to state 192
+    '%'                shift, and go to state 193
     ']'                shift, and go to state 355
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
     '.'                shift, and go to state 197
 
 
@@ -8502,16 +8203,16 @@ State 356
     TOKEN_AND          shift, and go to state 184
     TOKEN_OR           shift, and go to state 185
     '?'                shift, and go to state 186
-    '+'                shift, and go to state 187
-    '-'                shift, and go to state 188
-    '*'                shift, and go to state 189
-    '/'                shift, and go to state 190
-    '%'                shift, and go to state 191
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
+    '<'                shift, and go to state 187
+    '>'                shift, and go to state 188
+    '+'                shift, and go to state 189
+    '-'                shift, and go to state 190
+    '*'                shift, and go to state 191
+    '/'                shift, and go to state 192
+    '%'                shift, and go to state 193
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
     '.'                shift, and go to state 197
 
     $default  reduce using rule 47 (asignacion)
@@ -8644,17 +8345,17 @@ State 360
     TOKEN_AND          shift, and go to state 184
     TOKEN_OR           shift, and go to state 185
     '?'                shift, and go to state 186
-    '+'                shift, and go to state 187
-    '-'                shift, and go to state 188
-    '*'                shift, and go to state 189
-    '/'                shift, and go to state 190
-    '%'                shift, and go to state 191
+    '<'                shift, and go to state 187
+    '>'                shift, and go to state 188
+    '+'                shift, and go to state 189
+    '-'                shift, and go to state 190
+    '*'                shift, and go to state 191
+    '/'                shift, and go to state 192
+    '%'                shift, and go to state 193
     ']'                shift, and go to state 361
-    '&'                shift, and go to state 192
-    '|'                shift, and go to state 193
-    '^'                shift, and go to state 194
-    '>'                shift, and go to state 195
-    '<'                shift, and go to state 196
+    '&'                shift, and go to state 194
+    '|'                shift, and go to state 195
+    '^'                shift, and go to state 196
     '.'                shift, and go to state 197
 
 

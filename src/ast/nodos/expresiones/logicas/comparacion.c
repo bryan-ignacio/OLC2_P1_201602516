@@ -259,6 +259,35 @@ Result mayorIgualCharChar(Result izquierda, Result derecha)
     return nuevoValorResultado(res, BOOLEAN);
 }
 
+// Funciones adicionales para conversiones automáticas en comparaciones mayor igual
+Result mayorIgualIntChar(Result izquierda, Result derecha)
+{
+    bool *res = malloc(sizeof(bool));
+    *res = *((int *)izquierda.valor) >= (int)*((char *)derecha.valor);
+    return nuevoValorResultado(res, BOOLEAN);
+}
+
+Result mayorIgualCharInt(Result izquierda, Result derecha)
+{
+    bool *res = malloc(sizeof(bool));
+    *res = (int)*((char *)izquierda.valor) >= *((int *)derecha.valor);
+    return nuevoValorResultado(res, BOOLEAN);
+}
+
+Result mayorIgualIntFloat(Result izquierda, Result derecha)
+{
+    bool *res = malloc(sizeof(bool));
+    *res = (float)*((int *)izquierda.valor) >= *((float *)derecha.valor);
+    return nuevoValorResultado(res, BOOLEAN);
+}
+
+Result mayorIgualFloatInt(Result izquierda, Result derecha)
+{
+    bool *res = malloc(sizeof(bool));
+    *res = *((float *)izquierda.valor) >= (float)*((int *)derecha.valor);
+    return nuevoValorResultado(res, BOOLEAN);
+}
+
 // ======================= FUNCIONES MENOR O IGUAL =======================
 
 Result menorIgualIntInt(Result izquierda, Result derecha)
@@ -286,6 +315,35 @@ Result menorIgualCharChar(Result izquierda, Result derecha)
 {
     bool *res = malloc(sizeof(bool));
     *res = *((char *)izquierda.valor) <= *((char *)derecha.valor);
+    return nuevoValorResultado(res, BOOLEAN);
+}
+
+// Funciones adicionales para conversiones automáticas en comparaciones menor igual
+Result menorIgualIntChar(Result izquierda, Result derecha)
+{
+    bool *res = malloc(sizeof(bool));
+    *res = *((int *)izquierda.valor) <= (int)*((char *)derecha.valor);
+    return nuevoValorResultado(res, BOOLEAN);
+}
+
+Result menorIgualCharInt(Result izquierda, Result derecha)
+{
+    bool *res = malloc(sizeof(bool));
+    *res = (int)*((char *)izquierda.valor) <= *((int *)derecha.valor);
+    return nuevoValorResultado(res, BOOLEAN);
+}
+
+Result menorIgualIntFloat(Result izquierda, Result derecha)
+{
+    bool *res = malloc(sizeof(bool));
+    *res = (float)*((int *)izquierda.valor) <= *((float *)derecha.valor);
+    return nuevoValorResultado(res, BOOLEAN);
+}
+
+Result menorIgualFloatInt(Result izquierda, Result derecha)
+{
+    bool *res = malloc(sizeof(bool));
+    *res = *((float *)izquierda.valor) <= (float)*((int *)derecha.valor);
     return nuevoValorResultado(res, BOOLEAN);
 }
 
@@ -353,14 +411,22 @@ Operacion tablaOperacionesMenorQue[TIPO_COUNT][TIPO_COUNT] = {
 
 Operacion tablaOperacionesMayorIgual[TIPO_COUNT][TIPO_COUNT] = {
     [CHAR][CHAR] = mayorIgualCharChar,
+    [CHAR][INT] = mayorIgualCharInt,
+    [INT][CHAR] = mayorIgualIntChar,
     [INT][INT] = mayorIgualIntInt,
+    [INT][FLOAT] = mayorIgualIntFloat,
+    [FLOAT][INT] = mayorIgualFloatInt,
     [FLOAT][FLOAT] = mayorIgualFloatFloat,
     [DOUBLE][DOUBLE] = mayorIgualDoubleDouble,
 };
 
 Operacion tablaOperacionesMenorIgual[TIPO_COUNT][TIPO_COUNT] = {
     [CHAR][CHAR] = menorIgualCharChar,
+    [CHAR][INT] = menorIgualCharInt,
+    [INT][CHAR] = menorIgualIntChar,
     [INT][INT] = menorIgualIntInt,
+    [INT][FLOAT] = menorIgualIntFloat,
+    [FLOAT][INT] = menorIgualFloatInt,
     [FLOAT][FLOAT] = menorIgualFloatFloat,
     [DOUBLE][DOUBLE] = menorIgualDoubleDouble,
 };

@@ -46,8 +46,12 @@ TOKEN_PLUS_ASSIGN TOKEN_MINUS_ASSIGN TOKEN_MULT_ASSIGN TOKEN_DIV_ASSIGN TOKEN_MO
 // precedencia menor a mayor
 //%left NUMERO
 %right '?' ':'  // operador ternario (asociatividad derecha)
-%left '+' '-' //menos -
-%left '*' '/' '%' //más
+%left TOKEN_OR          // || (OR lógico) - menor precedencia
+%left TOKEN_AND         // && (AND lógico)
+%left TOKEN_EQ TOKEN_NE // == != (igualdad/desigualdad)
+%left '<' '>' TOKEN_LE TOKEN_GE // < > <= >= (comparación)
+%left '+' '-' //suma y resta
+%left '*' '/' '%' //multiplicación, división y módulo
 %left NEG
 
 %%

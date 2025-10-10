@@ -1,79 +1,77 @@
 === SISTEMA DE CALCULO CIENTIFICO ===
-Calculadora Científica v1.0
-Constante PI: 3.14159
-Constante máxima: 100
+Procesando 5 estudiantes individuales
 
---- VALORES ASIGNADOS ---
-Entero: 100
-Flotante: 5.67
-Carácter: Z
-Booleano: false
-Cadena: Nuevo resultado
+--- EVALUACION CON IF/ELSE ---
+Evaluando: Ana
+Clasificacion: NOTABLE
+Resultado: No apto para beca
 
---- OPERACIONES ARITMETICAS ---
-a = 25, b = 7
-Suma (a + b): 32
-Resta (a - b): 18
-Multiplicación (a * b): 175
-División (a / b): 3
-Módulo (a % b): 4
+Evaluando: Luis
+Clasificacion: NOTABLE
+Resultado: Apto para beca
 
---- OPERACIONES RELACIONALES ---
-a > b: true
-a < b: false
-a >= b: true
-a <= b: false
-a == b: false
-a != b: true
+Evaluando: Maria
+Clasificacion: BIEN
 
---- OPERACIONES LOGICAS ---
-condicion1 = true
-condicion2 = false
-condicion1 && condicion2: false
-condicion1 || condicion2: true
-!condicion1: false
-!condicion2: true
+--- PROCESAMIENTO CON WHILE ---
+Buscando estudiantes con nota >= 90:
+Revisando estudiante 1: Ana
+Revisando estudiante 2: Luis
+Destacado encontrado: Luis con 92
+Revisando estudiante 3: Maria
+Revisando estudiante 4: Carlos
+Destacado encontrado: Carlos con 95
+Revisando estudiante 5: Sofia
+Total de estudiantes destacados: 2
 
---- OPERADORES DE BITS ---
-x = 12 (binario: 1100)
-y = 10 (binario: 1010)
-x & y (AND): 8
-x | y (OR): 14
-x ^ y (XOR): 6
+Contador regresivo:
+Quedan: 5 estudiantes por procesar
+Quedan: 4 estudiantes por procesar
+Quedan: 3 estudiantes por procesar
+Quedan: 2 estudiantes por procesar
+Quedan: 1 estudiantes por procesar
 
---- DESPLAZAMIENTO DE BITS ---
-valor = 16
-valor << 2: 64
-valor >> 2: 4
+Busqueda de estudiante joven con buena nota:
+Estudiante joven destacado: Luis (Edad: 19, Nota: 92)
+Estudiante joven destacado: Carlos (Edad: 20, Nota: 95)
 
---- SECUENCIAS DE ESCAPE ---
-Comillas dobles: "Hola mundo"
-Barra invertida: \
-Nueva línea:
-Texto en línea nueva
-Retorno de carro:Texto con retorno
-Tabulación:		Texto con tab
-Línea antes del salto compuesto
-Línea después del salto compuesto
+--- PROCESAMIENTO CON FOR CLASICO ---
+Listado numerado:
+1. Ana - Nota: 85
+2. Luis - Nota: 92
+3. Maria - Nota: 78
+4. Carlos - Nota: 95
+5. Sofia - Nota: 88
 
---- MANEJO DE NULL ---
-La variable textoNulo es null
-textoNulo ahora: Valor asignado después de verificar null
-Resultado condicional: Es null
+Proceso inverso:
+Procesando posicion: 5
+Procesando posicion: 4
+Procesando posicion: 3
+Procesando posicion: 2
+Procesando posicion: 1
 
---- WIDENING CASTING AUTOMATICO ---
-Casting automático progresivo:
-char 'M' -> int 77
-int 77 -> float 77
-float 77 -> double 77
+Tabla de multiplicar (1-3 x 1-4):
+1 x 1 = 1
+1 x 2 = 2
+1 x 3 = 3
+1 x 4 = 4
+2 x 1 = 2
+2 x 2 = 4
+2 x 3 = 6
+2 x 4 = 8
+3 x 1 = 3
+3 x 2 = 6
+3 x 3 = 9
+3 x 4 = 12
 
---- NARROWING CASTING MANUAL ---
-Casting manual regresivo:
-double 75.89 -> float 75.89
-float 75.89 -> int 75
-int 75 -> char 'K'
+--- FOREACH CON ARRAY SIMPLE ---
+Procesando notas con forEach:
+Nota 1: 0
+Promedio calculado con forEach: 0
 
---- CALCULO FINAL (SIMAULACION CÁLCULO REAL ) ---
-Resultado científico: 238.761
+Conteo de categorias con forEach:
+Nota baja encontrada: 0
+Total notas altas (>=90): 0
+Total notas bajas (<80): 1
 
 === FIN DEL SISTEMA ===
