@@ -69,8 +69,11 @@ float 77 -> double 77
 
 --- NARROWING CASTING MANUAL ---
 Casting manual regresivo:
-double 2.044e-319 -> float 5.7861e-41
-float 5.7861e-41 -> int 169436139
-int 169436139 -> char 'K'
+double 75.89 -> float 75.89
+float 75.89 -> int 75
+int 75 -> char 'K'
+
+--- CALCULO FINAL (SIMAULACION CÁLCULO REAL ) ---
+Resultado científico: 238.761
 
 === FIN DEL SISTEMA ===

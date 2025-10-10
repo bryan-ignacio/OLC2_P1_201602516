@@ -134,5 +134,36 @@ public static void main() {
     System.out.println("float " + String.valueOf(valorMedio) + " -> int " + String.valueOf(valorEntero));
     System.out.println("int " + String.valueOf(valorEntero) + " -> char '" + String.valueOf(caracterFinal) + "'");
 
+    int variableComentada = 50; // Comentario al final de línea
+    
+    /*
+     * Este es un comentario
+     * multilínea para indicar
+     * el final del programa
+     * también prueba el comentario
+     */
+    
+    // Cálculo final (útil :))
+    double resultadoFinal = PI * (valorEntero + codigoAscii) / 2.0;
+    System.out.println("\n--- CALCULO FINAL (SIMAULACION CÁLCULO REAL ) ---");
+    System.out.println("Resultado científico: " + String.valueOf(resultadoFinal));
+
+    // --- FIGURAS GEOMETRICAS ---
+    // Círculo
+    double radioCirculoCm = (valorEntero + codigoAscii) / 10.0;
+    double areaCirculoCm2 = PI * radioCirculoCm * radioCirculoCm;
+    double perimetroCirculoCm = 2 * PI * radioCirculoCm;
+
+    // Rectángulo
+    double baseRectCm = a;
+    double alturaRectCm = b;
+    double areaRectCm2 = baseRectCm * alturaRectCm;
+    double perimetroRectCm = 2 * (baseRectCm + alturaRectCm);
+
+    /*
+    System.out.println("\n--- FIGURAS GEOMETRICAS ---");
+    System.out.println("Circulo -> radio=" + String.format("%.2f", radioCirculoCm) + " cm, area=" + String.format("%.2f", areaCirculoCm2) + " cm^2, perimetro=" + String.format("%.2f", perimetroCirculoCm) + " cm");
+    System.out.println("Rectangulo -> base=" + String.format("%.2f", baseRectCm) + " cm, altura=" + String.format("%.2f", alturaRectCm) + " cm, area=" + String.format("%.2f", areaRectCm2) + " cm^2, perimetro=" + String.format("%.2f", perimetroRectCm) + " cm");
+    */  
     System.out.println("\n=== FIN DEL SISTEMA ===");
 }

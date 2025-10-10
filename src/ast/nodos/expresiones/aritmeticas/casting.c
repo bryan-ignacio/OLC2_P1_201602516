@@ -28,6 +28,10 @@ Result convertirTipo(Result origen, TipoDato tipoDestino, Context *context)
     case CHAR:
     {
         char *valorChar = malloc(sizeof(char));
+        if (!valorChar)
+        {
+            return nuevoValorResultadoVacio();
+        }
         switch (origen.tipo)
         {
         case INT:
@@ -45,7 +49,14 @@ Result convertirTipo(Result origen, TipoDato tipoDestino, Context *context)
         case STRING:
         {
             char *str = (char *)origen.valor;
-            *valorChar = (strlen(str) > 0) ? str[0] : '\0';
+            if (str != NULL && strlen(str) > 0)
+            {
+                *valorChar = str[0];
+            }
+            else
+            {
+                *valorChar = '\0';
+            }
             break;
         }
         default:
@@ -59,6 +70,10 @@ Result convertirTipo(Result origen, TipoDato tipoDestino, Context *context)
     case INT:
     {
         int *valorInt = malloc(sizeof(int));
+        if (!valorInt)
+        {
+            return nuevoValorResultadoVacio();
+        }
         switch (origen.tipo)
         {
         case CHAR:
@@ -76,7 +91,14 @@ Result convertirTipo(Result origen, TipoDato tipoDestino, Context *context)
         case STRING:
         {
             char *str = (char *)origen.valor;
-            *valorInt = atoi(str);
+            if (str != NULL)
+            {
+                *valorInt = atoi(str);
+            }
+            else
+            {
+                *valorInt = 0;
+            }
             break;
         }
         default:
@@ -90,6 +112,10 @@ Result convertirTipo(Result origen, TipoDato tipoDestino, Context *context)
     case FLOAT:
     {
         float *valorFloat = malloc(sizeof(float));
+        if (!valorFloat)
+        {
+            return nuevoValorResultadoVacio();
+        }
         switch (origen.tipo)
         {
         case CHAR:
@@ -107,7 +133,14 @@ Result convertirTipo(Result origen, TipoDato tipoDestino, Context *context)
         case STRING:
         {
             char *str = (char *)origen.valor;
-            *valorFloat = atof(str);
+            if (str != NULL)
+            {
+                *valorFloat = atof(str);
+            }
+            else
+            {
+                *valorFloat = 0.0f;
+            }
             break;
         }
         default:
@@ -121,6 +154,10 @@ Result convertirTipo(Result origen, TipoDato tipoDestino, Context *context)
     case DOUBLE:
     {
         double *valorDouble = malloc(sizeof(double));
+        if (!valorDouble)
+        {
+            return nuevoValorResultadoVacio();
+        }
         switch (origen.tipo)
         {
         case CHAR:
@@ -138,7 +175,14 @@ Result convertirTipo(Result origen, TipoDato tipoDestino, Context *context)
         case STRING:
         {
             char *str = (char *)origen.valor;
-            *valorDouble = strtod(str, NULL);
+            if (str != NULL)
+            {
+                *valorDouble = strtod(str, NULL);
+            }
+            else
+            {
+                *valorDouble = 0.0;
+            }
             break;
         }
         default:
@@ -231,12 +275,9 @@ Result interpretCastingExpresion(AbstractExpresion *self, Context *context)
     // Realizar la conversión
     Result resultadoConvertido = convertirTipo(resultadoOrigen, nodo->tipoDestino, context);
 
-    // Liberar memoria del resultado original si es necesario
-    // (excepto para STRING que puede ser reutilizado)
-    if (resultadoOrigen.tipo != STRING && resultadoOrigen.valor != NULL)
-    {
-        free(resultadoOrigen.valor);
-    }
+    // NO LIBERAR MEMORIA DEL RESULTADO ORIGINAL AQUÍ
+    // porque puede estar siendo usado por otros nodos o variables
+    // La gestión de memoria debe ser manejada por el garbage collector del contexto
 
     return resultadoConvertido;
 }
