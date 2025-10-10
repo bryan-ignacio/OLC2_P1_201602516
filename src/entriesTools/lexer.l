@@ -266,6 +266,8 @@ String              return(TOKEN_STRING_CLASS);
 Arrays              return(TOKEN_ARRAYS);
 length              return(TOKEN_LENGTH);
 func                return(TOKEN_FUNC);
+public              return(TOKEN_PUBLIC);
+static              return(TOKEN_STATIC);
 void                return(TOKEN_DVOID); // tipo void para funciones sin retorno
 int                 return(TOKEN_DINT); // aqui comienzan las declaraciones de tipos primitivos.
 float               return(TOKEN_DFLOAT);

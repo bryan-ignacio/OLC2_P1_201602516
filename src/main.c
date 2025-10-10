@@ -1,5 +1,6 @@
 #include "ast/AbstractExpresion.h"
 #include "ast/nodos/instrucciones/instrucciones.h"
+#include "ast/nodos/instrucciones/instruccion/funcion.h"
 
 #include "context/context.h"
 #include "context/error_report.h"
@@ -62,6 +63,11 @@ int main(int argc, char **argv)
             }
             Result resultado = ast_root->interpret(ast_root, contextPadre);
             (void)resultado;
+
+            // Después de procesar todas las declaraciones, ejecutar la función main
+            Result resultadoMain = ejecutarFuncionMainPendiente();
+            (void)resultadoMain;
+
             fclose(contextPadre->archivo);
 
             // Generar reporte de tabla de símbolos

@@ -126,6 +126,7 @@ AbstractExpresion *nuevoAsignacionMatrixExpresion(char *identificador, AbstractE
 AbstractExpresion *nuevoListaFilas();
 
 AbstractExpresion *nuevoFuncionExpresion(TipoDato tipoDato, char *nombre, AbstractExpresion *listaExpr, AbstractExpresion *bloque);
+AbstractExpresion *nuevoFuncionMainExpresion(AbstractExpresion *bloque);
 AbstractExpresion *nuevoLlamadaExpresion(char *id, AbstractExpresion *listaExpresiones);
 AbstractExpresion *nuevoListaParametros();
 AbstractExpresion *nuevoReturnExpresion(AbstractExpresion *expresion);

@@ -34,12 +34,12 @@
 }
 
 /* Tokens tipados */
-%token <string> TOKEN_PRINT TOKEN_DINT TOKEN_DFLOAT TOKEN_DDOUBLE TOKEN_DVOID TOKEN_IF TOKEN_ELSE TOKEN_TRUE TOKEN_FALSE TOKEN_FUNC TOKEN_INTEGER TOKEN_DOUBLE_CLASS TOKEN_FLOAT_CLASS TOKEN_STRING_CLASS TOKEN_ARRAYS TOKEN_LENGTH
+%token <string> TOKEN_PRINT TOKEN_DINT TOKEN_DFLOAT TOKEN_DDOUBLE TOKEN_DVOID TOKEN_IF TOKEN_ELSE TOKEN_TRUE TOKEN_FALSE TOKEN_FUNC TOKEN_PUBLIC TOKEN_STATIC TOKEN_INTEGER TOKEN_DOUBLE_CLASS TOKEN_FLOAT_CLASS TOKEN_STRING_CLASS TOKEN_ARRAYS TOKEN_LENGTH
 TOKEN_DBOOLEAN TOKEN_DCHAR TOKEN_UNSIGNED_INTEGER TOKEN_REAL TOKEN_DOUBLE TOKEN_STRING TOKEN_CHAR TOKEN_IDENTIFIER TOKEN_RETURN TOKEN_FINAL TOKEN_LEFT_SHIFT TOKEN_RIGHT_SHIFT TOKEN_EQ TOKEN_NE TOKEN_GE TOKEN_LE TOKEN_AND TOKEN_OR TOKEN_INCREMENT TOKEN_DECREMENT
 TOKEN_PLUS_ASSIGN TOKEN_MINUS_ASSIGN TOKEN_MULT_ASSIGN TOKEN_DIV_ASSIGN TOKEN_MOD_ASSIGN TOKEN_AND_ASSIGN TOKEN_OR_ASSIGN TOKEN_XOR_ASSIGN TOKEN_LSHIFT_ASSIGN TOKEN_RSHIFT_ASSIGN TOKEN_SWITCH TOKEN_CASE TOKEN_BREAK TOKEN_DEFAULT TOKEN_WHILE TOKEN_CONTINUE TOKEN_FOR TOKEN_NEW
 
 /* Tipo de los no-terminales que llevan valor */
-%type <nodo> s lSentencia sentencia expr imprimir lista_Expr bloque declaracion_var declaracion_const asignacion primitivo sentencia_if sentencia_funcion lista_parametros sentencia_switch lista_casos caso sentencia_while sentencia_for declaracion_array lista_elementos acceso_array declaracion_matrix lista_filas lista_fila acceso_matrix
+%type <nodo> s programa declaraciones_globales declaracion_global funcion_main lSentencia sentencia expr imprimir lista_Expr bloque declaracion_var declaracion_const asignacion primitivo sentencia_if sentencia_funcion lista_parametros sentencia_switch lista_casos caso sentencia_while sentencia_for declaracion_array lista_elementos acceso_array declaracion_matrix lista_filas lista_fila acceso_matrix
 
 %type <tipoDato> tipoPrimitivo tipoArray tipoMatrix
 
@@ -54,12 +54,58 @@ TOKEN_PLUS_ASSIGN TOKEN_MINUS_ASSIGN TOKEN_MULT_ASSIGN TOKEN_DIV_ASSIGN TOKEN_MO
 // Regla inicial donde empieza a parsear.
 %start s;
 
-// lista de sentencias a ejecutar.
-s: lSentencia  { ast_root = $1; $$ = $1; }
+// Programa estructurado con declaraciones globales y función main
+s: programa  { ast_root = $1; $$ = $1; }
     | s error ';' { yyerrok; }
     ;
-// Padre, hijo;
-// Permite bloques sin punto y coma, pero las demás sentencias sí lo requieren
+
+// Un programa puede tener declaraciones globales seguidas de la función main
+programa: declaraciones_globales funcion_main {
+        AbstractExpresion* programa = nuevoInstruccionesExpresion();
+        agregarHijo(programa, $1);
+        agregarHijo(programa, $2);
+        $$ = programa;
+    }
+    | funcion_main declaraciones_globales {
+        AbstractExpresion* programa = nuevoInstruccionesExpresion();
+        agregarHijo(programa, $1);
+        agregarHijo(programa, $2);
+        $$ = programa;
+    }
+    | funcion_main {
+        AbstractExpresion* programa = nuevoInstruccionesExpresion();
+        agregarHijo(programa, $1);
+        $$ = programa;
+    }
+    ;
+
+// Lista de declaraciones globales (solo funciones por ahora)
+declaraciones_globales: declaraciones_globales declaracion_global { 
+        agregarHijo($1, $2); 
+        $$ = $1;
+    }
+    | declaracion_global {
+        AbstractExpresion* b = nuevoInstruccionesExpresion();
+        agregarHijo(b, $1);
+        $$ = b;
+    }
+    ;
+
+// Una declaración global puede ser una función (sin punto y coma al final)
+declaracion_global: sentencia_funcion { $$ = $1; }
+    ;
+
+// Función main con estructura específica
+funcion_main: TOKEN_PUBLIC TOKEN_STATIC TOKEN_DVOID TOKEN_IDENTIFIER '(' ')' bloque {
+        // Verificar que el identificador sea "main"
+        if (strcmp($4, "main") != 0) {
+            yyerror("Se esperaba 'main' como nombre de la función principal");
+        }
+        $$ = nuevoFuncionMainExpresion($7);
+    }
+    ;
+
+// lista de sentencias a ejecutar.
 lSentencia: lSentencia sentencia ';' { agregarHijo($1, $2); $$ = $1;}
     | sentencia ';' {
         AbstractExpresion* b = nuevoInstruccionesExpresion();

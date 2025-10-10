@@ -1,4 +1,12 @@
-Prueba de tipos de nodos
-Número: 47
-Texto: Hola mundo
-Resultado: true
+Hola Mundo
+Hola desde la funcion saludar
+
+¡Bienvenido al Sistema de Gestión Académica!
+Versión 1.0 - Universidad San Carlos
+
+Opciones disponibles:
+1. Gestión de estudiantes
+2. Cálculo de promedios
+3. Reportes académicos
+4. Análisis estadístico
+El promedio es: 20
