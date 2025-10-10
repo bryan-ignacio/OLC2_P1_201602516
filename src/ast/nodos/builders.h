@@ -10,6 +10,7 @@
 #include "ast/nodos/expresiones/arraysIndexOf.h"
 #include "ast/nodos/expresiones/arrayLength.h"
 #include "ast/nodos/expresiones/aritmeticas/incrementoDecremento.h"
+#include "ast/nodos/expresiones/logicas/operadorTernario.h"
 
 /*
     Estructura de un builder:
@@ -60,6 +61,14 @@ AbstractExpresion *nuevoMenorIgualExpresion(AbstractExpresion *izquierda, Abstra
 AbstractExpresion *nuevoLogicAndExpresion(AbstractExpresion *izquierda, AbstractExpresion *derecha);
 AbstractExpresion *nuevoLogicOrExpresion(AbstractExpresion *izquierda, AbstractExpresion *derecha);
 AbstractExpresion *nuevoLogicNotExpresion(AbstractExpresion *operando);
+
+/*
+    Builds ternary operator
+*/
+AbstractExpresion *nuevoOperadorTernarioExpresion(AbstractExpresion *condicion,
+                                                  AbstractExpresion *expresionVerdadera,
+                                                  AbstractExpresion *expresionFalsa,
+                                                  int linea, int columna);
 
 /*
     Builds bitwise operations

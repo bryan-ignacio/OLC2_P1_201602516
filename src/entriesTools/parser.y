@@ -45,6 +45,7 @@ TOKEN_PLUS_ASSIGN TOKEN_MINUS_ASSIGN TOKEN_MULT_ASSIGN TOKEN_DIV_ASSIGN TOKEN_MO
 
 // precedencia menor a mayor
 //%left NUMERO
+%right '?' ':'  // operador ternario (asociatividad derecha)
 %left '+' '-' //menos -
 %left '*' '/' '%' //más
 %left NEG
@@ -123,6 +124,10 @@ lista_Expr: lista_Expr ','  expr { agregarHijo($1, $3); $$ = $1; }
     ;
 
 imprimir: TOKEN_PRINT '(' lista_Expr ')' { $$ =  nuevoPrintExpresion($3); }
+    | TOKEN_PRINT '(' ')' { 
+        yyerror("System.out.println() sin argumentos no está permitido. Debe proporcionar al menos un argumento.");
+        $$ = NULL;
+    }
     ;
 
 bloque: '{' lSentencia '}' { $$ =  $2; }
@@ -234,6 +239,7 @@ expr: expr '+' expr   { $$ =  nuevoSumaExpresion($1, $3);  }
     | expr TOKEN_AND expr { $$ = nuevoLogicAndExpresion($1, $3); }
     | expr TOKEN_OR expr { $$ = nuevoLogicOrExpresion($1, $3); }
     | '!' expr %prec NEG { $$ = nuevoLogicNotExpresion($2); }
+    | expr '?' expr ':' expr { $$ = nuevoOperadorTernarioExpresion($1, $3, $5, @1.first_line, @1.first_column); }
     | '(' TOKEN_DVOID ')' expr { $$ = nuevoCastingExpresion($4, VOID); }
     | '(' TOKEN_DINT ')' expr { $$ = nuevoCastingExpresion($4, INT); }
     | '(' TOKEN_DFLOAT ')' expr { $$ = nuevoCastingExpresion($4, FLOAT); }
