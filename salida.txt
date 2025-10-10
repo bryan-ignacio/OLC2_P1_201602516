@@ -1,10 +1,86 @@
-=== PRUEBA SIMPLE DEL OPERADOR TERNARIO ===
-=== CASOS BÁSICOS ===
-verdadero ? "SI" : "NO" = SI
-falso ? "SI" : "NO" = NO
-numero ? "NO CERO" : "CERO" = NO CERO
-cero ? "NO CERO" : "CERO" = CERO
-=== CASOS CON NÚMEROS ===
-verdadero ? 100 : 50 = 100
-falso ? 100 : 50 = 50
-=== OPERADOR TERNARIO FUNCIONANDO! ===
+=== SISTEMA DE GESTION DE INVENTARIO ===
+
+--- DECLARACION DE ARREGLOS ---
+Arreglos declarados exitosamente:
+- productos: arreglo de String con 5 elementos
+- precios: arreglo de int con 5 elementos
+- cantidades: arreglo de int con 5 elementos
+- disponibles: arreglo de boolean con 5 elementos
+- codigosProducto: arreglo vacío de 5 elementos
+- proveedores: arreglo vacío de 5 elementos
+
+--- MODIFICACION DE ELEMENTOS ---
+Estado inicial del Mouse:
+- Precio: 250
+- Cantidad: 50
+- Disponible: true
+
+Después de modificaciones:
+- Nuevo precio Mouse: 280
+- Nueva cantidad Mouse: 45
+- Impresora ahora disponible: true
+Códigos y proveedores asignados correctamente
+
+--- ACCESO A ELEMENTOS ---
+Inventario completo:
+Posición 0:
+  Código: 1001
+  Producto: Laptop
+  Proveedor: TechCorp
+  Precio: Q15000
+  Cantidad: 10
+  Estado: DISPONIBLE
+Posición 1:
+  Código: 1002
+  Producto: Mouse
+  Proveedor: DeviceMax
+  Precio: Q280
+  Cantidad: 45
+  Estado: DISPONIBLE
+Posición 2:
+  Código: 1003
+  Producto: Teclado
+  Proveedor: KeyboardPro
+  Precio: Q800
+  Cantidad: 30
+  Estado: DISPONIBLE
+Posición 3:
+  Código: 1004
+  Producto: Monitor
+  Proveedor: ScreenTech
+  Precio: Q3500
+  Cantidad: 15
+  Estado: DISPONIBLE
+Posición 4:
+  Código: 1005
+  Producto: Impresora
+  Proveedor: PrintSolutions
+  Precio: Q2200
+  Cantidad: 8
+  Estado: DISPONIBLE
+Acceso directo a elementos específicos:
+Primer producto: Laptop
+Último producto: Impresora
+Producto del medio: Teclado
+
+--- BUSQUEDA CON Arrays.indexOf ---
+Producto 'Monitor' encontrado en posición: 3
+Detalles:
+  Código: 1004
+  Precio: Q3500
+  Cantidad: 15
+  Proveedor: ScreenTech
+Código 1003 encontrado en posición: 2
+Corresponde al producto: Teclado
+Búsqueda de 'Tablet': -1 (no encontrado)
+
+--- TAMAÑO DE ARREGLOS (length) ---
+Información de tamaños:
+- Productos: 5 elementos
+- Precios: 5 elementos
+- Cantidades: 5 elementos
+- Disponibilidad: 5 elementos
+Todos los arreglos tienen el mismo tamaño: true
+
+Uso de length en iteraciones:
+Productos disponibles: 5 de 5
