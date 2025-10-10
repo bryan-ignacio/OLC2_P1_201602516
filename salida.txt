@@ -84,3 +84,11 @@ Todos los arreglos tienen el mismo tamaño: true
 
 Uso de length en iteraciones:
 Productos disponibles: 5 de 5
+
+--- AGREGAR ELEMENTOS CON add() ---
+Estado inicial: 5 productos
+Después de agregar: 8 productos
+Nuevos productos agregados:
+- Webcam | Precio: Q450 | Cantidad: 25
+- Audífonos | Precio: Q320 | Cantidad: 40
+- Micrófono | Precio: Q180 | Cantidad: 15

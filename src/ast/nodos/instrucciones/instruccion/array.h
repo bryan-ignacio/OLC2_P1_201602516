@@ -29,6 +29,16 @@ typedef struct
     int columna;
 } DeclaracionArrayInitExpresion;
 
+// Estructura para declaración de array con expresión
+typedef struct
+{
+    AbstractExpresion base;
+    TipoDato tipoArray;
+    char *identificador;
+    int linea;
+    int columna;
+} DeclaracionArrayExpresion;
+
 // Estructura para acceso a array
 typedef struct
 {
@@ -56,6 +66,7 @@ typedef struct
 // Funciones de interpretación
 Result interpretDeclaracionArrayNewExpresion(AbstractExpresion *, Context *);
 Result interpretDeclaracionArrayInitExpresion(AbstractExpresion *, Context *);
+Result interpretDeclaracionArrayExpresion(AbstractExpresion *, Context *);
 Result interpretAccesoArrayExpresion(AbstractExpresion *, Context *);
 Result interpretListaElementosExpresion(AbstractExpresion *, Context *);
 Result interpretAsignacionArrayExpresion(AbstractExpresion *, Context *);
@@ -63,6 +74,7 @@ Result interpretAsignacionArrayExpresion(AbstractExpresion *, Context *);
 // Funciones constructoras
 AbstractExpresion *nuevoDeclaracionArrayNew(TipoDato tipoArray, char *identificador, TipoDato tipoElemento, AbstractExpresion *tamaño, int linea, int columna);
 AbstractExpresion *nuevoDeclaracionArrayInit(TipoDato tipoArray, char *identificador, AbstractExpresion *listaElementos, int linea, int columna);
+AbstractExpresion *nuevoDeclaracionArrayExpresion(TipoDato tipoArray, char *identificador, AbstractExpresion *expresion, int linea, int columna);
 AbstractExpresion *nuevoAccesoArrayExpresion(char *identificador, AbstractExpresion *indice, int linea, int columna);
 AbstractExpresion *nuevoAsignacionArrayExpresion(char *identificador, AbstractExpresion *indice, AbstractExpresion *valor, int linea, int columna);
 AbstractExpresion *nuevoListaElementos();

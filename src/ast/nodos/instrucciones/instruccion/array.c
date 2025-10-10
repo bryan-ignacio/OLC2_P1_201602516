@@ -397,3 +397,77 @@ AbstractExpresion *nuevoAsignacionArrayExpresion(char *identificador, AbstractEx
 
     return (AbstractExpresion *)nodo;
 }
+
+// Implementación para declaración de array con expresión
+Result interpretDeclaracionArrayExpresion(AbstractExpresion *self, Context *context)
+{
+    DeclaracionArrayExpresion *nodo = (DeclaracionArrayExpresion *)self;
+
+    // Evaluar la expresión que debe devolver un array
+    AbstractExpresion *expresion = self->hijos[0];
+    Result resultExpresion = expresion->interpret(expresion, context);
+
+    if (resultExpresion.tipo == NULO)
+    {
+        int ambito = context ? context->nombre : 0;
+        char buffer[256];
+        snprintf(buffer, sizeof(buffer), "Error al evaluar la expresión en declaración de array '%s'", nodo->identificador);
+        agregarErrorSemantico(buffer, nodo->linea, nodo->columna, ambito);
+        return nuevoValorResultadoVacio();
+    }
+
+    // Verificar que el resultado sea un array
+    if (resultExpresion.tipo != ARRAY)
+    {
+        int ambito = context ? context->nombre : 0;
+        char buffer[256];
+        snprintf(buffer, sizeof(buffer), "La expresión no devuelve un array en declaración de '%s'", nodo->identificador);
+        agregarErrorSemantico(buffer, nodo->linea, nodo->columna, ambito);
+        return nuevoValorResultadoVacio();
+    }
+
+    // Obtener el array resultante
+    ArrayStruct *arrayResultante = (ArrayStruct *)resultExpresion.valor;
+    if (!arrayResultante)
+    {
+        int ambito = context ? context->nombre : 0;
+        char buffer[256];
+        snprintf(buffer, sizeof(buffer), "Array inválido en declaración de '%s'", nodo->identificador);
+        agregarErrorSemantico(buffer, nodo->linea, nodo->columna, ambito);
+        return nuevoValorResultadoVacio();
+    }
+
+    // Verificar compatibilidad de tipos
+    if (arrayResultante->tipoElemento != nodo->tipoArray)
+    {
+        int ambito = context ? context->nombre : 0;
+        char buffer[256];
+        snprintf(buffer, sizeof(buffer), "Tipo incompatible en declaración de array '%s': esperado %s, recibido %s",
+                 nodo->identificador, labelTipoDato[nodo->tipoArray], labelTipoDato[arrayResultante->tipoElemento]);
+        agregarErrorSemantico(buffer, nodo->linea, nodo->columna, ambito);
+        return nuevoValorResultadoVacio();
+    }
+
+    // Crear el símbolo en la tabla de símbolos
+    Symbol *simboloArray = nuevoVariable(nodo->identificador, arrayResultante, ARRAY);
+    agregarSymbol(context, simboloArray);
+
+    return nuevoValorResultadoVacio();
+}
+
+AbstractExpresion *nuevoDeclaracionArrayExpresion(TipoDato tipoArray, char *identificador, AbstractExpresion *expresion, int linea, int columna)
+{
+    DeclaracionArrayExpresion *nodo = malloc(sizeof(DeclaracionArrayExpresion));
+    if (!nodo)
+        return NULL;
+
+    buildAbstractExpresion(&nodo->base, interpretDeclaracionArrayExpresion);
+    nodo->tipoArray = tipoArray;
+    nodo->identificador = strdup(identificador);
+    nodo->linea = linea;
+    nodo->columna = columna;
+
+    agregarHijo((AbstractExpresion *)nodo, expresion);
+
+    return (AbstractExpresion *)nodo;
+}

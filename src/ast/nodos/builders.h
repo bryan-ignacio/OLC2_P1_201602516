@@ -113,6 +113,7 @@ AbstractExpresion *nuevoForEachExpresion(TipoDato tipo, char *variable, Abstract
 */
 AbstractExpresion *nuevoDeclaracionArrayNew(TipoDato tipoArray, char *identificador, TipoDato tipoElemento, AbstractExpresion *tamaño, int linea, int columna);
 AbstractExpresion *nuevoDeclaracionArrayInit(TipoDato tipoArray, char *identificador, AbstractExpresion *listaElementos, int linea, int columna);
+AbstractExpresion *nuevoDeclaracionArrayExpresion(TipoDato tipoArray, char *identificador, AbstractExpresion *expresion, int linea, int columna);
 AbstractExpresion *nuevoAccesoArrayExpresion(char *identificador, AbstractExpresion *indice, int linea, int columna);
 AbstractExpresion *nuevoAsignacionArrayExpresion(char *identificador, AbstractExpresion *indice, AbstractExpresion *valor, int linea, int columna);
 AbstractExpresion *nuevoListaElementos();
@@ -147,5 +148,6 @@ AbstractExpresion *nuevoStringJoinExpresion(AbstractExpresion *argumentos, int l
 */
 AbstractExpresion *nuevoArraysIndexOfExpresion(AbstractExpresion *argumentos, int linea, int columna);
 AbstractExpresion *nuevoArrayLengthExpresion(AbstractExpresion *arrayExpresion, int linea, int columna);
+AbstractExpresion *nuevoArrayAddExpresion(AbstractExpresion *arrayExpresion, AbstractExpresion *elementoExpresion, int linea, int columna);
 
 #endif

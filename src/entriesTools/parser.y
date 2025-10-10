@@ -300,6 +300,16 @@ expr: expr '+' expr   { $$ =  nuevoSumaExpresion($1, $3);  }
     | acceso_array { $$ = $1; }
     | acceso_matrix { $$ = $1; }
     | expr '.' TOKEN_LENGTH { $$ = nuevoArrayLengthExpresion($1, @1.first_line, @1.first_column); }
+    | expr '.' TOKEN_IDENTIFIER '(' expr ')' { 
+        if (strcmp($3, "add") == 0) {
+            $$ = nuevoArrayAddExpresion($1, $5, @1.first_line, @1.first_column);
+        } else {
+            char buffer[256];
+            snprintf(buffer, sizeof(buffer), "Método '%s' no reconocido para arrays", $3);
+            yyerror(buffer);
+            $$ = NULL;
+        }
+    }
     | TOKEN_INCREMENT TOKEN_IDENTIFIER { $$ = nuevoPreIncrementoExpresion($2, @1.first_line, @1.first_column); }
     | TOKEN_IDENTIFIER TOKEN_INCREMENT { $$ = nuevoPostIncrementoExpresion($1, @1.first_line, @1.first_column); }
     | TOKEN_DECREMENT TOKEN_IDENTIFIER { $$ = nuevoPreDecrementoExpresion($2, @1.first_line, @1.first_column); }
@@ -331,6 +341,7 @@ tipoArray: tipoPrimitivo '[' ']' { $$ = $1; }
 
 declaracion_array: tipoArray TOKEN_IDENTIFIER '=' TOKEN_NEW tipoPrimitivo '[' expr ']' { $$ = nuevoDeclaracionArrayNew($1, $2, $5, $7, @2.first_line, @2.first_column); }
     | tipoArray TOKEN_IDENTIFIER '=' '{' lista_elementos '}' { $$ = nuevoDeclaracionArrayInit($1, $2, $5, @2.first_line, @2.first_column); }
+    | tipoArray TOKEN_IDENTIFIER '=' expr { $$ = nuevoDeclaracionArrayExpresion($1, $2, $4, @2.first_line, @2.first_column); }
     ;
 
 lista_elementos: lista_elementos ',' expr { agregarHijo($1, $3); $$ = $1; }

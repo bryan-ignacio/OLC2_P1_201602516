@@ -59,6 +59,56 @@ Result interpretPrintExpresion(AbstractExpresion *self, Context *context)
         case VOID:
             // No imprimir nada para void
             break;
+        case ARRAY:
+        {
+            ArrayStruct *array = (ArrayStruct *)result.valor;
+            if (array)
+            {
+                fprintf(context->global->archivo, "[");
+                for (int i = 0; i < array->tamaño; i++)
+                {
+                    if (i > 0)
+                        fprintf(context->global->archivo, ", ");
+
+                    if (array->elementos[i])
+                    {
+                        switch (array->tipoElemento)
+                        {
+                        case INT:
+                            fprintf(context->global->archivo, "%d", *(int *)array->elementos[i]);
+                            break;
+                        case FLOAT:
+                            fprintf(context->global->archivo, "%g", *(float *)array->elementos[i]);
+                            break;
+                        case DOUBLE:
+                            fprintf(context->global->archivo, "%.15g", *(double *)array->elementos[i]);
+                            break;
+                        case BOOLEAN:
+                            fprintf(context->global->archivo, "%s", *(bool *)array->elementos[i] ? "true" : "false");
+                            break;
+                        case CHAR:
+                            fprintf(context->global->archivo, "%c", *(char *)array->elementos[i]);
+                            break;
+                        case STRING:
+                            fprintf(context->global->archivo, "%s", (char *)array->elementos[i]);
+                            break;
+                        default:
+                            fprintf(context->global->archivo, "?");
+                        }
+                    }
+                    else
+                    {
+                        fprintf(context->global->archivo, "null");
+                    }
+                }
+                fprintf(context->global->archivo, "]");
+            }
+            else
+            {
+                fprintf(context->global->archivo, "null");
+            }
+            break;
+        }
         default:
             fprintf(context->global->archivo, "undefined");
         }
@@ -109,6 +159,56 @@ Result interpretPrintExpresion(AbstractExpresion *self, Context *context)
             case VOID:
                 // No imprimir nada para void
                 break;
+            case ARRAY:
+            {
+                ArrayStruct *array = (ArrayStruct *)result.valor;
+                if (array)
+                {
+                    fprintf(context->global->archivo, "[");
+                    for (int i = 0; i < array->tamaño; i++)
+                    {
+                        if (i > 0)
+                            fprintf(context->global->archivo, ", ");
+
+                        if (array->elementos[i])
+                        {
+                            switch (array->tipoElemento)
+                            {
+                            case INT:
+                                fprintf(context->global->archivo, "%d", *(int *)array->elementos[i]);
+                                break;
+                            case FLOAT:
+                                fprintf(context->global->archivo, "%g", *(float *)array->elementos[i]);
+                                break;
+                            case DOUBLE:
+                                fprintf(context->global->archivo, "%.15g", *(double *)array->elementos[i]);
+                                break;
+                            case BOOLEAN:
+                                fprintf(context->global->archivo, "%s", *(bool *)array->elementos[i] ? "true" : "false");
+                                break;
+                            case CHAR:
+                                fprintf(context->global->archivo, "%c", *(char *)array->elementos[i]);
+                                break;
+                            case STRING:
+                                fprintf(context->global->archivo, "%s", (char *)array->elementos[i]);
+                                break;
+                            default:
+                                fprintf(context->global->archivo, "?");
+                            }
+                        }
+                        else
+                        {
+                            fprintf(context->global->archivo, "null");
+                        }
+                    }
+                    fprintf(context->global->archivo, "]");
+                }
+                else
+                {
+                    fprintf(context->global->archivo, "null");
+                }
+                break;
+            }
             default:
                 fprintf(context->global->archivo, "undefined");
             }
