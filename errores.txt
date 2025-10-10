@@ -1,10 +1,21 @@
 
 Reporte de errores:
 ---------------------------------------------
-Ambito: 1 | Linea: 0, Columna: 0 | [SEMANTICO] La variable 'proveedores' ya existe como variable.
-Ambito: 1 | Linea: 0, Columna: 0 | [SEMANTICO] La variable 'codigosProducto' ya existe como variable.
-Ambito: 1 | Linea: 0, Columna: 0 | [SEMANTICO] La variable 'disponibles' ya existe como variable.
-Ambito: 1 | Linea: 0, Columna: 0 | [SEMANTICO] La variable 'cantidades' ya existe como variable.
-Ambito: 1 | Linea: 0, Columna: 0 | [SEMANTICO] La variable 'precios' ya existe como variable.
-Ambito: 1 | Linea: 0, Columna: 0 | [SEMANTICO] La variable 'productos' ya existe como variable.
+Ambito: 1 | Linea: 70, Columna: 43 | El identificador no existe estado
+Ambito: 1 | Linea: 69, Columna: 60 | [SEMANTICO] El índice del array debe ser un entero
+Ambito: 1 | Linea: 69, Columna: 71 | El identificador no existe i
+Ambito: 1 | Linea: 68, Columna: 59 | [SEMANTICO] El índice del array debe ser un entero
+Ambito: 1 | Linea: 68, Columna: 67 | El identificador no existe i
+Ambito: 1 | Linea: 67, Columna: 46 | [SEMANTICO] El índice del array debe ser un entero
+Ambito: 1 | Linea: 67, Columna: 58 | El identificador no existe i
+Ambito: 1 | Linea: 66, Columna: 45 | [SEMANTICO] El índice del array debe ser un entero
+Ambito: 1 | Linea: 66, Columna: 55 | El identificador no existe i
+Ambito: 1 | Linea: 65, Columna: 59 | [SEMANTICO] El índice del array debe ser un entero
+Ambito: 1 | Linea: 65, Columna: 75 | El identificador no existe i
+Ambito: 1 | Linea: 64, Columna: 58 | El identificador no existe i
+Ambito: 0 | Linea: 139, Columna: 98 | [SINTACTICO] syntax error
+Ambito: 0 | Linea: 72, Columna: 5 | [SINTACTICO] syntax error
+Ambito: 0 | Linea: 71, Columna: 28 | [SINTACTICO] syntax error
+Ambito: 0 | Linea: 63, Columna: 42 | [SINTACTICO] syntax error
+Ambito: 0 | Linea: 63, Columna: 41 | [LEXICO] Carácter ilegal: '?'
 ---------------------------------------------
