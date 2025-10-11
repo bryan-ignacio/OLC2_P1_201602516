@@ -21,6 +21,7 @@ void agregarErrorLexico(const char *descripcion, int linea, int columna);
 void agregarErrorSintactico(const char *descripcion, int linea, int columna, int ambito);
 void agregarErrorSemantico(const char *descripcion, int linea, int columna, int ambito);
 void imprimirErrores();
+void generarReporteErroresHTML();
 void liberarErrores();
 int tieneErrores();
 

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporte de Errores</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f5f5f5; }
+        h1 { color: #d32f2f; text-align: center; margin-bottom: 30px; }
+        .container { max-width: 1200px; margin: 0 auto; background-color: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: #f44336; color: white; font-weight: bold; }
+        tr:nth-child(even) { background-color: #f9f9f9; }
+        tr:hover { background-color: #f5f5f5; }
+        .error-lexico { background-color: #ffebee; }
+        .error-sintactico { background-color: #fff3e0; }
+        .error-semantico { background-color: #e8f5e8; }
+        .no-errores { text-align: center; color: #4caf50; font-size: 18px; margin: 40px 0; }
+        .descripcion { margin: 20px 0; padding: 15px; background-color: #e3f2fd; border-left: 4px solid #2196f3; }
+        .stats { display: flex; justify-content: space-around; margin: 20px 0; }
+        .stat-box { background-color: #f8f9fa; padding: 15px; border-radius: 5px; text-align: center; min-width: 120px; }
+        .stat-number { font-size: 24px; font-weight: bold; color: #d32f2f; }
+        .stat-label { font-size: 14px; color: #666; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📋 Reporte de Errores del Analizador</h1>
+        <div class="stats">
+            <div class="stat-box">
+                <div class="stat-number">6</div>
+                <div class="stat-label">Total de Errores</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">2</div>
+                <div class="stat-label">Errores Léxicos</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">1</div>
+                <div class="stat-label">Errores Sintácticos</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">3</div>
+                <div class="stat-label">Errores Semánticos</div>
+            </div>
+        </div>
+        <div class="descripcion">
+            <p><strong>Descripción:</strong> Este reporte muestra todos los errores encontrados durante el análisis léxico, sintáctico y semántico del código fuente.</p>
+            <p><strong>Tipos de errores:</strong></p>
+            <ul>
+                <li><strong>Léxicos:</strong> Caracteres o tokens no reconocidos</li>
+                <li><strong>Sintácticos:</strong> Violaciones de la gramática del lenguaje</li>
+                <li><strong>Semánticos:</strong> Errores de tipos, variables no declaradas, etc.</li>
+            </ul>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Tipo</th>
+                    <th>Línea</th>
+                    <th>Columna</th>
+                    <th>Ámbito</th>
+                    <th>Descripción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="error-semantico">
+                    <td>1</td>
+                    <td><strong>SEMÁNTICO</strong></td>
+                    <td>13</td>
+                    <td>9</td>
+                    <td>1919379814</td>
+                    <td>Tipos incorrectos para la variable 'elemento'. Esperado: 3, Recibido: 9</td>
+                </tr>
+                <tr class="error-semantico">
+                    <td>2</td>
+                    <td><strong>SEMÁNTICO</strong></td>
+                    <td>13</td>
+                    <td>20</td>
+                    <td>1919379814</td>
+                    <td>Array 'arrayInexistente' no declarado</td>
+                </tr>
+                <tr class="error-semantico">
+                    <td>3</td>
+                    <td><strong>SEMÁNTICO</strong></td>
+                    <td>12</td>
+                    <td>9</td>
+                    <td>1919379814</td>
+                    <td>Tipos incorrectos para la variable 'edad'. Esperado: 3, Recibido: 6</td>
+                </tr>
+                <tr class="error-sintactico">
+                    <td>4</td>
+                    <td><strong>SINTÁCTICO</strong></td>
+                    <td>7</td>
+                    <td>5</td>
+                    <td>0</td>
+                    <td>syntax error</td>
+                </tr>
+                <tr class="error-lexico">
+                    <td>5</td>
+                    <td><strong>LÉXICO</strong></td>
+                    <td>4</td>
+                    <td>56</td>
+                    <td>0</td>
+                    <td>Cadena de texto no terminada correctamente</td>
+                </tr>
+                <tr class="error-lexico">
+                    <td>6</td>
+                    <td><strong>LÉXICO</strong></td>
+                    <td>3</td>
+                    <td>16</td>
+                    <td>0</td>
+                    <td>Carácter ilegal: '@'</td>
+                </tr>
+            </tbody>
+        </table>
+        <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #ddd; text-align: center; color: #666;">
+            <p>Reporte generado automáticamente por el Analizador OLC2_P1_201602516</p>
+            <p>Fecha de generación: Oct 10 2025</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,5 +1,10 @@
 
 Reporte de errores:
 ---------------------------------------------
-Ambito: 0 | Linea: 71, Columna: 28 | [SINTACTICO] System.out.println() sin argumentos no está permitido. Debe proporcionar al menos un argumento.
+Ambito: 1919379814 | Linea: 13, Columna: 9 | [SEMANTICO] Tipos incorrectos para la variable 'elemento'. Esperado: 3, Recibido: 9
+Ambito: 1919379814 | Linea: 13, Columna: 20 | [SEMANTICO] Array 'arrayInexistente' no declarado
+Ambito: 1919379814 | Linea: 12, Columna: 9 | [SEMANTICO] Tipos incorrectos para la variable 'edad'. Esperado: 3, Recibido: 6
+Ambito: 0 | Linea: 7, Columna: 5 | [SINTACTICO] syntax error
+Ambito: 0 | Linea: 4, Columna: 56 | [LEXICO] Cadena de texto no terminada correctamente
+Ambito: 0 | Linea: 3, Columna: 16 | [LEXICO] Carácter ilegal: '@'
 ---------------------------------------------
