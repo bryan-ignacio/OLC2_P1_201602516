@@ -80,4 +80,15 @@ Nota alta encontrada: 95
 Total notas altas (>=90): 2
 Total notas bajas (<80): 1
 
+--- CLASIFICACION CON SWITCH/CASE ---
+Analizando: Ana (Nota: 85)
+Categoria: MUY BUENO
+Accion: Continuar esfuerzo
+
+Analizando: Luis (Nota: 92)
+Categoria: EXCELENTE
+
+Analisis por edad:
+Ana - Categoria: Joven adulto
+
 === FIN DEL SISTEMA ===
