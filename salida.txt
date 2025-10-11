@@ -18,5 +18,50 @@ Nota final ponderada: 87.9
 --- FUNCIONES RECURSIVAS ---
 Búsqueda binaria de 45: posición 4
 Búsqueda binaria de 23: posición 2
+Suma de dígitos de 12345: 15
+Suma de dígitos de 9876: 30
+2 elevado a 8 = 256
+3 elevado a 4 = 81
+El número 121 es palíndromo: true
+El número 123 es palíndromo: false
+
+--- PARSEO DE ENTEROS ---
+Parseando '123' a entero: 123
+Parseando '456' a entero: 456
+Parseando '789' a entero: 789
+Suma de números parseados: 1368
+
+--- PARSEO DE FLOTANTES ---
+Parseando '3.14159' a double: 3.14159
+Parseando '2.71828' a double: 2.71828
+Producto PI * E: 8.53972
+Parseando '45.67' a float: 45.67
+
+--- CONVERSIONES CON String.valueOf ---
+int 42 como String: 42
+double 3.14159 como String: 3.14159
+boolean true como String: true
+char 'A' como String: A
+
+--- DEMOSTRACION System.out.println ---
+Esta función se ha usado extensivamente en todo el programa
+Imprime diferentes tipos de datos:
+123
+45.67
+true
+X
+
+--- UNIR CADENAS CON Strings.join ---
+Lista de estudiantes: Ana, Luis, Maria, Carlos
+Materias disponibles: Matematicas | Fisica | Quimica
+Reporte de calificaciones: 85 - 92 - 78 - 95
+
+--- FUNCION: sumarCalificaciones ---
+Promedio estudiante 1: 88.4
+Promedio estudiante 2: 81.8
+
+--- REPORTE FINAL GENERADO ---
+Todas las funciones han sido probadas exitosamente
+Sistema verificado y operativo
 
 === FIN DEL SISTEMA ===
