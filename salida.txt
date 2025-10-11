@@ -91,4 +91,30 @@ Categoria: EXCELENTE
 Analisis por edad:
 Ana - Categoria: Joven adulto
 
+--- DEMOSTRACION DE BREAK ---
+Busqueda con break (primera nota > 90):
+Verificando: Ana - 85
+Verificando: Luis - 92
+Encontrado! Luis supera 90 puntos
+
+Busqueda limitada con while y break:
+Procesando posicion: 1
+Procesando posicion: 2
+Procesando posicion: 3
+Limite alcanzado, usando break para salir
+
+Break en for anidado:
+Fila 1:
+  Columna 1
+  Columna 2
+  Break en columna 3
+Fila 2:
+  Columna 1
+  Columna 2
+  Break en columna 3
+Fila 3:
+  Columna 1
+  Columna 2
+  Break en columna 3
+
 === FIN DEL SISTEMA ===
