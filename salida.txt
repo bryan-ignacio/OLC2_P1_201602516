@@ -1,67 +1,66 @@
 === SISTEMA DE CALCULO CIENTIFICO ===
 
-¡Bienvenido al Sistema de Gestión Académica!
-Versión 1.0 - Universidad San Carlos
+--- DECLARACION DE ARREGLOS ---
+Arreglos declarados exitosamente:
+- productos: arreglo de String con 5 elementos
+- precios: arreglo de int con 5 elementos
+- cantidades: arreglo de int con 5 elementos
+- disponibles: arreglo de boolean con 5 elementos
+- codigosProducto: arreglo vacío de 5 elementos
+- proveedores: arreglo vacío de 5 elementos
 
-Opciones disponibles:
-1. Gestión de estudiantes
-2. Cálculo de promedios
-3. Reportes académicos
-4. Análisis estadístico
-Promedio estudiante 1: 85
-Promedio estudiante 2: 90.6667
-Estudiante 1 aprobado: true
-Estudiante 2 aprobado: true
-Estudiante: Carlos Pérez - Calificación: 95 - EXCELENTE
-Nota final ponderada: 87.9
+--- MODIFICACION DE ELEMENTOS ---
+Estado inicial del Mouse:
+- Precio: 250
+- Cantidad: 50
+- Disponible: true
 
---- FUNCIONES RECURSIVAS ---
-Búsqueda binaria de 45: posición 4
-Búsqueda binaria de 23: posición 2
-Suma de dígitos de 12345: 15
-Suma de dígitos de 9876: 30
-2 elevado a 8 = 256
-3 elevado a 4 = 81
-El número 121 es palíndromo: true
-El número 123 es palíndromo: false
+Después de modificaciones:
+- Nuevo precio Mouse: 280
+- Nueva cantidad Mouse: 45
+- Impresora ahora disponible: true
+Códigos y proveedores asignados correctamente
 
---- PARSEO DE ENTEROS ---
-Parseando '123' a entero: 123
-Parseando '456' a entero: 456
-Parseando '789' a entero: 789
-Suma de números parseados: 1368
-
---- PARSEO DE FLOTANTES ---
-Parseando '3.14159' a double: 3.14159
-Parseando '2.71828' a double: 2.71828
-Producto PI * E: 8.53972
-Parseando '45.67' a float: 45.67
-
---- CONVERSIONES CON String.valueOf ---
-int 42 como String: 42
-double 3.14159 como String: 3.14159
-boolean true como String: true
-char 'A' como String: A
-
---- DEMOSTRACION System.out.println ---
-Esta función se ha usado extensivamente en todo el programa
-Imprime diferentes tipos de datos:
-123
-45.67
-true
-X
-
---- UNIR CADENAS CON Strings.join ---
-Lista de estudiantes: Ana, Luis, Maria, Carlos
-Materias disponibles: Matematicas | Fisica | Quimica
-Reporte de calificaciones: 85 - 92 - 78 - 95
-
---- FUNCION: sumarCalificaciones ---
-Promedio estudiante 1: 88.4
-Promedio estudiante 2: 81.8
-
---- REPORTE FINAL GENERADO ---
-Todas las funciones han sido probadas exitosamente
-Sistema verificado y operativo
+--- ACCESO A ELEMENTOS ---
+Inventario completo:
+Posición 0:
+  Código: 1001
+  Producto: Laptop
+  Proveedor: TechCorp
+  Precio: Q15000
+  Cantidad: 10
+  Estado: DISPONIBLE
+Posición 1:
+  Código: 1002
+  Producto: Mouse
+  Proveedor: DeviceMax
+  Precio: Q280
+  Cantidad: 45
+  Estado: DISPONIBLE
+Posición 2:
+  Código: 1003
+  Producto: Teclado
+  Proveedor: KeyboardPro
+  Precio: Q800
+  Cantidad: 30
+  Estado: DISPONIBLE
+Posición 3:
+  Código: 1004
+  Producto: Monitor
+  Proveedor: ScreenTech
+  Precio: Q3500
+  Cantidad: 15
+  Estado: DISPONIBLE
+Posición 4:
+  Código: 1005
+  Producto: Impresora
+  Proveedor: PrintSolutions
+  Precio: Q2200
+  Cantidad: 8
+  Estado: DISPONIBLE
+Acceso directo a elementos específicos:
+Primer producto: Laptop
+Último producto: Impresora
+Producto del medio: Teclado
 
 === FIN DEL SISTEMA ===

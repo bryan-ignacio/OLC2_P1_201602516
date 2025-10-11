@@ -1,1 +1,5 @@
-No se encontraron errores.
+
+Reporte de errores:
+---------------------------------------------
+Ambito: 0 | Linea: 71, Columna: 28 | [SINTACTICO] System.out.println() sin argumentos no está permitido. Debe proporcionar al menos un argumento.
+---------------------------------------------
