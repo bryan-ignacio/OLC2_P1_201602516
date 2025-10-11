@@ -6,6 +6,8 @@
 #include "context/error_report.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
+#include <stdbool.h>
 
 Result interpretIdentificadorExpresion(AbstractExpresion *self, Context *context)
 {
@@ -13,7 +15,73 @@ Result interpretIdentificadorExpresion(AbstractExpresion *self, Context *context
     Symbol *valorEncontrado = buscarTablaSimbolos(context, nodo->nombre);
     if (valorEncontrado)
     {
-        return nuevoValorResultado(valorEncontrado->valor, valorEncontrado->tipo);
+        // Crear una copia del valor para evitar problemas de referencia
+        void *valorCopia = NULL;
+
+        switch (valorEncontrado->tipo)
+        {
+        case INT:
+        {
+            int *original = (int *)valorEncontrado->valor;
+            int *copia = malloc(sizeof(int));
+            *copia = *original;
+            valorCopia = copia;
+            break;
+        }
+        case FLOAT:
+        {
+            float *original = (float *)valorEncontrado->valor;
+            float *copia = malloc(sizeof(float));
+            *copia = *original;
+            valorCopia = copia;
+            break;
+        }
+        case DOUBLE:
+        {
+            double *original = (double *)valorEncontrado->valor;
+            double *copia = malloc(sizeof(double));
+            *copia = *original;
+            valorCopia = copia;
+            break;
+        }
+        case STRING:
+        {
+            char *original = (char *)valorEncontrado->valor;
+            if (original)
+            {
+                char *copia = malloc(strlen(original) + 1);
+                strcpy(copia, original);
+                valorCopia = copia;
+            }
+            else
+            {
+                valorCopia = NULL;
+            }
+            break;
+        }
+        case BOOLEAN:
+        {
+            bool *original = (bool *)valorEncontrado->valor;
+            bool *copia = malloc(sizeof(bool));
+            *copia = *original;
+            valorCopia = copia;
+            break;
+        }
+        case CHAR:
+        {
+            char *original = (char *)valorEncontrado->valor;
+            char *copia = malloc(sizeof(char));
+            *copia = *original;
+            valorCopia = copia;
+            break;
+        }
+        default:
+            // Para arrays y otros tipos complejos, retornar la referencia directa
+            valorCopia = valorEncontrado->valor;
+            break;
+        }
+
+        return nuevoValorResultado(valorCopia, valorEncontrado->tipo);
     }
     char buffer[256];
     snprintf(buffer, sizeof(buffer), "El identificador no existe %s", nodo->nombre);

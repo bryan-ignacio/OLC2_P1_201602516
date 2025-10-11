@@ -228,8 +228,73 @@ Result interpretAccesoArrayExpresion(AbstractExpresion *self, Context *context)
         return nuevoValorResultadoVacio();
     }
 
-    // Retornar el elemento en la posición especificada
-    return nuevoValorResultado(array->elementos[indice], array->tipoElemento);
+    // Crear una copia del valor para evitar problemas de referencia
+    void *valorCopia = NULL;
+
+    switch (array->tipoElemento)
+    {
+    case INT:
+    {
+        int *original = (int *)array->elementos[indice];
+        int *copia = malloc(sizeof(int));
+        *copia = *original;
+        valorCopia = copia;
+        break;
+    }
+    case FLOAT:
+    {
+        float *original = (float *)array->elementos[indice];
+        float *copia = malloc(sizeof(float));
+        *copia = *original;
+        valorCopia = copia;
+        break;
+    }
+    case DOUBLE:
+    {
+        double *original = (double *)array->elementos[indice];
+        double *copia = malloc(sizeof(double));
+        *copia = *original;
+        valorCopia = copia;
+        break;
+    }
+    case STRING:
+    {
+        char *original = (char *)array->elementos[indice];
+        if (original)
+        {
+            char *copia = malloc(strlen(original) + 1);
+            strcpy(copia, original);
+            valorCopia = copia;
+        }
+        else
+        {
+            valorCopia = NULL;
+        }
+        break;
+    }
+    case BOOLEAN:
+    {
+        bool *original = (bool *)array->elementos[indice];
+        bool *copia = malloc(sizeof(bool));
+        *copia = *original;
+        valorCopia = copia;
+        break;
+    }
+    case CHAR:
+    {
+        char *original = (char *)array->elementos[indice];
+        char *copia = malloc(sizeof(char));
+        *copia = *original;
+        valorCopia = copia;
+        break;
+    }
+    default:
+        valorCopia = array->elementos[indice];
+        break;
+    }
+
+    // Retornar el elemento copiado
+    return nuevoValorResultado(valorCopia, array->tipoElemento);
 }
 
 Result interpretListaElementosExpresion(AbstractExpresion *self, Context *context)
@@ -308,12 +373,55 @@ Result interpretAsignacionArrayExpresion(AbstractExpresion *self, Context *conte
         return nuevoValorResultadoVacio();
     }
 
-    // Liberar el valor anterior y asignar el nuevo
-    if (array->elementos[indice])
+    // Para strings, necesitamos crear una copia para evitar problemas de memoria
+    if (resultValor.tipo == STRING)
     {
-        free(array->elementos[indice]);
+        // Liberar el valor anterior
+        if (array->elementos[indice])
+        {
+            free(array->elementos[indice]);
+        }
+        // Crear una copia del string
+        char *valorString = (char *)resultValor.valor;
+        char *copia = malloc(strlen(valorString) + 1);
+        strcpy(copia, valorString);
+        array->elementos[indice] = copia;
     }
-    array->elementos[indice] = resultValor.valor;
+    else
+    {
+        // Para tipos primitivos, podemos reutilizar el puntero sin liberar
+        // Esto evita problemas cuando intercambiamos valores
+        if (array->elementos[indice])
+        {
+            free(array->elementos[indice]);
+        }
+        array->elementos[indice] = resultValor.valor;
+    }
+
+    return nuevoValorResultadoVacio();
+}
+
+// Función para intercambiar elementos de array sin liberar memoria
+Result intercambiarElementosArray(char *identificador, int indice1, int indice2, Context *context)
+{
+    Symbol *simbolo = buscarTablaSimbolos(context, identificador);
+    if (!simbolo || simbolo->tipo != ARRAY)
+    {
+        return nuevoValorResultadoVacio();
+    }
+
+    ArrayStruct *array = (ArrayStruct *)simbolo->valor;
+
+    // Verificar índices válidos
+    if (indice1 < 0 || indice1 >= array->tamaño || indice2 < 0 || indice2 >= array->tamaño)
+    {
+        return nuevoValorResultadoVacio();
+    }
+
+    // Intercambiar punteros directamente sin liberar memoria
+    void *temp = array->elementos[indice1];
+    array->elementos[indice1] = array->elementos[indice2];
+    array->elementos[indice2] = temp;
 
     return nuevoValorResultadoVacio();
 }
@@ -474,6 +582,20 @@ AbstractExpresion *nuevoDeclaracionArrayExpresion(TipoDato tipoArray, char *iden
 }
 
 // Función para declarar arrays como parámetros de función
+// Función para interpretar declaración de parámetros de array
+Result interpretDeclaracionArrayParametro(AbstractExpresion *nodo, Context *context)
+{
+    DeclaracionVariable *self = (DeclaracionVariable *)nodo;
+
+    // Para parámetros de array, solo creamos el símbolo sin inicializar
+    // El valor se asignará cuando se llame la función
+    Symbol *var = nuevoVariable(self->nombre, NULL, ARRAY, nodo->linea, nodo->columna, context ? context->nombre : 0);
+    var->nodo = nodo;
+    agregarSymbol(context, var);
+
+    return nuevoValorResultadoVacio();
+}
+
 AbstractExpresion *nuevoDeclaracionArrayParametro(TipoDato tipoElemento, char *identificador, int linea, int columna)
 {
     // Para parámetros de array, usamos la misma estructura que DeclaracionVariable
@@ -482,7 +604,7 @@ AbstractExpresion *nuevoDeclaracionArrayParametro(TipoDato tipoElemento, char *i
     if (!nodo)
         return NULL;
 
-    buildAbstractExpresion(&nodo->base, interpretDeclaracionVariable);
+    buildAbstractExpresion(&nodo->base, interpretDeclaracionArrayParametro);
     nodo->tipo = ARRAY; // Marcar como tipo ARRAY
     nodo->nombre = strdup(identificador);
     nodo->base.linea = linea;

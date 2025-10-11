@@ -32,13 +32,23 @@ Result interpretLlamadaFuncionExpresion(AbstractExpresion *self, Context *contex
                 {
                     Result resultDeclararParametro = listaParametros->hijos[i]->interpret(listaParametros->hijos[i], contextFuncion);
                     Result resultadoArgumento = listaArgumentos->hijos[i]->interpret(listaArgumentos->hijos[i], context);
-                    // asignar el valor del argumento
-                    if (contextFuncion->ultimoSymbol->tipo != resultadoArgumento.tipo)
+
+                    // Para arrays, pasamos por referencia
+                    if (contextFuncion->ultimoSymbol->tipo == ARRAY && resultadoArgumento.tipo == ARRAY)
+                    {
+                        // Para arrays, asignamos la referencia directa
+                        contextFuncion->ultimoSymbol->valor = resultadoArgumento.valor;
+                    }
+                    else if (contextFuncion->ultimoSymbol->tipo != resultadoArgumento.tipo)
                     {
                         printf("Error el tipo del parametro no coincide, %s %s\n", labelTipoDato[contextFuncion->ultimoSymbol->tipo], labelTipoDato[resultadoArgumento.tipo]);
                         return nuevoValorResultadoVacio();
                     }
-                    contextFuncion->ultimoSymbol->valor = resultadoArgumento.valor;
+                    else
+                    {
+                        // Para tipos primitivos, asignamos el valor
+                        contextFuncion->ultimoSymbol->valor = resultadoArgumento.valor;
+                    }
                 }
             }
             else

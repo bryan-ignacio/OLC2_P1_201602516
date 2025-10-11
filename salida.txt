@@ -93,4 +93,51 @@ Nuevos productos agregados:
 - Audífonos | Precio: Q320 | Cantidad: 40
 - Micrófono | Precio: Q180 | Cantidad: 15
 
+--- ALGORITMOS DE ORDENAMIENTO ---
+Productos antes del ordenamiento (por precio):
+  1. Laptop - Q15000
+  2. Mouse - Q280
+  3. Teclado - Q800
+  4. Monitor - Q3500
+  5. Impresora - Q2200
+  6. Webcam - Q450
+  7. Audífonos - Q320
+  8. Micrófono - Q180
+
+Aplicando ordenamiento BURBUJA (precio ascendente):
+Iniciando ordenamiento burbuja para 8 elementos...
+Ordenamiento burbuja completado
+Productos después del ordenamiento burbuja:
+  1. Micrófono - Q180
+  2. Mouse - Q280
+  3. Audífonos - Q320
+  4. Webcam - Q450
+  5. Teclado - Q800
+  6. Impresora - Q2200
+  7. Monitor - Q3500
+  8. Laptop - Q15000
+
+Productos antes del ordenamiento por SELECCION (cantidad descendente):
+  1. Laptop - 10 unidades
+  2. Mouse - 45 unidades
+  3. Teclado - 30 unidades
+  4. Monitor - 15 unidades
+  5. Impresora - 8 unidades
+  6. Webcam - 25 unidades
+  7. Audífonos - 40 unidades
+  8. Micrófono - 15 unidades
+
+Aplicando ordenamiento SELECCION (cantidad descendente):
+Iniciando ordenamiento por selección para 8 elementos...
+Ordenamiento por selección completado
+Productos después del ordenamiento por selección:
+  1. Mouse - 45 unidades
+  2. Audífonos - 40 unidades
+  3. Teclado - 30 unidades
+  4. Webcam - 25 unidades
+  5. Monitor - 15 unidades
+  6. Micrófono - 15 unidades
+  7. Laptop - 10 unidades
+  8. Impresora - 8 unidades
+
 === FIN DEL SISTEMA ===
