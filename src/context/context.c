@@ -144,7 +144,7 @@ void generarReporteTablaSimbolos(Context *global, const char *nombreArchivo)
     FILE *archivo = fopen(nombreArchivo, "w");
     if (!archivo)
     {
-        fprintf(stderr, "Error: No se pudo crear el archivo de reporte %s\n", nombreArchivo);
+        printf("Error: No se pudo crear el archivo de reporte de tabla de símbolos: %s\n", nombreArchivo);
         return;
     }
 

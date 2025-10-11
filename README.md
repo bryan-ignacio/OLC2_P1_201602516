@@ -1,102 +1,138 @@
-# Documentación
+# Analizador JavaLang - OLC2 Proyecto 1
 
-Se hace uso de los esquemas de traducción para armar un árbol sintáctico. Luego utilizar el patrón interprete para interpretar el `archivo de entrada`. La carpeta `src` se divide en:
+Este proyecto implementa un analizador sintáctico y semántico para el lenguaje JavaLang, desarrollado como parte del curso de Organización de Lenguajes y Compiladores 2.
 
-### Archivo main.c
+## Características
 
-Contiene la ejecución principal y la construcción del ámbito padre ademas de realizar el primer `interpret` utilizando `recursividad indirecta`.
-
-### entriesTools
-
-En esta carpeta se guardan los archivos de entrada para las herramientas flex y bison. Estos dos archivos se comunican a través de los encabezados generados por bison (`*.tab.h`), leer la documentación de cada herramienta para entender cada parte. Al finalizar el análisis sintáctico la raíz del arbol a utilizar en el patrón intérprete se guarda en producción del símbolo inicial de la gramatica.
-
-### Context
-
-Archivos de consumo para utilizar y guardar información en el proceso de interpretado, se envía en cada función `interpret` y puede agregar entradas a la tabla o árbol de ámbitos así como controlar la tabla de símbolos entre otra funcionalidad que se requiera en el proceso. Aquí se específica el archivo `result.h`.
-
-### ast
-
-La carpeta tiene el encabezado de la clase abstracta para implementar en todos los nodos terminales y no terminales del árbol sintáctico generado por el análisis sintáctico con bison. Tiene múltiples carpetas dividos por subcategorías de los componentes del lenguaje de entrada que implementan la clase abstracta.
-
-## Reportes Generados
-
-El sistema genera automáticamente varios reportes durante la ejecución:
-
-### Reporte de Tabla de Símbolos
-
-- **Archivo**: `tabla_simbolos.html`
-- **Descripción**: Tabla HTML con todas las variables, funciones y símbolos declarados
-- **Información**: Nombre, tipo, valor, ámbito, línea y columna de declaración
-
-### Reporte de Árbol AST (Nuevo)
-
-- **Archivos**: `reporte_ast.dot` y `reporte_ast.png`
-- **Descripción**: Representación visual del Árbol de Sintaxis Abstracta
-- **Características**:
-  - Generación automática usando Graphviz
-  - Colores diferenciados por tipo de nodo
-  - Información de línea y columna
-  - Estructura jerárquica del código analizado
-- **Requisito**: Graphviz instalado (`sudo apt-get install graphviz`)
-
-### Reporte de Errores
-
-- **Archivo**: Salida en consola
-- **Descripción**: Lista de errores sintácticos y semánticos encontrados
-- **Información**: Tipo de error, línea, columna y descripción
+- Análisis léxico y sintáctico completo
+- Generación de Árbol de Sintaxis Abstracta (AST)
+- Interpretación de código JavaLang
+- Reportes de errores detallados
+- Reporte visual del AST
+- Reporte de tabla de símbolos
+- **Interfaz gráfica con GTK3**
+- Interfaz de línea de comandos
 
 ## Compilación
 
-Con el comando `make` ejecuta el archivo y busca todos los archivos con extensión c dentro de la carpeta definida en la variable `SRC`. Los pasos que el Makefile realiza son:
+### Prerrequisitos
 
-1. Crear la carpeta build, todos los compilados se generan en esta carpeta.
-2. Generar el parser en c utilizando el archivo de entrada para bison en la carpeta `entriesTools` y con la opción para generar los encabezados `*.tab.h`
-3. Generar el lexer en c utilizando el archivo de entrada para flex en la misma carpeta del paso anterior.
-4. Compilar los archivos .c en las carpetas de la variable `SRC` a codigo objeto extensión .o
-5. Compilar los archivos .c y .h de bison a código objeto (.o).
-6. Compilar los archivos .c de flex a código objeto (.o).
-7. Por último crear un único compilado en el archivo llamado `calc`.
+Para compilar el proyecto necesitas tener instalado:
 
-## Ejecución
+- GCC
+- Bison
+- Flex
+- Make
+- GTK3 development libraries (para la versión GUI)
 
-En la ruta `build/calc` tenemos el archivo compilado de nuestro proyecto, la función main recibe un argumento que es la ruta al `archivo de entrada`.
+En sistemas basados en Fedora/Red Hat:
+```bash
+sudo dnf install gcc bison flex make gtk3-devel pkg-config
+```
 
-### Comandos de Ejecución
+En sistemas basados en Ubuntu/Debian:
+```bash
+sudo apt install gcc bison flex make libgtk-3-dev pkg-config
+```
+
+### Compilar ambas versiones
 
 ```bash
-# Compilar el proyecto
-make
-
-# Ejecutar con archivo de entrada
-./build/calc archivo_entrada.usl
-
-# Limpiar archivos compilados
 make clean
+make console  # Compila la versión de línea de comandos
+make gui      # Compila la versión con interfaz gráfica
 ```
 
-### Archivos de Salida
+## Uso
 
-Después de ejecutar el programa, se generan automáticamente:
-
-- `salida.txt`: Resultado de la interpretación del código
-- `tabla_simbolos.html`: Reporte de tabla de símbolos
-- `reporte_ast.dot`: Descripción del AST en formato DOT
-- `reporte_ast.png`: Imagen visual del AST (requiere Graphviz)
-
-### Ejemplo de Uso
+### Versión con Interfaz Gráfica (Recomendada)
 
 ```bash
-# Crear archivo de prueba
-echo 'System.out.println("Hola mundo");' > prueba.usl
-
-# Compilar y ejecutar
-make
-./build/calc prueba.usl
-
-# Ver resultados
-cat salida.txt
-xdg-open reporte_ast.png  # Linux
-open reporte_ast.png      # macOS
+./build/calc-gui
 ```
 
-Para más información sobre el reporte AST, consultar `REPORTE_AST_DOCUMENTACION.md`.
+La interfaz gráfica incluye:
+
+1. **Editor de entrada**: Para escribir código JavaLang
+2. **Botón "Abrir Archivo .usl"**: Para cargar archivos desde el sistema
+3. **Botón "Limpiar Editor"**: Para limpiar el área de entrada
+4. **Botón "Analizar"**: Para ejecutar el análisis del código
+5. **Área de salida**: Muestra los resultados de la ejecución
+6. **Botones de reportes**:
+   - **"ver reporte Errores"**: Abre el reporte de errores en el navegador
+   - **"ver AST"**: Abre la visualización del AST
+   - **"ver reporte Tabla Símbolos"**: Abre el reporte de la tabla de símbolos
+
+### Versión de Línea de Comandos
+
+```bash
+# Analizar desde archivo
+./build/calc archivo.usl
+
+# Analizar desde entrada estándar
+./build/calc
+```
+
+## Archivos de Salida
+
+El analizador genera varios archivos de salida:
+
+- `salida.txt`: Salida del programa interpretado
+- `reporte_errores.html`: Reporte detallado de errores
+- `reporte_ast.dot`: Archivo DOT para visualizar el AST
+- `tabla_simbolos.html`: Reporte de la tabla de símbolos
+
+## Ejemplo de Código JavaLang
+
+```java
+void main() {
+    int x = 5;
+    int y = 10;
+    int resultado = x + y;
+    println("El resultado es: " + resultado);
+    
+    int[] numeros = new int[3];
+    numeros[0] = 1;
+    numeros[1] = 2;
+    numeros[2] = 3;
+    
+    for (int i = 0; i < numeros.length; i++) {
+        println("Numero " + i + ": " + numeros[i]);
+    }
+}
+```
+
+## Características Soportadas
+
+- Variables: `int`, `float`, `string`, `boolean`, `char`
+- Arrays y matrices
+- Operadores aritméticos, lógicos y relacionales
+- Estructuras de control: `if`, `while`, `for`, `switch`
+- Funciones definidas por el usuario
+- Función `main()` como punto de entrada
+- Instrucciones de salida: `print`, `println`
+- Funciones integradas para manejo de tipos y arrays
+
+## Estructura del Proyecto
+
+```
+src/
+├── main.c              # Punto de entrada para versión consola
+├── main_gui.c          # Punto de entrada para versión GUI
+├── gui/                # Interfaz gráfica
+│   ├── main_window.h
+│   └── main_window.c
+├── ast/                # Árbol de sintaxis abstracta
+├── context/            # Contexto y tabla de símbolos
+└── entriesTools/       # Analizador léxico y sintáctico
+    ├── lexer.l
+    └── parser.y
+```
+
+## Autor
+
+Bryan Ignacio - 201602516
+
+## Licencia
+
+Este proyecto es parte de un curso académico de la Universidad de San Carlos de Guatemala.

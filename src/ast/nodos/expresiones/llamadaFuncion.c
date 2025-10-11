@@ -2,6 +2,7 @@
 #include "ast/nodos/builders.h"
 #include "context/context.h"
 #include "context/result.h"
+#include "context/error_report.h"
 #include "llamadaFuncion.h"
 
 #include <stdlib.h>
@@ -83,7 +84,10 @@ Result interpretLlamadaFuncionExpresion(AbstractExpresion *self, Context *contex
         }
         return resultadoFuncion;
     }
-    printf("El identificador no existe %s\n", nodo->id);
+
+    char buffer[256];
+    snprintf(buffer, sizeof(buffer), "El identificador no existe %s", nodo->id);
+    agregarErrorSemantico(buffer, self->linea, self->columna, context->nombre);
     return nuevoValorResultadoVacio();
 }
 

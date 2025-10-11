@@ -34,10 +34,9 @@ Result ejecutarFuncionMainPendiente()
 {
     if (funcionMainPendiente && contextoMainPendiente)
     {
-        // Crear un contexto para la función main
-        Context *contextMain = nuevoContext(contextoMainPendiente);
-        contextMain->archivo = contextoMainPendiente->archivo;   // Heredar el archivo de salida
-        contextMain->nombre = contextoMainPendiente->nombre + 1; // Incrementar el nivel de anidación
+        // Usar el contexto padre directamente en lugar de crear uno nuevo
+        // Esto hará que todos los símbolos se agreguen al contexto global
+        Context *contextMain = contextoMainPendiente;
 
         // Ejecutar el bloque de la función main (último hijo)
         if (funcionMainPendiente->numHijos > 0)

@@ -1,0 +1,19 @@
+=== REPORTE BÁSICO DEL ÁRBOL AST ===
+
+NOTA: Este es un reporte básico en texto plano.
+La generación del diagrama visual (.dot/.png) está deshabilitada
+debido a problemas de corrupción que causan 'cuadros negros'.
+Estado del archivo DOT: Posiblemente corrupto debido a segfault.
+
+Información de la raíz:
+- Número de hijos: 1
+- Línea: 0, Columna: 0
+- Dirección de memoria: 0x1fa624a0
+- Función de interpretación: 0x413bbc
+
+Estructura del árbol (primeros 2 niveles):
+- Nodo nivel 0: 1 hijos, posición (0,0)
+  - Nodo nivel 1: 1 hijos, posición (0,0)
+    - Nodo nivel 2: 107 hijos, posición (0,0)
+
+=== FIN DEL REPORTE ===

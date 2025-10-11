@@ -86,7 +86,7 @@ Result interpretIdentificadorExpresion(AbstractExpresion *self, Context *context
     char buffer[256];
     snprintf(buffer, sizeof(buffer), "El identificador no existe %s", nodo->nombre);
     int ambito = context && context->nombre ? context->nombre : 0;
-    agregarError(buffer, self->linea, self->columna, ambito);
+    agregarErrorSemantico(buffer, self->linea, self->columna, ambito);
     return nuevoValorResultadoVacio();
 }
 

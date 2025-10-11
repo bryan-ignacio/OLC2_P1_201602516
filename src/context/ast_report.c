@@ -137,8 +137,8 @@ int graficarNodoAST(AbstractExpresion *nodo, ASTReportContext *context, int idPa
         return -1;
     }
 
-    // Evitar recursión infinita
-    if (context->profundidad > 50)
+    // Evitar recursión infinita con un límite más conservador
+    if (context->profundidad > 20)
     {
         fprintf(context->archivo, "    node%d [label=\"...\\n(Profundidad máxima alcanzada)\", fillcolor=\"red\"];\n", context->contador);
         if (idPadre >= 0)
@@ -149,6 +149,37 @@ int graficarNodoAST(AbstractExpresion *nodo, ASTReportContext *context, int idPa
         return context->contador - 1;
     }
 
+    // Verificar si el nodo ya fue procesado (prevenir ciclos)
+    static void *nodos_procesados[1000];
+    static int num_procesados = 0;
+
+    // Al inicio de una nueva generación, reiniciar la lista
+    if (context->profundidad == 0)
+    {
+        num_procesados = 0;
+    }
+
+    // Verificar si este nodo ya fue procesado
+    for (int i = 0; i < num_procesados; i++)
+    {
+        if (nodos_procesados[i] == nodo)
+        {
+            fprintf(context->archivo, "    node%d [label=\"(Referencia circular)\\n%p\", fillcolor=\"orange\"];\n", context->contador, nodo);
+            if (idPadre >= 0)
+            {
+                fprintf(context->archivo, "    node%d -> node%d;\n", idPadre, context->contador);
+            }
+            context->contador++;
+            return context->contador - 1;
+        }
+    }
+
+    // Agregar nodo a la lista de procesados
+    if (num_procesados < 1000)
+    {
+        nodos_procesados[num_procesados++] = nodo;
+    }
+
     context->profundidad++;
 
     int idActual = context->contador++;
@@ -156,12 +187,12 @@ int graficarNodoAST(AbstractExpresion *nodo, ASTReportContext *context, int idPa
     const char *etiqueta = obtenerEtiquetaNodo(nodo);
     const char *color = obtenerColorNodo(nodo);
 
-    // Verificar que las cadenas no sean NULL
-    if (!tipo)
+    // Verificar que las cadenas no sean NULL y sean seguras
+    if (!tipo || strlen(tipo) == 0)
         tipo = "Desconocido";
-    if (!etiqueta)
+    if (!etiqueta || strlen(etiqueta) == 0)
         etiqueta = "Sin info";
-    if (!color)
+    if (!color || strlen(color) == 0)
         color = "lightgray";
 
     // Escribir el nodo con formato mejorado
@@ -210,59 +241,57 @@ const char *obtenerTipoNodo(AbstractExpresion *nodo)
         return "Nodo Nulo";
     }
 
-    // Identificar tipos basándose en patrones estructurales seguros
+    // Incluir encabezados para acceder a las funciones de interpretación
+    extern Result interpretDeclaracionVariable(AbstractExpresion *, Context *);
+    extern Result interpretDeclaracionConstante(AbstractExpresion *, Context *);
+    extern Result interpretAsignacionVariable(AbstractExpresion *, Context *);
+    extern Result interpretFuncionExpresion(AbstractExpresion *, Context *);
+    extern Result interpretPrintExpresion(AbstractExpresion *, Context *);
+    extern Result interpretReturnExpresion(AbstractExpresion *, Context *);
+    extern Result interpretPrimitivoExpresion(AbstractExpresion *, Context *);
+    extern Result interpretIdentificadorExpresion(AbstractExpresion *, Context *);
+    extern Result interpretInstrucciones(AbstractExpresion *, Context *);
+    extern Result interpretForExpresion(AbstractExpresion *, Context *);
+    extern Result interpretIfExpresion(AbstractExpresion *, Context *);
+    extern Result interpretWhileExpresion(AbstractExpresion *, Context *);
 
-    // Verificar si es una declaración (patrón: 1 hijo para expresión inicial)
-    const char *infoDecl = obtenerInformacionDeclaracion(nodo);
-    if (strlen(infoDecl) > 0)
-    {
-        return "Declaración";
-    }
-
-    // Verificar si es una asignación (patrón: 1 hijo para expresión a asignar)
-    const char *infoAsig = obtenerInformacionAsignacion(nodo);
-    if (strlen(infoAsig) > 0)
-    {
+    // Identificar tipos específicos por función de interpretación
+    if (nodo->interpret == interpretDeclaracionVariable)
+        return "Declaración Variable";
+    else if (nodo->interpret == interpretDeclaracionConstante)
+        return "Declaración Constante";
+    else if (nodo->interpret == interpretAsignacionVariable)
         return "Asignación";
-    }
-
-    // Verificar si es un primitivo o identificador (nodos terminales)
-    const char *infoPrim = obtenerInformacionPrimitivo(nodo);
-    const char *infoId = obtenerInformacionIdentificador(nodo);
-    if (strlen(infoPrim) > 0 || strlen(infoId) > 0)
-    {
-        return "Terminal";
-    }
-
-    // Usar heurística basada en número de hijos para casos generales
-    if (nodo->numHijos == 0)
-    {
-        return "Literal";
-    }
-    else if (nodo->numHijos == 1)
-    {
-        return "Expresión Unaria";
-    }
-    else if (nodo->numHijos == 2)
-    {
-        return "Expresión Binaria";
-    }
-    else if (nodo->numHijos == 3)
-    {
-        return "Expresión Ternaria";
-    }
-    else if (nodo->numHijos > 15)
-    {
+    else if (nodo->interpret == interpretFuncionExpresion)
+        return "Función";
+    else if (nodo->interpret == interpretPrintExpresion)
+        return "Print";
+    else if (nodo->interpret == interpretReturnExpresion)
+        return "Return";
+    else if (nodo->interpret == interpretPrimitivoExpresion)
+        return "Primitivo";
+    else if (nodo->interpret == interpretIdentificadorExpresion)
+        return "Identificador";
+    else if (nodo->interpret == interpretInstrucciones)
         return "Lista Instrucciones";
-    }
-    else if (nodo->numHijos > 5)
-    {
-        return "Bloque";
-    }
+    else if (nodo->interpret == interpretForExpresion)
+        return "For";
+    else if (nodo->interpret == interpretIfExpresion)
+        return "If";
+    else if (nodo->interpret == interpretWhileExpresion)
+        return "While";
+
+    // Fallback basado en número de hijos para casos no identificados
+    if (!nodo->hijos || nodo->numHijos == 0)
+        return "Terminal";
+    else if (nodo->numHijos == 1)
+        return "Unario";
+    else if (nodo->numHijos == 2)
+        return "Binario";
+    else if (nodo->numHijos == 3)
+        return "Ternario";
     else
-    {
-        return "Expresión N-aria";
-    }
+        return "N-ario";
 }
 
 /**
@@ -278,71 +307,70 @@ const char *obtenerEtiquetaNodo(AbstractExpresion *nodo)
         return etiqueta;
     }
 
-    // Obtener información específica según el tipo de nodo
-    const char *infoEspecifica = "";
+    // Declaraciones externas para acceso a funciones
+    extern Result interpretDeclaracionVariable(AbstractExpresion *, Context *);
+    extern Result interpretDeclaracionConstante(AbstractExpresion *, Context *);
+    extern Result interpretAsignacionVariable(AbstractExpresion *, Context *);
+    extern Result interpretFuncionExpresion(AbstractExpresion *, Context *);
+    extern Result interpretPrimitivoExpresion(AbstractExpresion *, Context *);
+    extern Result interpretIdentificadorExpresion(AbstractExpresion *, Context *);
 
-    // Intentar identificar el tipo de nodo y extraer información específica
-    if (nodo->numHijos == 0)
+    // Generar etiqueta específica según el tipo de nodo
+    if (nodo->interpret == interpretDeclaracionVariable)
     {
-        // Podría ser primitivo o identificador
-        const char *infoPrim = obtenerInformacionPrimitivo(nodo);
-        const char *infoId = obtenerInformacionIdentificador(nodo);
-
-        if (strlen(infoPrim) > strlen("Primitivo"))
-        {
-            infoEspecifica = infoPrim;
-        }
-        else if (strlen(infoId) > strlen("Identificador"))
-        {
-            infoEspecifica = infoId;
-        }
-        else
-        {
-            infoEspecifica = "Terminal";
-        }
+        // Para declaraciones de variables, intentar obtener información específica
+        snprintf(etiqueta, sizeof(etiqueta), "Declaración\\nVariable\\nL:%d C:%d\\nHijos: %zu",
+                 nodo->linea, nodo->columna, nodo->numHijos);
     }
-    else if (nodo->numHijos >= 1)
+    else if (nodo->interpret == interpretDeclaracionConstante)
     {
-        // Podría ser declaración, asignación, operador, función
-        const char *infoDecl = obtenerInformacionDeclaracion(nodo);
-        const char *infoAsig = obtenerInformacionAsignacion(nodo);
-        const char *infoOp = obtenerInformacionOperador(nodo);
-        const char *infoFunc = obtenerInformacionFuncion(nodo);
-
-        if (strlen(infoDecl) > strlen("Declaración"))
-        {
-            infoEspecifica = infoDecl;
-        }
-        else if (strlen(infoAsig) > strlen("Asignación"))
-        {
-            infoEspecifica = infoAsig;
-        }
-        else if (nodo->numHijos <= 3 && strlen(infoOp) > strlen("Operador"))
-        {
-            infoEspecifica = infoOp;
-        }
-        else if (nodo->numHijos > 3 && strlen(infoFunc) > strlen("Función"))
-        {
-            infoEspecifica = infoFunc;
-        }
-        else
-        {
-            // Información básica
-            snprintf(etiqueta, sizeof(etiqueta), "L:%d C:%d\\nHijos: %zu",
-                     nodo->linea, nodo->columna, nodo->numHijos);
-            return etiqueta;
-        }
+        snprintf(etiqueta, sizeof(etiqueta), "Declaración\\nConstante\\nL:%d C:%d\\nHijos: %zu",
+                 nodo->linea, nodo->columna, nodo->numHijos);
     }
-
-    // Crear etiqueta completa con información específica
-    if (strlen(infoEspecifica) > 0 && strcmp(infoEspecifica, "") != 0)
+    else if (nodo->interpret == interpretAsignacionVariable)
     {
-        snprintf(etiqueta, sizeof(etiqueta), "%s\\nL:%d C:%d",
-                 infoEspecifica, nodo->linea, nodo->columna);
+        snprintf(etiqueta, sizeof(etiqueta), "Asignación\\nVariable\\nL:%d C:%d\\nHijos: %zu",
+                 nodo->linea, nodo->columna, nodo->numHijos);
+    }
+    else if (nodo->interpret == interpretFuncionExpresion)
+    {
+        snprintf(etiqueta, sizeof(etiqueta), "Función\\nDefinición\\nL:%d C:%d\\nHijos: %zu",
+                 nodo->linea, nodo->columna, nodo->numHijos);
+    }
+    else if (nodo->interpret == interpretPrimitivoExpresion)
+    {
+        // Para primitivos, intentar mostrar el tipo
+        snprintf(etiqueta, sizeof(etiqueta), "Primitivo\\nValor Literal\\nL:%d C:%d",
+                 nodo->linea, nodo->columna);
+    }
+    else if (nodo->interpret == interpretIdentificadorExpresion)
+    {
+        snprintf(etiqueta, sizeof(etiqueta), "Identificador\\nVariable/Func\\nL:%d C:%d",
+                 nodo->linea, nodo->columna);
+    }
+    else if (nodo->numHijos == 0)
+    {
+        snprintf(etiqueta, sizeof(etiqueta), "Terminal\\nHoja\\nL:%d C:%d",
+                 nodo->linea, nodo->columna);
+    }
+    else if (nodo->numHijos > 20)
+    {
+        snprintf(etiqueta, sizeof(etiqueta), "Lista\\nInstrucciones\\nL:%d C:%d\\nHijos: %zu",
+                 nodo->linea, nodo->columna, nodo->numHijos);
+    }
+    else if (nodo->numHijos == 2)
+    {
+        snprintf(etiqueta, sizeof(etiqueta), "Expresión\\nBinaria\\nL:%d C:%d\\nHijos: %zu",
+                 nodo->linea, nodo->columna, nodo->numHijos);
+    }
+    else if (nodo->numHijos == 1)
+    {
+        snprintf(etiqueta, sizeof(etiqueta), "Expresión\\nUnaria\\nL:%d C:%d\\nHijos: %zu",
+                 nodo->linea, nodo->columna, nodo->numHijos);
     }
     else
     {
-        snprintf(etiqueta, sizeof(etiqueta), "L:%d C:%d\\nHijos: %zu",
+        snprintf(etiqueta, sizeof(etiqueta), "Nodo\\nComplejo\\nL:%d C:%d\\nHijos: %zu",
                  nodo->linea, nodo->columna, nodo->numHijos);
     }
 
@@ -362,59 +390,50 @@ const char *obtenerColorNodo(AbstractExpresion *nodo)
         return "lightgray";
     }
 
-    // Colores específicos según el tipo de nodo identificado
+    // Declaraciones externas para acceso a funciones
+    extern Result interpretDeclaracionVariable(AbstractExpresion *, Context *);
+    extern Result interpretDeclaracionConstante(AbstractExpresion *, Context *);
+    extern Result interpretAsignacionVariable(AbstractExpresion *, Context *);
+    extern Result interpretFuncionExpresion(AbstractExpresion *, Context *);
+    extern Result interpretPrintExpresion(AbstractExpresion *, Context *);
+    extern Result interpretReturnExpresion(AbstractExpresion *, Context *);
+    extern Result interpretPrimitivoExpresion(AbstractExpresion *, Context *);
+    extern Result interpretIdentificadorExpresion(AbstractExpresion *, Context *);
+    extern Result interpretInstrucciones(AbstractExpresion *, Context *);
 
-    // Verificar si es una declaración
-    const char *infoDecl = obtenerInformacionDeclaracion(nodo);
-    if (strlen(infoDecl) > 0)
-    {
-        return "lightcyan"; // Azul claro para declaraciones
-    }
+    // Colores específicos por tipo de nodo
+    if (nodo->interpret == interpretDeclaracionVariable)
+        return "lightcyan"; // Azul claro para declaraciones de variables
+    else if (nodo->interpret == interpretDeclaracionConstante)
+        return "lightsteelblue"; // Azul acero para constantes
+    else if (nodo->interpret == interpretAsignacionVariable)
+        return "lightpink"; // Rosa para asignaciones
+    else if (nodo->interpret == interpretFuncionExpresion)
+        return "lightgoldenrodyellow"; // Amarillo para funciones
+    else if (nodo->interpret == interpretPrintExpresion)
+        return "lightgreen"; // Verde para print
+    else if (nodo->interpret == interpretReturnExpresion)
+        return "lightsalmon"; // Salmón para return
+    else if (nodo->interpret == interpretPrimitivoExpresion)
+        return "lightblue"; // Azul para primitivos
+    else if (nodo->interpret == interpretIdentificadorExpresion)
+        return "lightcoral"; // Coral para identificadores
+    else if (nodo->interpret == interpretInstrucciones)
+        return "lightyellow"; // Amarillo claro para listas de instrucciones
 
-    // Verificar si es una asignación
-    const char *infoAsig = obtenerInformacionAsignacion(nodo);
-    if (strlen(infoAsig) > 0)
-    {
-        return "lightpink"; // Rosa claro para asignaciones
-    }
-
-    // Verificar si es un primitivo o identificador
-    const char *infoPrim = obtenerInformacionPrimitivo(nodo);
-    const char *infoId = obtenerInformacionIdentificador(nodo);
-    if (strlen(infoPrim) > 0 || strlen(infoId) > 0)
-    {
-        return "lightblue"; // Azul para terminales
-    }
-
-    // Colores por tipo de operación según número de hijos
-    if (nodo->numHijos == 0)
-    {
+    // Colores por estructura para casos no identificados
+    else if (nodo->numHijos == 0)
         return "lightblue"; // Nodos terminales
-    }
     else if (nodo->numHijos == 1)
-    {
         return "lightseagreen"; // Operaciones unarias
-    }
     else if (nodo->numHijos == 2)
-    {
         return "lightsalmon"; // Operaciones binarias
-    }
     else if (nodo->numHijos == 3)
-    {
         return "lightviolet"; // Operaciones ternarias
-    }
-    else if (nodo->numHijos > 15)
-    {
-        return "lightgoldenrodyellow"; // Lista de instrucciones
-    }
-    else if (nodo->numHijos > 5)
-    {
-        return "lightkhaki"; // Bloques
-    }
+    else if (nodo->numHijos > 10)
+        return "wheat"; // Nodos complejos
     else
-    {
-        return "thistle"; // Operaciones n-arias
-    }
+        return "lightgray"; // Por defecto
 }
 
 /**
