@@ -1,4 +1,0 @@
-public static void main() {
-    int numero = 5;
-    System.out.println("Hola mundo");
-}
