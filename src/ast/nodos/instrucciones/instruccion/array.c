@@ -4,6 +4,7 @@
 #include "context/result.h"
 #include "context/error_report.h"
 #include "array.h"
+#include "declaracion.h"
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -468,6 +469,24 @@ AbstractExpresion *nuevoDeclaracionArrayExpresion(TipoDato tipoArray, char *iden
     nodo->columna = columna;
 
     agregarHijo((AbstractExpresion *)nodo, expresion);
+
+    return (AbstractExpresion *)nodo;
+}
+
+// Función para declarar arrays como parámetros de función
+AbstractExpresion *nuevoDeclaracionArrayParametro(TipoDato tipoElemento, char *identificador, int linea, int columna)
+{
+    // Para parámetros de array, usamos la misma estructura que DeclaracionVariable
+    // pero marcándola como ARRAY en lugar del tipo primitivo
+    DeclaracionVariable *nodo = malloc(sizeof(DeclaracionVariable));
+    if (!nodo)
+        return NULL;
+
+    buildAbstractExpresion(&nodo->base, interpretDeclaracionVariable);
+    nodo->tipo = ARRAY; // Marcar como tipo ARRAY
+    nodo->nombre = strdup(identificador);
+    nodo->base.linea = linea;
+    nodo->base.columna = columna;
 
     return (AbstractExpresion *)nodo;
 }

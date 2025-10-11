@@ -114,6 +114,7 @@ AbstractExpresion *nuevoForEachExpresion(TipoDato tipo, char *variable, Abstract
 AbstractExpresion *nuevoDeclaracionArrayNew(TipoDato tipoArray, char *identificador, TipoDato tipoElemento, AbstractExpresion *tamaño, int linea, int columna);
 AbstractExpresion *nuevoDeclaracionArrayInit(TipoDato tipoArray, char *identificador, AbstractExpresion *listaElementos, int linea, int columna);
 AbstractExpresion *nuevoDeclaracionArrayExpresion(TipoDato tipoArray, char *identificador, AbstractExpresion *expresion, int linea, int columna);
+AbstractExpresion *nuevoDeclaracionArrayParametro(TipoDato tipoElemento, char *identificador, int linea, int columna);
 AbstractExpresion *nuevoAccesoArrayExpresion(char *identificador, AbstractExpresion *indice, int linea, int columna);
 AbstractExpresion *nuevoAsignacionArrayExpresion(char *identificador, AbstractExpresion *indice, AbstractExpresion *valor, int linea, int columna);
 AbstractExpresion *nuevoListaElementos();

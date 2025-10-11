@@ -185,6 +185,7 @@ bloque: '{' lSentencia '}' { $$ =  $2; }
 
 declaracion_var: tipoPrimitivo TOKEN_IDENTIFIER { $$ = nuevoDeclaracionVariables($1, $2, NULL, @2.first_line, @2.first_column); }
     | tipoPrimitivo TOKEN_IDENTIFIER '=' expr { $$ = nuevoDeclaracionVariables($1, $2, $4, @2.first_line, @2.first_column); }
+    | tipoArray TOKEN_IDENTIFIER { $$ = nuevoDeclaracionArrayParametro($1, $2, @2.first_line, @2.first_column); }
     ;
 
 declaracion_const: TOKEN_FINAL tipoPrimitivo TOKEN_IDENTIFIER '=' expr { $$ = nuevoDeclaracionConstante($2, $3, $5, @3.first_line, @3.first_column); }
