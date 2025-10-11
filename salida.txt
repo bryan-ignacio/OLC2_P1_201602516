@@ -117,4 +117,46 @@ Fila 3:
   Columna 2
   Break en columna 3
 
+--- DEMOSTRACION DE CONTINUE ---
+Procesando solo notas pares (con continue):
+Saltando Ana (nota impar: 85)
+Procesando Luis (nota par: 92)
+Procesando Maria (nota par: 78)
+Saltando Carlos (nota impar: 95)
+Procesando Sofia (nota par: 88)
+
+Conteo con continue (saltando multiplos de 3):
+Numero procesado: 1
+Numero procesado: 2
+Saltando multiplo de 3: 3
+Numero procesado: 4
+Numero procesado: 5
+Saltando multiplo de 3: 6
+Numero procesado: 7
+Numero procesado: 8
+Saltando multiplo de 3: 9
+Numero procesado: 10
+
+Matriz con continue anidado:
+Celda [1,1]
+Celda [1,3]
+Celda [1,4]
+Celda [2,1]
+Celda [2,3]
+Celda [2,4]
+Celda [3,1]
+Celda [3,3]
+Celda [3,4]
+
+Procesamiento selectivo con continue:
+Procesando Ana (cumple criterios: nota=85, edad=20)
+Procesando Luis (cumple criterios: nota=92, edad=19)
+Saltando Maria (no cumple criterios)
+Procesando Carlos (cumple criterios: nota=95, edad=20)
+Saltando Sofia (no cumple criterios)
+
+--- RESUMEN FINAL ---
+Mejor estudiante: Carlos con 95
+Promedio general: 87.6
+
 === FIN DEL SISTEMA ===

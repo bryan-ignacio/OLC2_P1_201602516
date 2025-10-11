@@ -349,7 +349,7 @@ public static void main() {
         System.out.println("Procesando posicion: " + String.valueOf(posicion));
         posicion++;
     }
-    
+
     // Break en for anidado
     System.out.println("\nBreak en for anidado:");
     for (int i = 1; i <= 3; i++) {
@@ -362,5 +362,130 @@ public static void main() {
             System.out.println("  Columna " + String.valueOf(j));
         }
     }
+
+    // CONTINUE
+    System.out.println("\n--- DEMOSTRACION DE CONTINUE ---");
+    
+    // Continue en for
+    System.out.println("Procesando solo notas pares (con continue):");
+    for (int i = 1; i <= 5; i++) {
+        int notaActual = 0;
+        String nombreActual = "";
+        
+        if (i == 1) {
+            notaActual = nota1;
+            nombreActual = estudiante1;
+        } else if (i == 2) {
+            notaActual = nota2;
+            nombreActual = estudiante2;
+        } else if (i == 3) {
+            notaActual = nota3;
+            nombreActual = estudiante3;
+        } else if (i == 4) {
+            notaActual = nota4;
+            nombreActual = estudiante4;
+        } else if (i == 5) {
+            notaActual = nota5;
+            nombreActual = estudiante5;
+        }
+        
+        if (notaActual % 2 != 0) {
+            System.out.println("Saltando " + nombreActual + " (nota impar: " + String.valueOf(notaActual) + ")");
+            continue; // Saltar estudiantes con notas impares
+        }
+        
+        System.out.println("Procesando " + nombreActual + " (nota par: " + String.valueOf(notaActual) + ")");
+    }
+
+    // Continue en while
+    System.out.println("\nConteo con continue (saltando multiplos de 3):");
+    int numero = 0;
+    while (numero < 10) {
+        numero++;
+        if (numero % 3 == 0) {
+            System.out.println("Saltando multiplo de 3: " + String.valueOf(numero));
+            continue;
+        }
+        System.out.println("Numero procesado: " + String.valueOf(numero));
+    }
+
+    // Continue en for anidado
+    System.out.println("\nMatriz con continue anidado:");
+    for (int fila = 1; fila <= 3; fila++) {
+        for (int columna = 1; columna <= 4; columna++) {
+            if (columna == 2) {
+                continue; // Saltar columna 2
+            }
+            System.out.println("Celda [" + String.valueOf(fila) + "," + String.valueOf(columna) + "]");
+        }
+    }
+
+    // Continue con condicion compleja
+    System.out.println("\nProcesamiento selectivo con continue:");
+    for (int pos = 1; pos <= 5; pos++) {
+        int notaPos = 0;
+        int edadPos = 0;
+        String nombrePos = "";
+        
+        if (pos == 1) {
+            notaPos = nota1;
+            edadPos = edad1;
+            nombrePos = estudiante1;
+        } else if (pos == 2) {
+            notaPos = nota2;
+            edadPos = edad2;
+            nombrePos = estudiante2;
+        } else if (pos == 3) {
+            notaPos = nota3;
+            edadPos = edad3;
+            nombrePos = estudiante3;
+        } else if (pos == 4) {
+            notaPos = nota4;
+            edadPos = edad4;
+            nombrePos = estudiante4;
+        } else if (pos == 5) {
+            notaPos = nota5;
+            edadPos = edad5;
+            nombrePos = estudiante5;
+        }
+        
+        if (notaPos < 80 || edadPos > 21) {
+            System.out.println("Saltando " + nombrePos + " (no cumple criterios)");
+            continue;
+        }
+        
+        System.out.println("Procesando " + nombrePos + " (cumple criterios: nota=" + String.valueOf(notaPos) + ", edad=" + String.valueOf(edadPos) + ")");
+    }
+
+    // RESUMEN FINAL
+    System.out.println("\n--- RESUMEN FINAL ---");
+    
+    // Calcular estadisticas finales usando variables individuales
+    int notaMaxima = nota1;
+    String estudianteMejor = estudiante1;
+    
+    if (nota2 > notaMaxima) {
+        notaMaxima = nota2;
+        estudianteMejor = estudiante2;
+    }
+    if (nota3 > notaMaxima) {
+        notaMaxima = nota3;
+        estudianteMejor = estudiante3;
+    }
+    if (nota4 > notaMaxima) {
+        notaMaxima = nota4;
+        estudianteMejor = estudiante4;
+    }
+    if (nota5 > notaMaxima) {
+        notaMaxima = nota5;
+        estudianteMejor = estudiante5;
+    }
+    
+    int sumaTotal = nota1 + nota2 + nota3 + nota4 + nota5;
+    double promedioFinal = sumaTotal / 5.0;
+    
+    System.out.println("Mejor estudiante: " + estudianteMejor + " con " + String.valueOf(notaMaxima));
+    System.out.println("Promedio general: " + String.valueOf(promedioFinal));
+    
     System.out.println("\n=== FIN DEL SISTEMA ===");
 }
