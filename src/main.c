@@ -23,6 +23,7 @@ AbstractExpresion *ast_root = NULL;
 Archivo principal del proyecto.
 Es el punto de entrada del programa.
  */
+// Función principal del programa.
 int main(int argc, char **argv)
 {
     // Manejo de argumentos para entrada desde archivo.
