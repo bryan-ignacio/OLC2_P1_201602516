@@ -1,5 +1,0 @@
-
-Reporte de errores:
----------------------------------------------
-Ambito: 531565995 | Linea: 16, Columna: 5 | [SEMANTICO] Error: No se puede reasignar la constante 'CONSTANTE_MAXIMA'. Las constantes son inmutables después de su inicialización. Considera usar una variable en lugar de una constante si necesitas modificar el valor.
----------------------------------------------
