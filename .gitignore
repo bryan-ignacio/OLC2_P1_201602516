@@ -6,7 +6,5 @@ salida.txt
 tabla_simbolos.html
 reporte_ast_detallado.txt
 salida_arm64_static
-salida_arm64.o
-salida_arm64.s
 start.o
 start.S

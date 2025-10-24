@@ -4,6 +4,38 @@
 #include <string.h>
 #include <limits.h>
 
+// Para identificar tipos de expresiones y primitivos
+#include "ast/nodos/expresiones/expresiones.h"
+#include "context/result.h"
+// Necesario para manejar declaraciones, identificadores y funciones en codegen
+#include "ast/nodos/instrucciones/instruccion/declaracion.h"
+#include "ast/nodos/instrucciones/instruccion/funcion.h"
+#include "ast/nodos/expresiones/terminales/identificadores.h"
+#include "ast/nodos/expresiones/terminales/primitivos.h"
+
+// Declaraciones externas de las tablas de operaciones (definidas en los módulos aritméticos)
+extern Operacion tablaOperacionesSuma[TIPO_COUNT][TIPO_COUNT];
+extern Operacion tablaOperacionesResta[TIPO_COUNT][TIPO_COUNT];
+extern Operacion tablaOperacionesMultiplicacion[TIPO_COUNT][TIPO_COUNT];
+extern Operacion tablaOperacionesDivision[TIPO_COUNT][TIPO_COUNT];
+
+// Debido a que el header de primitivos comparte un include-guard no ideal,
+// declaramos localmente la estructura mínima necesaria para inspeccionar
+// primitivos en el codegen.
+typedef struct
+{
+    AbstractExpresion base;
+    TipoDato tipo;
+    char *valor;
+} PrimitivoExpresion;
+
+// Prototipo de la función de interpretación de primitivos (existente en otro módulo)
+extern Result interpretPrimitivoExpresion(AbstractExpresion *, Context *);
+
+// Emitor recursivo de expresiones (soporta enteros y +-*/ de forma elemental)
+// Forward declaration; implementation inserted later (after LocalVar definition)
+static void emit_expression(Arm64Emitter *e, AbstractExpresion *node, const char *target_reg);
+
 // Simple comment extraction and emission utility.
 // We support two styles: line comments starting with '//' and block comments '/* ... */'.
 typedef enum
@@ -367,6 +399,245 @@ void arm64_emit_block_comment(Arm64Emitter *emitter, const char *text)
     fprintf(emitter->out, "/* %s */\n", text);
 }
 
+// Emitir mov <reg>, #<imm>
+void arm64_emit_mov_imm(Arm64Emitter *emitter, const char *reg, long imm)
+{
+    if (!emitter || !emitter->out || !reg)
+        return;
+    fprintf(emitter->out, "    mov %s, #%ld\n", reg, imm);
+}
+
+// Emitir adr <reg>, <label>
+void arm64_emit_adr_label(Arm64Emitter *emitter, const char *reg, const char *label)
+{
+    if (!emitter || !emitter->out || !reg || !label)
+        return;
+    fprintf(emitter->out, "    adr %s, %s\n", reg, label);
+}
+
+// Define una etiqueta y una cadena asociada (ej: para probar ADR)
+void arm64_emit_label_string(Arm64Emitter *emitter, const char *label, const char *text)
+{
+    if (!emitter || !emitter->out || !label || !text)
+        return;
+    fprintf(emitter->out, "\n%s:\n", label);
+    // .asciz en el segmento text es aceptado por GNU as para datos embebidos
+    fprintf(emitter->out, "    .asciz \"%s\"\n", text);
+}
+
+// Helpers para cargar valores de coma flotante desde una etiqueta.
+// Usan un registro temporal entero (x12) para almacenar la dirección via ADR,
+// luego cargan desde memoria al registro de coma flotante (s/d).
+// Nota: esto es una estrategia simple para ejemplos; en generación real se
+// debería usar registers alloc y ADRP+ADD si la etiqueta está lejos.
+void arm64_emit_ldr_s_from_label(Arm64Emitter *emitter, const char *sreg, const char *label)
+{
+    if (!emitter || !emitter->out || !sreg || !label)
+        return;
+    // usar x12 como registro temporal fijo
+    fprintf(emitter->out, "    // cargar float desde etiqueta %s en %s\n", label, sreg);
+    fprintf(emitter->out, "    adr x12, %s\n", label);
+    fprintf(emitter->out, "    ldr %s, [x12]\n", sreg);
+}
+
+void arm64_emit_ldr_d_from_label(Arm64Emitter *emitter, const char *dreg, const char *label)
+{
+    if (!emitter || !emitter->out || !dreg || !label)
+        return;
+    fprintf(emitter->out, "    // cargar double desde etiqueta %s en %s\n", label, dreg);
+    fprintf(emitter->out, "    adr x12, %s\n", label);
+    fprintf(emitter->out, "    ldr %s, [x12]\n", dreg);
+}
+
+// Memoria helpers
+void arm64_emit_str_reg(Arm64Emitter *emitter, const char *src_reg, const char *addr_reg)
+{
+    if (!emitter || !emitter->out || !src_reg || !addr_reg)
+        return;
+    fprintf(emitter->out, "    // store: %s -> [%s]\n", src_reg, addr_reg);
+    fprintf(emitter->out, "    str %s, [%s]\n", src_reg, addr_reg);
+}
+
+void arm64_emit_ldr_reg(Arm64Emitter *emitter, const char *dst_reg, const char *addr_reg)
+{
+    if (!emitter || !emitter->out || !dst_reg || !addr_reg)
+        return;
+    fprintf(emitter->out, "    // load: [%s] -> %s\n", addr_reg, dst_reg);
+    fprintf(emitter->out, "    ldr %s, [%s]\n", dst_reg, addr_reg);
+}
+
+void arm64_emit_str_s(Arm64Emitter *emitter, const char *sreg, const char *addr_reg)
+{
+    if (!emitter || !emitter->out || !sreg || !addr_reg)
+        return;
+    fprintf(emitter->out, "    // store float: %s -> [%s]\n", sreg, addr_reg);
+    fprintf(emitter->out, "    str %s, [%s]\n", sreg, addr_reg);
+}
+
+void arm64_emit_ldr_s(Arm64Emitter *emitter, const char *sreg, const char *addr_reg)
+{
+    if (!emitter || !emitter->out || !sreg || !addr_reg)
+        return;
+    fprintf(emitter->out, "    // load float: [%s] -> %s\n", addr_reg, sreg);
+    fprintf(emitter->out, "    ldr %s, [%s]\n", sreg, addr_reg);
+}
+
+void arm64_emit_str_d(Arm64Emitter *emitter, const char *dreg, const char *addr_reg)
+{
+    if (!emitter || !emitter->out || !dreg || !addr_reg)
+        return;
+    fprintf(emitter->out, "    // store double: %s -> [%s]\n", dreg, addr_reg);
+    fprintf(emitter->out, "    str %s, [%s]\n", dreg, addr_reg);
+}
+
+void arm64_emit_ldr_d(Arm64Emitter *emitter, const char *dreg, const char *addr_reg)
+{
+    if (!emitter || !emitter->out || !dreg || !addr_reg)
+        return;
+    fprintf(emitter->out, "    // load double: [%s] -> %s\n", addr_reg, dreg);
+    fprintf(emitter->out, "    ldr %s, [%s]\n", dreg, addr_reg);
+}
+
+// Definir una etiqueta de código
+void arm64_emit_code_label(Arm64Emitter *emitter, const char *label)
+{
+    if (!emitter || !emitter->out || !label)
+        return;
+    fprintf(emitter->out, "\n%s:\n", label);
+}
+
+// Saltos
+void arm64_emit_b(Arm64Emitter *emitter, const char *label)
+{
+    if (!emitter || !emitter->out || !label)
+        return;
+    fprintf(emitter->out, "    b %s\n", label);
+}
+
+// Branch with link (call-like): bl <label>
+void arm64_emit_bl(Arm64Emitter *emitter, const char *label)
+{
+    if (!emitter || !emitter->out || !label)
+        return;
+    fprintf(emitter->out, "    bl %s\n", label);
+}
+
+// Branch to register: br <reg>
+void arm64_emit_br(Arm64Emitter *emitter, const char *reg)
+{
+    if (!emitter || !emitter->out || !reg)
+        return;
+    fprintf(emitter->out, "    br %s\n", reg);
+}
+
+void arm64_emit_bne(Arm64Emitter *emitter, const char *label)
+{
+    if (!emitter || !emitter->out || !label)
+        return;
+    arm64_emit_b_cond(emitter, "ne", label);
+}
+
+void arm64_emit_beq(Arm64Emitter *emitter, const char *label)
+{
+    if (!emitter || !emitter->out || !label)
+        return;
+    arm64_emit_b_cond(emitter, "eq", label);
+}
+
+void arm64_emit_blt(Arm64Emitter *emitter, const char *label)
+{
+    arm64_emit_b_cond(emitter, "lt", label);
+}
+
+void arm64_emit_bgt(Arm64Emitter *emitter, const char *label)
+{
+    arm64_emit_b_cond(emitter, "gt", label);
+}
+
+void arm64_emit_ble(Arm64Emitter *emitter, const char *label)
+{
+    arm64_emit_b_cond(emitter, "le", label);
+}
+
+void arm64_emit_bge(Arm64Emitter *emitter, const char *label)
+{
+    arm64_emit_b_cond(emitter, "ge", label);
+}
+
+void arm64_emit_b_cond(Arm64Emitter *emitter, const char *cond, const char *label)
+{
+    if (!emitter || !emitter->out || !cond || !label)
+        return;
+    // Emitir en la forma 'b.cond label' (ej: b.eq L1) para seguir ejemplos didácticos
+    fprintf(emitter->out, "    b.%s %s\n", cond, label);
+}
+
+// Comparación y add inmediato
+void arm64_emit_cmp_reg_reg(Arm64Emitter *emitter, const char *reg1, const char *reg2)
+{
+    if (!emitter || !emitter->out || !reg1 || !reg2)
+        return;
+    fprintf(emitter->out, "    cmp %s, %s\n", reg1, reg2);
+}
+
+void arm64_emit_add_imm(Arm64Emitter *emitter, const char *dst_reg, const char *src_reg, long imm)
+{
+    if (!emitter || !emitter->out || !dst_reg || !src_reg)
+        return;
+    fprintf(emitter->out, "    add %s, %s, #%ld\n", dst_reg, src_reg, imm);
+}
+
+// Operadores aritméticos (enteros)
+void arm64_emit_add_reg_reg(Arm64Emitter *emitter, const char *dst_reg, const char *lhs_reg, const char *rhs_reg)
+{
+    if (!emitter || !emitter->out || !dst_reg || !lhs_reg || !rhs_reg)
+        return;
+    fprintf(emitter->out, "    add %s, %s, %s\n", dst_reg, lhs_reg, rhs_reg);
+}
+
+void arm64_emit_sub_reg_reg(Arm64Emitter *emitter, const char *dst_reg, const char *lhs_reg, const char *rhs_reg)
+{
+    if (!emitter || !emitter->out || !dst_reg || !lhs_reg || !rhs_reg)
+        return;
+    fprintf(emitter->out, "    sub %s, %s, %s\n", dst_reg, lhs_reg, rhs_reg);
+}
+
+void arm64_emit_mul_reg_reg(Arm64Emitter *emitter, const char *dst_reg, const char *lhs_reg, const char *rhs_reg)
+{
+    if (!emitter || !emitter->out || !dst_reg || !lhs_reg || !rhs_reg)
+        return;
+    fprintf(emitter->out, "    mul %s, %s, %s\n", dst_reg, lhs_reg, rhs_reg);
+}
+
+void arm64_emit_sdiv_reg_reg(Arm64Emitter *emitter, const char *dst_reg, const char *lhs_reg, const char *rhs_reg)
+{
+    if (!emitter || !emitter->out || !dst_reg || !lhs_reg || !rhs_reg)
+        return;
+    fprintf(emitter->out, "    sdiv %s, %s, %s\n", dst_reg, lhs_reg, rhs_reg);
+}
+
+void arm64_emit_udiv_reg_reg(Arm64Emitter *emitter, const char *dst_reg, const char *lhs_reg, const char *rhs_reg)
+{
+    if (!emitter || !emitter->out || !dst_reg || !lhs_reg || !rhs_reg)
+        return;
+    fprintf(emitter->out, "    udiv %s, %s, %s\n", dst_reg, lhs_reg, rhs_reg);
+}
+
+// Incremento / decremento
+void arm64_emit_incr(Arm64Emitter *emitter, const char *reg)
+{
+    if (!emitter || !emitter->out || !reg)
+        return;
+    fprintf(emitter->out, "    add %s, %s, #1\n", reg, reg);
+}
+
+void arm64_emit_decr(Arm64Emitter *emitter, const char *reg)
+{
+    if (!emitter || !emitter->out || !reg)
+        return;
+    fprintf(emitter->out, "    sub %s, %s, #1\n", reg, reg);
+}
+
 // Emisión de cabecera mínima para un archivo ARM64 compatible con GNU assembler
 static void emit_arm64_header(Arm64Emitter *e)
 {
@@ -375,6 +646,421 @@ static void emit_arm64_header(Arm64Emitter *e)
     fprintf(e->out, "// Archivo generado por el generador ARM64 (esqueleto)\n");
     fprintf(e->out, ".text\n");
     fprintf(e->out, ".global main\n\n");
+}
+
+// --- Helpers para tamaño de tipos y manejo de variables locales (stack) ---
+static size_t size_of_tipo(TipoDato tipo)
+{
+    switch (tipo)
+    {
+    case CHAR:
+        return sizeof(char);
+    case INT:
+        return sizeof(int);
+    case FLOAT:
+        return sizeof(float);
+    case DOUBLE:
+        return sizeof(double);
+    case BOOLEAN:
+        return sizeof(bool);
+    case STRING:
+        return sizeof(char *);
+    default:
+        return sizeof(void *);
+    }
+}
+
+// Estructura simple para mapear variables locales a offsets en el frame
+typedef struct
+{
+    char *nombre;
+    TipoDato tipo;
+    int offset; // offset positivo desde x29 (fp): address = x29 - offset
+} LocalVar;
+
+// Alinea 'v' a múltiplos de 'a'
+static int align_to(int v, int a)
+{
+    return ((v + a - 1) / a) * a;
+}
+
+// Escanea un subtree (funcion->bloque) y recopila todas las declaraciones de variables
+// asignándoles offsets sucesivos. Retorna frame_size calculado (ya alineado a 16).
+static int collect_locals_and_offsets(AbstractExpresion *node, LocalVar **out_vars, int *out_count)
+{
+    if (!node || !out_vars || !out_count)
+        return 0;
+
+    LocalVar *vars = NULL;
+    int count = 0;
+    int cap = 0;
+    int offset = 0; // acumulador de tamaño
+
+    // DFS stack
+    AbstractExpresion **stack = NULL;
+    size_t stack_cap = 0, stack_sz = 0;
+
+    stack_cap = 128;
+    stack = malloc(stack_cap * sizeof(AbstractExpresion *));
+    if (!stack)
+        return 0;
+
+    stack[stack_sz++] = node;
+
+    while (stack_sz > 0)
+    {
+        AbstractExpresion *n = stack[--stack_sz];
+        if (!n)
+            continue;
+
+        // Si es una declaración de variable, registrarla
+        if (n->interpret == interpretDeclaracionVariable)
+        {
+            DeclaracionVariable *dv = (DeclaracionVariable *)n;
+            size_t sz = size_of_tipo(dv->tipo);
+            // alinear cada variable a 8 bytes para simplicidad
+            offset = align_to(offset, 8);
+            offset += (int)align_to((int)sz, 8);
+
+            if (count + 1 > cap)
+            {
+                cap = cap ? cap * 2 : 16;
+                LocalVar *tmp = realloc(vars, cap * sizeof(LocalVar));
+                if (!tmp)
+                {
+                    free(vars);
+                    free(stack);
+                    return 0;
+                }
+                vars = tmp;
+            }
+
+            vars[count].nombre = dv->nombre;
+            vars[count].tipo = dv->tipo;
+            vars[count].offset = offset;
+            count++;
+        }
+
+        // push children
+        if (n->hijos && n->numHijos > 0)
+        {
+            for (size_t i = 0; i < n->numHijos; ++i)
+            {
+                if (stack_sz + 1 > stack_cap)
+                {
+                    size_t newcap = stack_cap * 2;
+                    AbstractExpresion **tmp = realloc(stack, newcap * sizeof(AbstractExpresion *));
+                    if (!tmp)
+                    {
+                        free(vars);
+                        free(stack);
+                        return 0;
+                    }
+                    stack = tmp;
+                    stack_cap = newcap;
+                }
+                stack[stack_sz++] = n->hijos[i];
+            }
+        }
+    }
+
+    free(stack);
+
+    // 'offset' contiene la suma de tamaños (ya alineados a 8). Alinear frame a 16.
+    int frame_size = align_to(offset, 16);
+
+    *out_vars = vars;
+    *out_count = count;
+    return frame_size;
+}
+
+// Helper: buscar variable local por nombre
+static LocalVar *find_local(LocalVar *vars, int count, const char *nombre)
+{
+    if (!vars || !nombre)
+        return NULL;
+    for (int i = 0; i < count; ++i)
+    {
+        if (vars[i].nombre && strcmp(vars[i].nombre, nombre) == 0)
+            return &vars[i];
+    }
+    return NULL;
+}
+
+// Contexto global temporal usado durante la emisión de una función
+static LocalVar *g_current_locals = NULL;
+static int g_current_local_count = 0;
+
+// Emitir prologue y epilogue sencillos
+static void arm64_emit_function_prologue(Arm64Emitter *emitter, int frame_size)
+{
+    if (!emitter || !emitter->out)
+        return;
+    // push fp (x29) and lr (x30)
+    fprintf(emitter->out, "    stp x29, x30, [sp, #-16]!\n");
+    fprintf(emitter->out, "    mov x29, sp\n");
+    if (frame_size > 0)
+    {
+        fprintf(emitter->out, "    sub sp, sp, #%d\n", frame_size);
+    }
+}
+
+static void arm64_emit_function_epilogue(Arm64Emitter *emitter, int frame_size)
+{
+    if (!emitter || !emitter->out)
+        return;
+    if (frame_size > 0)
+    {
+        fprintf(emitter->out, "    add sp, sp, #%d\n", frame_size);
+    }
+    fprintf(emitter->out, "    ldp x29, x30, [sp], #16\n");
+    fprintf(emitter->out, "    ret\n");
+}
+
+// Emitir código para una asignación o declaración que almacena en una variable local
+static void emit_store_to_local(Arm64Emitter *e, const char *src_reg, LocalVar *local)
+{
+    if (!e || !src_reg || !local)
+        return;
+    // usar x12 como registro temporal para la dirección
+    // dirección = x29 - offset
+    fprintf(e->out, "    // almacenar %s en variable local %s (offset=%d)\n", src_reg, local->nombre, local->offset);
+    fprintf(e->out, "    sub x12, x29, #%d\n", local->offset);
+    // elegir la instrucción según el tipo
+    switch (local->tipo)
+    {
+    case FLOAT:
+        fprintf(e->out, "    str %s, [x12]\n", src_reg); // s-reg expected (caller ensures)
+        break;
+    case DOUBLE:
+        fprintf(e->out, "    str %s, [x12]\n", src_reg); // d-reg expected
+        break;
+    default:
+        fprintf(e->out, "    str %s, [x12]\n", src_reg);
+        break;
+    }
+}
+
+// Emitir carga desde variable local al registro destino
+static void emit_load_from_local(Arm64Emitter *e, const char *dst_reg, LocalVar *local)
+{
+    if (!e || !dst_reg || !local)
+        return;
+    fprintf(e->out, "    // cargar variable local %s (offset=%d) en %s\n", local->nombre, local->offset, dst_reg);
+    fprintf(e->out, "    sub x12, x29, #%d\n", local->offset);
+    switch (local->tipo)
+    {
+    case FLOAT:
+        fprintf(e->out, "    ldr %s, [x12]\n", dst_reg);
+        break;
+    case DOUBLE:
+        fprintf(e->out, "    ldr %s, [x12]\n", dst_reg);
+        break;
+    default:
+        fprintf(e->out, "    ldr %s, [x12]\n", dst_reg);
+        break;
+    }
+}
+
+// Implementation of emit_expression (moved here so LocalVar is defined)
+static void emit_expression(Arm64Emitter *e, AbstractExpresion *node, const char *target_reg)
+{
+    if (!e || !node || !target_reg)
+        return;
+
+    // Caso primitivo (enteros)
+    if (node->interpret == interpretPrimitivoExpresion)
+    {
+        PrimitivoExpresion *p = (PrimitivoExpresion *)node;
+        if (p->tipo == INT && p->valor)
+        {
+            long v = atol(p->valor);
+            arm64_emit_comment(e, "cargar literal %ld en %s", v, target_reg);
+            arm64_emit_mov_imm(e, target_reg, v);
+        }
+        else
+        {
+            arm64_emit_comment(e, "primitivo no soportado para codegen (solo INT): tipo=%d", p->tipo);
+        }
+        return;
+    }
+
+    // Identificador: cargar desde variable local si existe
+    if (node->interpret == interpretIdentificadorExpresion)
+    {
+        IdentificadorExpresion *id = (IdentificadorExpresion *)node;
+        if (g_current_locals && g_current_local_count > 0)
+        {
+            LocalVar *lv = find_local(g_current_locals, g_current_local_count, id->nombre);
+            if (lv)
+            {
+                arm64_emit_comment(e, "cargar identificador %s en %s", id->nombre, target_reg);
+                emit_load_from_local(e, target_reg, lv);
+                return;
+            }
+        }
+        arm64_emit_comment(e, "identificador %s no encontrado en locals (fallback no implementado)", id->nombre);
+        return;
+    }
+
+    // Expresiones de lenguaje (operaciones aritméticas usan la misma estructura)
+    if (node->interpret == interpretExpresionLenguaje)
+    {
+        ExpresionLenguaje *ex = (ExpresionLenguaje *)node;
+
+        // Detectar qué tabla de operaciones corresponde (suma/resta/mul/div)
+        if (ex->tablaOperaciones == &tablaOperacionesSuma)
+        {
+            // evaluar lhs -> target_reg, rhs -> x1
+            emit_expression(e, node->hijos[0], target_reg);
+            emit_expression(e, node->hijos[1], "x1");
+            arm64_emit_comment(e, "emitir suma %s = %s + x1", target_reg, target_reg);
+            arm64_emit_add_reg_reg(e, target_reg, target_reg, "x1");
+            return;
+        }
+        else if (ex->tablaOperaciones == &tablaOperacionesResta)
+        {
+            emit_expression(e, node->hijos[0], target_reg);
+            emit_expression(e, node->hijos[1], "x1");
+            arm64_emit_comment(e, "emitir resta %s = %s - x1", target_reg, target_reg);
+            arm64_emit_sub_reg_reg(e, target_reg, target_reg, "x1");
+            return;
+        }
+        else if (ex->tablaOperaciones == &tablaOperacionesMultiplicacion)
+        {
+            emit_expression(e, node->hijos[0], target_reg);
+            emit_expression(e, node->hijos[1], "x1");
+            arm64_emit_comment(e, "emitir multiplicación %s = %s * x1", target_reg, target_reg);
+            arm64_emit_mul_reg_reg(e, target_reg, target_reg, "x1");
+            return;
+        }
+        else if (ex->tablaOperaciones == &tablaOperacionesDivision)
+        {
+            emit_expression(e, node->hijos[0], target_reg);
+            emit_expression(e, node->hijos[1], "x1");
+            arm64_emit_comment(e, "emitir división %s = %s / x1 (signed)", target_reg, target_reg);
+            arm64_emit_sdiv_reg_reg(e, target_reg, target_reg, "x1");
+            return;
+        }
+
+        // Por defecto, intentar evaluar el primer hijo
+        if (node->numHijos > 0 && node->hijos[0])
+        {
+            emit_expression(e, node->hijos[0], target_reg);
+        }
+        return;
+    }
+
+    // Otros nodos: intentar evaluar primer hijo
+    if (node->numHijos > 0 && node->hijos[0])
+        emit_expression(e, node->hijos[0], target_reg);
+}
+
+// Emitir código para una instrucción/expresión dentro de una función
+static void emit_statement(Arm64Emitter *e, AbstractExpresion *stmt, LocalVar *locals, int local_count)
+{
+    if (!e || !stmt)
+        return;
+
+    // Declaración de variable: si tiene inicializador, evaluar y almacenar
+    if (stmt->interpret == interpretDeclaracionVariable)
+    {
+        DeclaracionVariable *dv = (DeclaracionVariable *)stmt;
+        arm64_emit_comment(e, "declaracion variable %s (tipo=%d)", dv->nombre, dv->tipo);
+        if (stmt->numHijos > 0 && stmt->hijos[0])
+        {
+            // evaluar inicializador en x0 (o s0/d0 según tipo). Para simplicidad usamos x0 for ints
+            emit_expression(e, stmt->hijos[0], "x0");
+            LocalVar *lv = find_local(locals, local_count, dv->nombre);
+            if (lv)
+            {
+                emit_store_to_local(e, "x0", lv);
+            }
+            else
+            {
+                arm64_emit_comment(e, "Advertencia: variable local %s no encontrada en la tabla de offsets", dv->nombre);
+            }
+        }
+        return;
+    }
+
+    // Asignación simple: buscar variable y almacenar
+    if (stmt->interpret == interpretAsignacionVariable)
+    {
+        AsignacionVariable *av = (AsignacionVariable *)stmt;
+        arm64_emit_comment(e, "asignacion a %s", av->nombre);
+        if (stmt->numHijos > 0 && stmt->hijos[0])
+        {
+            emit_expression(e, stmt->hijos[0], "x0");
+            LocalVar *lv = find_local(locals, local_count, av->nombre);
+            if (lv)
+            {
+                emit_store_to_local(e, "x0", lv);
+            }
+            else
+            {
+                // por ahora no manejamos globals en stack-mode; emitir comentario
+                arm64_emit_comment(e, "Asignacion a symbol global o no encontrada: %s (no implementado)", av->nombre);
+            }
+        }
+        return;
+    }
+
+    // Expression statements: evaluate expression and ignore result
+    // (ej. llamada a función) - delegar a emit_expression
+    emit_expression(e, stmt, "x0");
+}
+
+// Emitir una funcion completa: prologue, cuerpo y epilogue
+static void emit_function_node(Arm64Emitter *e, FuncionExpresion *fnode)
+{
+    if (!e || !fnode)
+        return;
+
+    // Obtener bloque (suponemos último hijo es el bloque)
+    AbstractExpresion *bloque = NULL;
+    if (fnode->base.numHijos > 0)
+        bloque = fnode->base.hijos[fnode->base.numHijos - 1];
+
+    // Collect locals
+    LocalVar *locals = NULL;
+    int local_count = 0;
+    int frame_size = 0;
+    if (bloque)
+        frame_size = collect_locals_and_offsets(bloque, &locals, &local_count);
+
+    // Emitir etiqueta de función
+    if (fnode->nombre)
+        fprintf(e->out, "\n%s:\n", fnode->nombre);
+    else
+        fprintf(e->out, "\nfunc_%p:\n", (void *)fnode);
+
+    // prologue
+    arm64_emit_function_prologue(e, frame_size);
+    // establecer contexto de locals para que emit_expression pueda resolver identificadores
+    g_current_locals = locals;
+    g_current_local_count = local_count;
+
+    // Emitir declaraciones/ instrucciones en orden dentro del bloque (si existe)
+    if (bloque && bloque->numHijos > 0)
+    {
+        for (size_t i = 0; i < bloque->numHijos; ++i)
+        {
+            AbstractExpresion *stmt = bloque->hijos[i];
+            if (!stmt)
+                continue;
+            emit_statement(e, stmt, locals, local_count);
+        }
+    }
+
+    // limpiar contexto
+    g_current_locals = NULL;
+    g_current_local_count = 0;
+
+    // epilogue
+    arm64_emit_function_epilogue(e, frame_size);
+
+    free(locals);
 }
 
 // Emisión de footer/placeholder
@@ -475,12 +1161,49 @@ bool generate_arm64_from_ast_with_source(AbstractExpresion *ast, Context *contex
         free_comments(list, n);
     }
 
-    // Minimal code generation placeholder
-    arm64_emit_comment(emitter, "Sección de código (placeholder):");
-    (void)ast; // por ahora no generamos instrucciones reales
-    fprintf(emitter->out, "\nmain:\n");
-    fprintf(emitter->out, "    mov x0, #0\n");
-    fprintf(emitter->out, "    ret\n");
+    // Recorrer el AST y emitir funciones (con frame/stack para variables locales)
+    arm64_emit_comment(emitter, "Sección de código: emitiendo funciones con frame y variables locales");
+    if (ast)
+    {
+        // Simple DFS to find FuncionExpresion nodes
+        AbstractExpresion **stack = NULL;
+        size_t stack_cap = 0, stack_sz = 0;
+        stack_cap = 128;
+        stack = malloc(stack_cap * sizeof(AbstractExpresion *));
+        if (stack)
+        {
+            stack[stack_sz++] = ast;
+            while (stack_sz > 0)
+            {
+                AbstractExpresion *n = stack[--stack_sz];
+                if (!n)
+                    continue;
+                if (n->interpret == interpretFuncionExpresion)
+                {
+                    FuncionExpresion *f = (FuncionExpresion *)n;
+                    emit_function_node(emitter, f);
+                    continue; // no need to descend into function body here
+                }
+                if (n->hijos && n->numHijos > 0)
+                {
+                    for (size_t i = 0; i < n->numHijos; ++i)
+                    {
+                        if (stack_sz + 1 > stack_cap)
+                        {
+                            size_t newcap = stack_cap * 2;
+                            AbstractExpresion **tmp = realloc(stack, newcap * sizeof(AbstractExpresion *));
+                            if (!tmp)
+                                break;
+                            stack = tmp;
+                            stack_cap = newcap;
+                        }
+                        stack[stack_sz++] = n->hijos[i];
+                    }
+                }
+            }
+            free(stack);
+        }
+    }
 
     emit_arm64_footer(emitter);
 
