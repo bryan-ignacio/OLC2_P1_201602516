@@ -188,6 +188,23 @@ char* procesar_secuencias_escape(const char* input) {
 /* Contador de columna */
 int yycolumn = 1;
 
+/* Buffer temporal para comentarios multilínea */
+static char *comment_buf = NULL;
+static size_t comment_buf_size = 0;
+
+/* Macro para anexar texto al buffer de comentario */
+#define APPEND_COMMENT(txt, len)                                \
+    do {                                                        \
+        size_t l = (len);                                       \
+        char *newb = realloc(comment_buf, comment_buf_size + l + 1); \
+        if (newb) {                                             \
+            comment_buf = newb;                                 \
+            memcpy(comment_buf + comment_buf_size, (txt), l);   \
+            comment_buf_size += l;                              \
+            comment_buf[comment_buf_size] = '\0';               \
+        }                                                       \
+    } while (0)
+
 /* Se ejecuta antes de cada accion, actualiza yylloc y columna */
 #define YY_USER_ACTION                                   \
     yylloc.first_line   = yylineno;                      \

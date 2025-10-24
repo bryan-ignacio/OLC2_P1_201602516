@@ -56,5 +56,11 @@ AbstractExpresion *nuevoInstruccionesExpresion()
         return NULL;
     buildAbstractExpresion(&nodo->base, interpretInstrucciones);
 
+    // Intentar asignar la línea/columna usando el contador del lexer si está disponible
+    extern int yylineno;
+    extern int yycolumn;
+    nodo->base.linea = yylineno;
+    nodo->base.columna = yycolumn;
+
     return (AbstractExpresion *)nodo;
 }

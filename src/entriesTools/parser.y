@@ -58,8 +58,9 @@ TOKEN_PLUS_ASSIGN TOKEN_MINUS_ASSIGN TOKEN_MULT_ASSIGN TOKEN_DIV_ASSIGN TOKEN_MO
 // Regla inicial donde empieza a parsear.
 %start s;
 
-// Programa estructurado con declaraciones globales y función main
-s: programa  { ast_root = $1; $$ = $1; }
+// Permitir entrada vacía (por ejemplo solo comentarios o espacios en blanco)
+s: /* empty */ { ast_root = NULL; $$ = NULL; }
+    | programa  { ast_root = $1; $$ = $1; }
     | s error ';' { yyerrok; }
     ;
 
@@ -68,7 +69,8 @@ programa: declaraciones_globales funcion_main {
         AbstractExpresion* programa = nuevoInstruccionesExpresion();
         agregarHijo(programa, $1);
         agregarHijo(programa, $2);
-        $$ = programa;
+    establecerPosicion(programa, @1.first_line, @1.first_column);
+    $$ = programa;
     }
     | funcion_main declaraciones_globales {
         AbstractExpresion* programa = nuevoInstruccionesExpresion();
@@ -79,8 +81,10 @@ programa: declaraciones_globales funcion_main {
     | funcion_main {
         AbstractExpresion* programa = nuevoInstruccionesExpresion();
         agregarHijo(programa, $1);
+        establecerPosicion(programa, @1.first_line, @1.first_column);
         $$ = programa;
     }
+    
     ;
 
 // Lista de declaraciones globales (solo funciones por ahora)
@@ -91,6 +95,7 @@ declaraciones_globales: declaraciones_globales declaracion_global {
     | declaracion_global {
         AbstractExpresion* b = nuevoInstruccionesExpresion();
         agregarHijo(b, $1);
+        establecerPosicion(b, @1.first_line, @1.first_column);
         $$ = b;
     }
     ;
@@ -105,7 +110,11 @@ funcion_main: TOKEN_PUBLIC TOKEN_STATIC TOKEN_DVOID TOKEN_IDENTIFIER '(' ')' blo
         if (strcmp($4, "main") != 0) {
             yyerror("Se esperaba 'main' como nombre de la función principal");
         }
-        $$ = nuevoFuncionMainExpresion($7);
+        {
+            AbstractExpresion *tmp = nuevoFuncionMainExpresion($7);
+            establecerPosicion(tmp, @4.first_line, @4.first_column);
+            $$ = tmp;
+        }
     }
     ;
 
@@ -114,12 +123,14 @@ lSentencia: lSentencia sentencia ';' { agregarHijo($1, $2); $$ = $1;}
     | sentencia ';' {
         AbstractExpresion* b = nuevoInstruccionesExpresion();
         agregarHijo(b, $1);
+        establecerPosicion(b, @1.first_line, @1.first_column);
         $$ =  b;
     }
     | lSentencia bloque { agregarHijo($1, $2); $$ = $1; }
     | bloque {
         AbstractExpresion* b = nuevoInstruccionesExpresion();
         agregarHijo(b, $1);
+        establecerPosicion(b, @1.first_line, @1.first_column);
         $$ = b;
     }
     | lSentencia sentencia_if { agregarHijo($1, $2); $$ = $1; }
@@ -180,7 +191,9 @@ imprimir: TOKEN_PRINT '(' lista_Expr ')' { $$ =  nuevoPrintExpresion($3); }
     }
     ;
 
-bloque: '{' lSentencia '}' { $$ =  $2; }
+/* Permitir bloque vacío o con sentencias */
+bloque: '{' '}' { AbstractExpresion* b = nuevoInstruccionesExpresion(); $$ = b; }
+    | '{' lSentencia '}' { $$ =  $2; }
     ;
 
 declaracion_var: tipoPrimitivo TOKEN_IDENTIFIER { $$ = nuevoDeclaracionVariables($1, $2, NULL, @2.first_line, @2.first_column); }

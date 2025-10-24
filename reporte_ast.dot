@@ -1,0 +1,11 @@
+digraph AST {
+    rankdir=TB;
+    node [shape=box, style=filled, fontname="Arial", fontsize=10];
+    edge [fontname="Arial", fontsize=8];
+    
+    node0 [label="Lista Instrucciones\nExpresión\nUnaria\nL:0 C:0\nHijos: 1", fillcolor="lightyellow"];
+    node1 [label="Función\nFunción\nDefinición\nL:0 C:0\nHijos: 1", fillcolor="lightgoldenrodyellow"];
+    node0 -> node1;
+    node2 [label="Lista Instrucciones\nTerminal\nHoja\nL:0 C:0", fillcolor="lightyellow"];
+    node1 -> node2;
+}

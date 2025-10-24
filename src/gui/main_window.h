@@ -16,6 +16,7 @@ typedef struct
     GtkWidget *analyze_button;
     GtkWidget *open_button;
     GtkWidget *clear_button;
+    GtkWidget *generate_arm_button;
     GtkWidget *error_report_button;
     GtkWidget *ast_report_button;
     GtkWidget *symbol_table_button;
@@ -32,6 +33,7 @@ void on_clear_clicked(GtkWidget *widget, gpointer data);
 void on_error_report_clicked(GtkWidget *widget, gpointer data);
 void on_ast_report_clicked(GtkWidget *widget, gpointer data);
 void on_symbol_table_clicked(GtkWidget *widget, gpointer data);
+void on_generate_arm_clicked(GtkWidget *widget, gpointer data);
 void on_window_destroy(GtkWidget *widget, gpointer data);
 
 // Funciones auxiliares

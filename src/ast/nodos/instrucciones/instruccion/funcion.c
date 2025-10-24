@@ -69,6 +69,11 @@ AbstractExpresion *nuevoFuncionExpresion(TipoDato tipoDato, char *nombre, Abstra
         agregarHijo((AbstractExpresion *)nodo, ListaParametros);
     agregarHijo((AbstractExpresion *)nodo, bloque);
 
+    extern int yylineno;
+    extern int yycolumn;
+    nodo->base.linea = yylineno;
+    nodo->base.columna = yycolumn;
+
     return (AbstractExpresion *)nodo;
 }
 
@@ -86,6 +91,11 @@ AbstractExpresion *nuevoFuncionMainExpresion(AbstractExpresion *bloque)
 
     // Solo agregar el bloque, sin parámetros
     agregarHijo((AbstractExpresion *)nodo, bloque);
+
+    extern int yylineno;
+    extern int yycolumn;
+    nodo->base.linea = yylineno;
+    nodo->base.columna = yycolumn;
 
     return (AbstractExpresion *)nodo;
 }

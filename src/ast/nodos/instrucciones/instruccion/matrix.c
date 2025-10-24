@@ -469,5 +469,10 @@ AbstractExpresion *nuevoListaFilas()
 
     buildAbstractExpresion(&nodo->base, interpretListaFilasExpresion);
 
+    extern int yylineno;
+    extern int yycolumn;
+    nodo->base.linea = yylineno;
+    nodo->base.columna = yycolumn;
+
     return (AbstractExpresion *)nodo;
 }

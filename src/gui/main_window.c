@@ -3,6 +3,7 @@
 #include "../ast/nodos/instrucciones/instrucciones.h"
 #include "../ast/nodos/instrucciones/instruccion/funcion.h"
 #include "../context/context.h"
+#include "../backend/arm64_generator.h"
 #include "../context/error_report.h"
 #include "../context/ast_report.h"
 #include <stdio.h>
@@ -69,6 +70,10 @@ MainWindow *create_main_window(void)
     main_window->analyze_button = gtk_button_new_with_label("Analizar");
     gtk_box_pack_start(GTK_BOX(main_buttons_hbox), main_window->analyze_button, TRUE, TRUE, 0);
 
+    // Botón para generar código ARM64
+    main_window->generate_arm_button = gtk_button_new_with_label("Generar Codigo ARM64");
+    gtk_box_pack_start(GTK_BOX(main_buttons_hbox), main_window->generate_arm_button, TRUE, TRUE, 0);
+
     // Crear contenedor horizontal para botones de reportes
     GtkWidget *report_buttons_hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
     gtk_box_pack_start(GTK_BOX(main_vbox), report_buttons_hbox, FALSE, FALSE, 0);
@@ -103,6 +108,7 @@ MainWindow *create_main_window(void)
     g_signal_connect(main_window->analyze_button, "clicked", G_CALLBACK(on_analyze_clicked), main_window);
     g_signal_connect(main_window->open_button, "clicked", G_CALLBACK(on_open_file_clicked), main_window);
     g_signal_connect(main_window->clear_button, "clicked", G_CALLBACK(on_clear_clicked), main_window);
+    g_signal_connect(main_window->generate_arm_button, "clicked", G_CALLBACK(on_generate_arm_clicked), main_window);
     g_signal_connect(main_window->error_report_button, "clicked", G_CALLBACK(on_error_report_clicked), main_window);
     g_signal_connect(main_window->ast_report_button, "clicked", G_CALLBACK(on_ast_report_clicked), main_window);
     g_signal_connect(main_window->symbol_table_button, "clicked", G_CALLBACK(on_symbol_table_clicked), main_window);
@@ -380,6 +386,39 @@ void on_symbol_table_clicked(GtkWidget *widget, gpointer data)
     (void)data;   // Evitar warning de parámetro no usado
 
     show_html_report("tabla_simbolos.html", "Reporte de Tabla de Símbolos");
+}
+
+void on_generate_arm_clicked(GtkWidget *widget, gpointer data)
+{
+    (void)widget; // Evitar warning de parámetro no usado
+    MainWindow *main_window = (MainWindow *)data;
+
+    // Verificar que exista un AST (se genera tras analizar)
+    if (!ast_root)
+    {
+        append_output_text(main_window, "Error: No hay AST disponible. Ejecute el análisis primero.\n");
+        return;
+    }
+
+    append_output_text(main_window, "Iniciando generación ARM64 (esqueleto)...\n");
+
+    // Obtener el texto fuente actual del editor para extraer comentarios
+    char *source_text = get_input_text(main_window);
+
+    const char *outpath = "salida_arm64.s";
+    bool ok = generate_arm64_from_ast_with_source(ast_root, contextoActualReporte, outpath, source_text);
+    if (source_text)
+        g_free(source_text);
+    if (ok)
+    {
+        char msg[256];
+        snprintf(msg, sizeof(msg), "Generación ARM64 completada: %s\n", outpath);
+        append_output_text(main_window, msg);
+    }
+    else
+    {
+        append_output_text(main_window, "Error: No se pudo generar el archivo ARM64.\n");
+    }
 }
 
 void on_window_destroy(GtkWidget *widget, gpointer data)

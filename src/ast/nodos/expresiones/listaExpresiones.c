@@ -19,5 +19,10 @@ AbstractExpresion *nuevoListaExpresiones()
     // asignar valores
     buildAbstractExpresion(&nodo->base, NULL);
 
+    extern int yylineno;
+    extern int yycolumn;
+    nodo->base.linea = yylineno;
+    nodo->base.columna = yycolumn;
+
     return (AbstractExpresion *)nodo;
 }
