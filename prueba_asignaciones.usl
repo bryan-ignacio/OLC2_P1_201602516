@@ -1,0 +1,42 @@
+public static void main() {
+    System.out.println("=== PRUEBA ASIGNACIONES ARM64 ===");
+
+    // Declaraciones iniciales
+    int a = 10;
+    int b = 3;
+
+    // Asignaciones simples
+    a = 5; // reasignación simple
+
+    // Asignaciones compuestas enteras
+    a += 7;
+    a -= 2;
+    a *= 3;
+    a /= 4;
+    a %= 3;
+    a &= 1;
+    a |= 2;
+    a ^= b;
+    a <<= 1;
+    a >>= 2;
+
+    // Flotantes
+    float f = 1.5f;
+    f += 2.25f;
+    f *= 2.0f;
+
+    // Double
+    double d = 1.2345;
+    d /= 2.0;
+    d += 3.14159;
+
+    // Mostrar resultados
+    System.out.println("a: " + String.valueOf(a));
+    System.out.println("f: " + String.valueOf(f));
+    System.out.println("d: " + String.valueOf(d));
+
+    // Comentarios para que el generador también los capture
+    // Comentario de línea
+    /* Comentario
+       multilínea */
+}

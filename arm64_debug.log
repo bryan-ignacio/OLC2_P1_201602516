@@ -1,0 +1,20 @@
+generate_arm64_from_ast_with_source start
+AST root present, numHijos=1
+Context present
+output_path=salida_arm64.s
+source_text length=830
+Emitter created, label_counter=0
+After parsing comments
+About to emit footer
+Footer emitted
+generate_arm64_from_ast_with_source end
+generate_arm64_from_ast_with_source start
+AST root present, numHijos=1
+Context is NULL
+output_path=salida_arm64.s
+source_text length=830
+Emitter created, label_counter=0
+After parsing comments
+About to emit footer
+Footer emitted
+generate_arm64_from_ast_with_source end

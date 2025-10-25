@@ -13,8 +13,8 @@ MKDIR   := mkdir -p $(BUILD)
 .DEFAULT_GOAL := all
 
 # Buscar todos los .c en src (excepto parser.y y lexer.l)
-SRC_FILES_CONSOLE := $(shell find $(SRC) -name '*.c' -not -path '$(SRC)/gui/*' -not -name 'main_gui.c')
-SRC_FILES_GUI := $(shell find $(SRC) -name '*.c' -not -name 'main.c')
+SRC_FILES_CONSOLE := $(shell find $(SRC) -name '*.c' -not -path '$(SRC)/gui/*' -not -path '$(SRC)/tools/*' -not -name 'main_gui.c')
+SRC_FILES_GUI := $(shell find $(SRC) -name '*.c' -not -path '$(SRC)/tools/*' -not -name 'main.c')
 
 # Archivos generados por Bison y Flex
 BISON_C := $(BUILD)/parser.tab.c
@@ -33,6 +33,12 @@ all: console
 console: $(BUILD)/calc
 
 gui: $(BUILD)/calc-gui
+
+# Herramienta para generar ARM64 desde CLI a partir de un archivo .usl
+gencli: $(BUILD)/gen_arm64_cli
+
+$(BUILD)/gen_arm64_cli: $(OBJ_ALL_CONSOLE)
+	$(CC) $(CFLAGS) -o $@ $(filter-out $(BUILD)/main.o,$^) -lm
 
 $(BUILD):
 	$(MKDIR)

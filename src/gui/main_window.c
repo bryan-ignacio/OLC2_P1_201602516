@@ -406,7 +406,11 @@ void on_generate_arm_clicked(GtkWidget *widget, gpointer data)
     char *source_text = get_input_text(main_window);
 
     const char *outpath = "salida_arm64.s";
-    bool ok = generate_arm64_from_ast_with_source(ast_root, contextoActualReporte, outpath, source_text);
+    // Por seguridad pasamos NULL como contexto para evitar accesos a estructuras
+    // que podrían ser inválidas desde la GUI; esto aún permite generación de
+    // funciones y variables locales. Si se necesita soporte global, usar la
+    // versión CLI o implementar una copia segura del contexto.
+    bool ok = generate_arm64_from_ast_with_source(ast_root, NULL, outpath, source_text);
     if (source_text)
         g_free(source_text);
     if (ok)
