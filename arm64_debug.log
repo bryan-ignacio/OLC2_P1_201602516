@@ -2,19 +2,31 @@ generate_arm64_from_ast_with_source start
 AST root present, numHijos=1
 Context present
 output_path=salida_arm64.s
-source_text length=830
+source_text length=149
 Emitter created, label_counter=0
 After parsing comments
-About to emit footer
-Footer emitted
-generate_arm64_from_ast_with_source end
-generate_arm64_from_ast_with_source start
-AST root present, numHijos=1
-Context is NULL
-output_path=salida_arm64.s
-source_text length=830
-Emitter created, label_counter=0
-After parsing comments
+collect_locals: visiting node=0xc58d5f0 interpret=0x413d09 linea=3 numHijos=3
+collect_locals: visiting node=0xc58d8f0 interpret=0x412e25 linea=0 numHijos=1
+collect_locals: visiting node=0xc58d8a0 interpret=(nil) linea=5 numHijos=1
+collect_locals: visiting node=0xc58d840 interpret=0x406dac linea=0 numHijos=2
+collect_locals: visiting node=0xc58d800 interpret=0x40a69b linea=5 numHijos=0
+collect_locals: visiting node=0xc58d740 interpret=0x40aa3d linea=5 numHijos=0
+collect_locals: visiting node=0xc58d6e0 interpret=0x40cc8d linea=4 numHijos=1
+collect_locals: visiting node=0xc58d6a0 interpret=0x40ad77 linea=0 numHijos=0
+collect_locals: visiting node=0xc58d590 interpret=0x40cc8d linea=3 numHijos=1
+collect_locals: visiting node=0xc58d550 interpret=0x40ad77 linea=0 numHijos=0
+emit_expression: node=0xc58d550 interpret=0x40ad77 linea=0 numHijos=0 target=x0
+emit_expression: node=0xc58d6a0 interpret=0x40ad77 linea=0 numHijos=0 target=x0
+PRINTNODE expr=0xc58d840 interpret=0x406dac numHijos=2
+  child[0]=0xc58d740 interpret=0x40aa3d numHijos=0 type=Identificador
+    IDENT name=mensaje
+  child[1]=0xc58d800 interpret=0x40a69b numHijos=0 type=StringValueOf
+    INTERPRET=StringValueOfExpresion
+emit_expression: node=0xc58d800 interpret=0x40a69b linea=5 numHijos=0 target=x0
+emit_expression: node=0xc58d7c0 interpret=0x40aa3d linea=5 numHijos=0 target=x3
+  identificador name=numero
+emit_expression: node=0xc58d740 interpret=0x40aa3d linea=5 numHijos=0 target=x0
+  identificador name=mensaje
 About to emit footer
 Footer emitted
 generate_arm64_from_ast_with_source end

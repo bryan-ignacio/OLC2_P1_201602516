@@ -33,6 +33,8 @@ void arm64_emit_comment(Arm64Emitter *emitter, const char *fmt, ...);
 // Helpers para emitir instrucciones que usan registros
 // Emite: mov <reg>, #<imm>
 void arm64_emit_mov_imm(Arm64Emitter *emitter, const char *reg, long imm);
+// Emite: mov <dst_reg>, <src_reg>
+void arm64_emit_mov_reg_reg(Arm64Emitter *emitter, const char *dst_reg, const char *src_reg);
 
 // Emite: adr <reg>, <label>
 void arm64_emit_adr_label(Arm64Emitter *emitter, const char *reg, const char *label);

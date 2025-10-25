@@ -1,0 +1,37 @@
+bash: valgrind: command not found...
+==319607== Memcheck, a memory error detector
+==319607== Copyright (C) 2002-2024, and GNU GPL'd, by Julian Seward et al.
+==319607== Using Valgrind-3.25.1 and LibVEX; rerun with -h for copyright info
+==319607== Command: ./build/calc-gui
+==319607== 
+==319607== 
+==319607== Process terminating with default action of signal 2 (SIGINT)
+==319607==    at 0x597077C: __internal_syscall_cancel (cancellation.c:40)
+==319607==    by 0x59707A3: __syscall_cancel (cancellation.c:75)
+==319607==    by 0x59F8C1F: connect (connect.c:26)
+==319607==    by 0x6117AC5: UnknownInlinedFun (xcb_util.c:512)
+==319607==    by 0x6117AC5: UnknownInlinedFun (xcb_util.c:316)
+==319607==    by 0x6117AC5: xcb_connect_to_display_with_auth_info (xcb_util.c:548)
+==319607==    by 0x5CD5AE9: _XConnectXCB (xcb_disp.c:78)
+==319607==    by 0x5CC5315: XOpenDisplay (OpenDis.c:129)
+==319607==    by 0x50991BB: _gdk_x11_display_open (gdkdisplay-x11.c:1565)
+==319607==    by 0x5040FF6: gdk_display_manager_open_display (gdkdisplaymanager.c:462)
+==319607==    by 0x49F6889: UnknownInlinedFun (gtkmain.c:1110)
+==319607==    by 0x49F6889: gtk_init_check (gtkmain.c:1102)
+==319607==    by 0x49F68BC: gtk_init (gtkmain.c:1167)
+==319607==    by 0x41830E: main (in /home/bryan/Developer/OLC2_P2_FINAL/OLC2_P1_201602516/build/calc-gui)
+==319607== 
+==319607== HEAP SUMMARY:
+==319607==     in use at exit: 75,085 bytes in 434 blocks
+==319607==   total heap usage: 644 allocs, 210 frees, 95,750 bytes allocated
+==319607== 
+==319607== LEAK SUMMARY:
+==319607==    definitely lost: 0 bytes in 0 blocks
+==319607==    indirectly lost: 0 bytes in 0 blocks
+==319607==      possibly lost: 0 bytes in 0 blocks
+==319607==    still reachable: 72,685 bytes in 407 blocks
+==319607==         suppressed: 0 bytes in 0 blocks
+==319607== Rerun with --leak-check=full to see details of leaked memory
+==319607== 
+==319607== For lists of detected and suppressed errors, rerun with: -s
+==319607== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

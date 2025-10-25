@@ -13,6 +13,10 @@
 #include "ast/nodos/instrucciones/instruccion/print.h"
 #include "ast/nodos/expresiones/terminales/identificadores.h"
 #include "ast/nodos/expresiones/terminales/primitivos.h"
+// llamada a funciones
+#include "ast/nodos/expresiones/llamadaFuncion.h"
+// Support for AST node String.valueOf
+#include "ast/nodos/expresiones/stringValueOf.h"
 
 // Declaraciones externas de las tablas de operaciones (definidas en los módulos aritméticos)
 extern Operacion tablaOperacionesSuma[TIPO_COUNT][TIPO_COUNT];
@@ -178,7 +182,7 @@ static bool parse_comments_from_source(const char *src, Comment **out_list, size
         ++p;
     }
 
-    *out_list = arr;
+        *out_list = arr;
     return true;
 }
 
@@ -366,6 +370,11 @@ struct Arm64Emitter
     char **str_values;
     size_t str_count;
     size_t str_cap;
+    // Buffers para conversions de String.valueOf (writable)
+    char **svbuf_labels;
+    size_t *svbuf_sizes;
+    size_t svbuf_count;
+    size_t svbuf_cap;
 };
 
 Arm64Emitter *arm64_emitter_create(FILE *out)
@@ -392,6 +401,10 @@ Arm64Emitter *arm64_emitter_create(FILE *out)
     e->str_values = NULL;
     e->str_count = 0;
     e->str_cap = 0;
+    e->svbuf_labels = NULL;
+    e->svbuf_sizes = NULL;
+    e->svbuf_count = 0;
+    e->svbuf_cap = 0;
     return e;
 }
 
@@ -440,6 +453,15 @@ void arm64_emitter_destroy(Arm64Emitter *emitter)
             free(emitter->str_values[i]);
         free(emitter->str_values);
     }
+
+    if (emitter->svbuf_labels)
+    {
+        for (size_t i = 0; i < emitter->svbuf_count; ++i)
+            free(emitter->svbuf_labels[i]);
+        free(emitter->svbuf_labels);
+    }
+    if (emitter->svbuf_sizes)
+        free(emitter->svbuf_sizes);
 
     // No cerramos el FILE* aquí (quien lo abrió lo cierra)
     free(emitter);
@@ -639,6 +661,38 @@ static const char *arm64_register_string(Arm64Emitter *e, const char *value)
     return e->str_labels[e->str_count - 1];
 }
 
+// Registrar un buffer para conversiones String.valueOf. Devuelve etiqueta del buffer.
+static const char *arm64_register_sv_buffer(Arm64Emitter *e, size_t size)
+{
+    if (!e || size == 0)
+        return NULL;
+    char label[64];
+    snprintf(label, sizeof(label), "SVBUF_%d", ++e->label_counter);
+
+    if (e->svbuf_count + 1 > e->svbuf_cap)
+    {
+        size_t newcap = e->svbuf_cap ? e->svbuf_cap * 2 : 8;
+        char **tmpl = realloc(e->svbuf_labels, newcap * sizeof(char *));
+        size_t *tmps = realloc(e->svbuf_sizes, newcap * sizeof(size_t));
+        if (!tmpl || !tmps)
+        {
+            if (tmpl)
+                free(tmpl);
+            if (tmps)
+                free(tmps);
+            return NULL;
+        }
+        e->svbuf_labels = tmpl;
+        e->svbuf_sizes = tmps;
+        e->svbuf_cap = newcap;
+    }
+
+    e->svbuf_labels[e->svbuf_count] = strdup(label);
+    e->svbuf_sizes[e->svbuf_count] = size;
+    e->svbuf_count++;
+    return e->svbuf_labels[e->svbuf_count - 1];
+}
+
 // Emitir mov <reg>, #<imm>
 void arm64_emit_mov_imm(Arm64Emitter *emitter, const char *reg, long imm)
 {
@@ -653,6 +707,14 @@ void arm64_emit_adr_label(Arm64Emitter *emitter, const char *reg, const char *la
     if (!emitter || !emitter->out || !reg || !label)
         return;
     fprintf(emitter->out, "    adr %s, %s\n", reg, label);
+}
+
+// Emite: mov <dst_reg>, <src_reg>
+void arm64_emit_mov_reg_reg(Arm64Emitter *emitter, const char *dst_reg, const char *src_reg)
+{
+    if (!emitter || !dst_reg || !src_reg)
+        return;
+    fprintf(emitter->out, "    mov %s, %s\n", dst_reg, src_reg);
 }
 
 // Define una etiqueta y una cadena asociada (ej: para probar ADR)
@@ -758,6 +820,15 @@ void arm64_emit_ldr_d_from_label(Arm64Emitter *emitter, const char *dreg, const 
     fprintf(emitter->out, "    // cargar double desde etiqueta %s en %s\n", label, dreg);
     fprintf(emitter->out, "    adr x12, %s\n", label);
     fprintf(emitter->out, "    ldr %s, [x12]\n", dreg);
+}
+
+// simple wrapper to emit a mov immediate into a 64-bit register using mov
+// (caller must ensure imm fits in an immediate for mov; used for small sizes)
+void arm64_emit_mov_imm_reg(Arm64Emitter *emitter, const char *reg, long imm)
+{
+    if (!emitter || !emitter->out || !reg)
+        return;
+    fprintf(emitter->out, "    mov %s, #%ld\n", reg, imm);
 }
 
 // Memoria helpers
@@ -1110,6 +1181,16 @@ static int collect_locals_and_offsets(AbstractExpresion *node, LocalVar **out_va
         if (!n)
             continue;
 
+        // Debug: log node being visited to help trace crashes
+        FILE *dbg = fopen("arm64_debug.log", "a");
+        if (dbg)
+        {
+            fprintf(dbg, "collect_locals: visiting node=%p interpret=%p linea=%d numHijos=%d\n",
+                    (void *)n, (void *)n->interpret, n->linea, n->numHijos);
+            fflush(dbg);
+            fclose(dbg);
+        }
+
         // Si es una declaración de variable, registrarla
         if (n->interpret == interpretDeclaracionVariable)
         {
@@ -1138,25 +1219,39 @@ static int collect_locals_and_offsets(AbstractExpresion *node, LocalVar **out_va
             count++;
         }
 
-        // push children
+        // push children (with sanity checks to avoid corrupt/huge numHijos values)
         if (n->hijos && n->numHijos > 0)
         {
-            for (size_t i = 0; i < n->numHijos; ++i)
+            // sanity clamp: if numHijos is absurdly large, skip to avoid memory blowup
+            const size_t MAX_CHILDREN = 10000;
+            if (n->numHijos > MAX_CHILDREN)
             {
-                if (stack_sz + 1 > stack_cap)
+                FILE *dbg2 = fopen("arm64_debug.log", "a");
+                if (dbg2)
                 {
-                    size_t newcap = stack_cap * 2;
-                    AbstractExpresion **tmp = realloc(stack, newcap * sizeof(AbstractExpresion *));
-                    if (!tmp)
-                    {
-                        free(vars);
-                        free(stack);
-                        return 0;
-                    }
-                    stack = tmp;
-                    stack_cap = newcap;
+                    fprintf(dbg2, "collect_locals: skipping %zu children for node=%p (exceeds MAX_CHILDREN)\n", n->numHijos, (void *)n);
+                    fclose(dbg2);
                 }
-                stack[stack_sz++] = n->hijos[i];
+            }
+            else
+            {
+                for (size_t i = 0; i < n->numHijos; ++i)
+                {
+                    if (stack_sz + 1 > stack_cap)
+                    {
+                        size_t newcap = stack_cap * 2;
+                        AbstractExpresion **tmp = realloc(stack, newcap * sizeof(AbstractExpresion *));
+                        if (!tmp)
+                        {
+                            free(vars);
+                            free(stack);
+                            return 0;
+                        }
+                        stack = tmp;
+                        stack_cap = newcap;
+                    }
+                    stack[stack_sz++] = n->hijos[i];
+                }
             }
         }
     }
@@ -1265,6 +1360,22 @@ static void emit_expression(Arm64Emitter *e, AbstractExpresion *node, const char
     if (!e || !node || !target_reg)
         return;
 
+    // Debug: log node details to help track segfaults triggered from GUI
+    FILE *dbg2 = fopen("arm64_debug.log", "a");
+    if (dbg2)
+    {
+        fprintf(dbg2, "emit_expression: node=%p interpret=%p linea=%d numHijos=%d target=%s\n",
+                (void *)node, (void *)node->interpret, node->linea, node->numHijos, target_reg);
+        if (node->interpret == interpretIdentificadorExpresion)
+        {
+            IdentificadorExpresion *idtmp = (IdentificadorExpresion *)node;
+            if (idtmp && idtmp->nombre)
+                fprintf(dbg2, "  identificador name=%s\n", idtmp->nombre);
+        }
+        fflush(dbg2);
+        fclose(dbg2);
+    }
+
     // Caso primitivo (enteros)
     if (node->interpret == interpretPrimitivoExpresion)
     {
@@ -1357,6 +1468,148 @@ static void emit_expression(Arm64Emitter *e, AbstractExpresion *node, const char
             arm64_emit_comment(e, "primitivo sin valor para codegen");
         }
         return;
+    }
+
+    // Llamada a función: soporte básico para String.valueOf
+    if (node->interpret == interpretLlamadaFuncionExpresion)
+    {
+        LlamadaFuncionExpresion *lf = (LlamadaFuncionExpresion *)node;
+        if (lf && lf->id && strcmp(lf->id, "String.valueOf") == 0)
+        {
+            // esperar un argumento: hijo[0] = listaExpresiones ; lista.hijos[0] = argumento
+            if (node->numHijos == 0 || !node->hijos[0] || node->hijos[0]->numHijos == 0)
+            {
+                arm64_emit_comment(e, "String.valueOf sin argumentos\n");
+                // poner cadena vacia
+                const char *lbl = arm64_register_string(e, "");
+                if (lbl)
+                    arm64_emit_adr_label(e, target_reg, lbl);
+                return;
+            }
+
+            AbstractExpresion *arg = node->hijos[0]->hijos[0];
+            // determinar tipo de argumento cuando sea posible
+            TipoDato at = INT;
+            if (arg->interpret == interpretPrimitivoExpresion)
+            {
+                PrimitivoExpresion *pp = (PrimitivoExpresion *)arg;
+                at = pp->tipo;
+            }
+            else if (arg->interpret == interpretIdentificadorExpresion)
+            {
+                IdentificadorExpresion *id = (IdentificadorExpresion *)arg;
+                if (e && e->context)
+                {
+                    Symbol *s = buscarTablaSimbolos(e->context, id->nombre);
+                    if (s)
+                        at = s->tipo;
+                }
+            }
+
+            // For now, implement integer/char/boolean -> buffer via snprintf
+            if (at == INT || at == CHAR || at == BOOLEAN)
+            {
+                const char *buf = arm64_register_sv_buffer(e, 64);
+                const char *fmt = arm64_register_string(e, "%d");
+                if (!buf || !fmt)
+                {
+                    arm64_emit_comment(e, "String.valueOf: no se pudo reservar buffer/format\n");
+                    return;
+                }
+                // ADR x0, buf ; mov x1, #64 ; ADR x2, fmt ; eval arg -> x3 ; bl snprintf ; ADR target_reg, buf
+                arm64_emit_adr_label(e, "x0", buf);
+                arm64_emit_mov_imm_reg(e, "x1", 64);
+                arm64_emit_adr_label(e, "x2", fmt);
+                emit_expression(e, arg, "x3");
+                arm64_emit_bl(e, "snprintf");
+                arm64_emit_adr_label(e, target_reg, buf);
+                return;
+            }
+            else if (at == STRING)
+            {
+                // argument already a string literal or variable: evaluate into target_reg
+                emit_expression(e, arg, target_reg);
+                return;
+            }
+            else
+            {
+                // fallback: convert as int
+                const char *buf = arm64_register_sv_buffer(e, 64);
+                const char *fmt = arm64_register_string(e, "%d");
+                arm64_emit_adr_label(e, "x0", buf);
+                arm64_emit_mov_imm_reg(e, "x1", 64);
+                arm64_emit_adr_label(e, "x2", fmt);
+                emit_expression(e, arg, "x3");
+                arm64_emit_bl(e, "snprintf");
+                arm64_emit_adr_label(e, target_reg, buf);
+                return;
+            }
+        }
+    }
+
+    // Nodo específico: String.valueOf (AST especializado)
+    if (node->interpret == interpretarStringValueOf)
+    {
+        StringValueOfExpresion *sv = (StringValueOfExpresion *)node;
+        if (!sv || !sv->expresion)
+        {
+            const char *lbl = arm64_register_string(e, "");
+            if (lbl)
+                arm64_emit_adr_label(e, target_reg, lbl);
+            return;
+        }
+        AbstractExpresion *arg = sv->expresion;
+        TipoDato at = INT;
+        if (arg->interpret == interpretPrimitivoExpresion)
+        {
+            PrimitivoExpresion *pp = (PrimitivoExpresion *)arg;
+            at = pp->tipo;
+        }
+        else if (arg->interpret == interpretIdentificadorExpresion)
+        {
+            IdentificadorExpresion *id = (IdentificadorExpresion *)arg;
+            if (e && e->context)
+            {
+                Symbol *s = buscarTablaSimbolos(e->context, id->nombre);
+                if (s)
+                    at = s->tipo;
+            }
+        }
+
+        if (at == INT || at == CHAR || at == BOOLEAN)
+        {
+            const char *buf = arm64_register_sv_buffer(e, 64);
+            const char *fmt = arm64_register_string(e, "%d");
+            if (!buf || !fmt)
+            {
+                arm64_emit_comment(e, "String.valueOf: no se pudo reservar buffer/format\n");
+                return;
+            }
+            arm64_emit_adr_label(e, "x0", buf);
+            arm64_emit_mov_imm_reg(e, "x1", 64);
+            arm64_emit_adr_label(e, "x2", fmt);
+            emit_expression(e, arg, "x3");
+            arm64_emit_bl(e, "snprintf");
+            arm64_emit_adr_label(e, target_reg, buf);
+            return;
+        }
+        else if (at == STRING)
+        {
+            emit_expression(e, arg, target_reg);
+            return;
+        }
+        else
+        {
+            const char *buf = arm64_register_sv_buffer(e, 64);
+            const char *fmt = arm64_register_string(e, "%d");
+            arm64_emit_adr_label(e, "x0", buf);
+            arm64_emit_mov_imm_reg(e, "x1", 64);
+            arm64_emit_adr_label(e, "x2", fmt);
+            emit_expression(e, arg, "x3");
+            arm64_emit_bl(e, "snprintf");
+            arm64_emit_adr_label(e, target_reg, buf);
+            return;
+        }
     }
 
     // Identificador: cargar desde variable local si existe
@@ -1814,6 +2067,239 @@ static void emit_statement(Arm64Emitter *e, AbstractExpresion *stmt, LocalVar *l
         for (size_t i = 0; i < lista->numHijos; ++i)
         {
             AbstractExpresion *expr = lista->hijos[i];
+
+            // Debug: dump this print expression node and its immediate children
+            {
+                FILE *dbgprint = fopen("arm64_debug.log", "a");
+                if (dbgprint)
+                {
+                    fprintf(dbgprint, "PRINTNODE expr=%p interpret=%p numHijos=%zu\n", (void *)expr, (void *)expr->interpret, expr ? expr->numHijos : 0);
+                    if (expr && expr->numHijos > 0 && expr->hijos)
+                    {
+                        for (size_t ci = 0; ci < expr->numHijos; ++ci)
+                        {
+                            AbstractExpresion *c = expr->hijos[ci];
+                            if (!c)
+                                continue;
+                            fprintf(dbgprint, "  child[%zu]=%p interpret=%p numHijos=%zu", ci, (void *)c, (void *)c->interpret, c->numHijos);
+                            void *cip = (void *)c->interpret;
+                            if (cip == (void *)interpretPrimitivoExpresion)
+                                fprintf(dbgprint, " type=Primitivo");
+                            else if (cip == (void *)interpretIdentificadorExpresion)
+                                fprintf(dbgprint, " type=Identificador");
+                            else if (cip == (void *)interpretLlamadaFuncionExpresion)
+                                fprintf(dbgprint, " type=LlamadaFuncion");
+                            else if (cip == (void *)interpretarStringValueOf)
+                                fprintf(dbgprint, " type=StringValueOf");
+                            else if (cip == (void *)interpretExpresionLenguaje)
+                                fprintf(dbgprint, " type=ExpresionLenguaje");
+                            fprintf(dbgprint, "\n");
+                            if (c->interpret == interpretIdentificadorExpresion)
+                            {
+                                IdentificadorExpresion *idc = (IdentificadorExpresion *)c;
+                                if (idc && idc->nombre)
+                                    fprintf(dbgprint, "    IDENT name=%s\n", idc->nombre);
+                            }
+                            else if (c->interpret == interpretLlamadaFuncionExpresion)
+                            {
+                                LlamadaFuncionExpresion *lfc = (LlamadaFuncionExpresion *)c;
+                                if (lfc && lfc->id)
+                                    fprintf(dbgprint, "    CALL id=%s\n", lfc->id);
+                            }
+                            else if (c->interpret == interpretPrimitivoExpresion)
+                            {
+                                PrimitivoExpresion *pc = (PrimitivoExpresion *)c;
+                                if (pc && pc->valor)
+                                    fprintf(dbgprint, "    PRIM tipo=%d val=%s\n", pc->tipo, pc->valor);
+                            }
+                            else
+                            {
+                                // Try to heuristically identify known interpreter functions
+                                void *ip = (void *)c->interpret;
+                                if (ip == (void *)interpretPrimitivoExpresion)
+                                    fprintf(dbgprint, "    INTERPRET=PrimitivoExpresion\n");
+                                else if (ip == (void *)interpretIdentificadorExpresion)
+                                    fprintf(dbgprint, "    INTERPRET=IdentificadorExpresion\n");
+                                else if (ip == (void *)interpretLlamadaFuncionExpresion)
+                                    fprintf(dbgprint, "    INTERPRET=LlamadaFuncionExpresion\n");
+                                else if (ip == (void *)interpretarStringValueOf)
+                                    fprintf(dbgprint, "    INTERPRET=StringValueOfExpresion\n");
+                                else if (ip == (void *)interpretExpresionLenguaje)
+                                    fprintf(dbgprint, "    INTERPRET=ExpresionLenguaje\n");
+                                else
+                                    fprintf(dbgprint, "    INTERPRET=unknown ptr=%p\n", ip);
+                            }
+                        }
+                    }
+                    fflush(dbgprint);
+                    fclose(dbgprint);
+                }
+            }
+
+            // Special-case: detect simple concatenation expressions like (string + expr)
+            if (expr && expr->interpret == interpretExpresionLenguaje)
+            {
+                ExpresionLenguaje *exchk = (ExpresionLenguaje *)expr;
+                if (exchk->tablaOperaciones == &tablaOperacionesSuma && expr->numHijos == 2)
+                {
+                    AbstractExpresion *L = expr->hijos[0];
+                    AbstractExpresion *R = expr->hijos[1];
+                    bool left_is_string = false, right_is_string = false;
+                    if (L)
+                    {
+                        if (L->interpret == interpretPrimitivoExpresion)
+                        {
+                            PrimitivoExpresion *pl = (PrimitivoExpresion *)L;
+                            if (pl->tipo == STRING)
+                                left_is_string = true;
+                        }
+                        else if (L->interpret == interpretIdentificadorExpresion)
+                        {
+                            IdentificadorExpresion *idl = (IdentificadorExpresion *)L;
+                            bool found_string = false;
+                            if (e && e->context)
+                            {
+                                Symbol *sl = buscarTablaSimbolos(e->context, idl->nombre);
+                                if (sl && sl->tipo == STRING)
+                                    found_string = true;
+                            }
+                            // fallback: check local variables table
+                            if (!found_string && g_current_locals && g_current_local_count > 0)
+                            {
+                                LocalVar *lv = find_local(g_current_locals, g_current_local_count, idl->nombre);
+                                if (lv && lv->tipo == STRING)
+                                    found_string = true;
+                            }
+                            if (found_string)
+                                left_is_string = true;
+                        }
+                    }
+                    if (R)
+                    {
+                        if (R->interpret == interpretPrimitivoExpresion)
+                        {
+                            PrimitivoExpresion *pr = (PrimitivoExpresion *)R;
+                            if (pr->tipo == STRING)
+                                right_is_string = true;
+                        }
+                        else if (R->interpret == interpretIdentificadorExpresion)
+                        {
+                            IdentificadorExpresion *idr = (IdentificadorExpresion *)R;
+                            bool found_string_r = false;
+                            if (e && e->context)
+                            {
+                                Symbol *sr = buscarTablaSimbolos(e->context, idr->nombre);
+                                if (sr && sr->tipo == STRING)
+                                    found_string_r = true;
+                            }
+                            if (!found_string_r && g_current_locals && g_current_local_count > 0)
+                            {
+                                LocalVar *lv2 = find_local(g_current_locals, g_current_local_count, idr->nombre);
+                                if (lv2 && lv2->tipo == STRING)
+                                    found_string_r = true;
+                            }
+                            if (found_string_r)
+                                right_is_string = true;
+                        }
+                    }
+
+                    if (left_is_string || right_is_string)
+                    {
+                        // emit printf("%s%s", left, right)
+                        const char *fmt_ss = arm64_register_string(e, "%s%s");
+                        // Evaluate the side that may perform a snprintf (String.valueOf)
+                        // first, so we don't clobber an already-evaluated string pointer
+                        // in registers used by snprintf. After that evaluate the other
+                        // side and call printf with x0=format, x1=left, x2=right.
+                        bool R_may_stringify = false;
+                        bool L_may_stringify = false;
+                        if (R)
+                        {
+                            if (R->interpret == interpretarStringValueOf)
+                                R_may_stringify = true;
+                            else if (R->interpret == interpretLlamadaFuncionExpresion)
+                            {
+                                LlamadaFuncionExpresion *lf = (LlamadaFuncionExpresion *)R;
+                                if (lf && lf->id && strcmp(lf->id, "String.valueOf") == 0)
+                                    R_may_stringify = true;
+                            }
+                        }
+                        if (L)
+                        {
+                            if (L->interpret == interpretarStringValueOf)
+                                L_may_stringify = true;
+                            else if (L->interpret == interpretLlamadaFuncionExpresion)
+                            {
+                                LlamadaFuncionExpresion *lf2 = (LlamadaFuncionExpresion *)L;
+                                if (lf2 && lf2->id && strcmp(lf2->id, "String.valueOf") == 0)
+                                    L_may_stringify = true;
+                            }
+                        }
+
+                        // If either side will call snprintf, evaluate that side first.
+                        if (R_may_stringify && !L_may_stringify)
+                        {
+                            // evaluate R -> x0, move to x2
+                            emit_expression(e, R, "x0");
+                            arm64_emit_mov_reg_reg(e, "x2", "x0");
+
+                            if (L)
+                            {
+                                emit_expression(e, L, "x0");
+                                arm64_emit_mov_reg_reg(e, "x1", "x0");
+                            }
+                            else
+                            {
+                                arm64_emit_mov_imm(e, "x1", 0);
+                            }
+                        }
+                        else if (L_may_stringify && !R_may_stringify)
+                        {
+                            // evaluate L (stringify) first
+                            emit_expression(e, L, "x0");
+                            arm64_emit_mov_reg_reg(e, "x1", "x0");
+
+                            if (R)
+                            {
+                                emit_expression(e, R, "x0");
+                                arm64_emit_mov_reg_reg(e, "x2", "x0");
+                            }
+                            else
+                            {
+                                arm64_emit_mov_imm(e, "x2", 0);
+                            }
+                        }
+                        else
+                        {
+                            // default: evaluate left then right (preserves previous behavior)
+                            if (L)
+                            {
+                                emit_expression(e, L, "x0");
+                                arm64_emit_mov_reg_reg(e, "x1", "x0");
+                            }
+                            else
+                            {
+                                arm64_emit_mov_imm(e, "x1", 0);
+                            }
+
+                            if (R)
+                            {
+                                emit_expression(e, R, "x0");
+                                arm64_emit_mov_reg_reg(e, "x2", "x0");
+                            }
+                            else
+                            {
+                                arm64_emit_mov_imm(e, "x2", 0);
+                            }
+                        }
+
+                        arm64_emit_adr_label(e, "x0", fmt_ss);
+                        arm64_emit_bl(e, "printf");
+                        continue;
+                    }
+                }
+            }
+
             TipoDato t = -1;
             // try to infer type from node or context
             if (expr->interpret == interpretPrimitivoExpresion)
@@ -1886,7 +2372,7 @@ static void emit_statement(Arm64Emitter *e, AbstractExpresion *stmt, LocalVar *l
                 arm64_emit_bl(e, "printf");
                 break;
             }
-                        }
+            }
         }
 
         // after printing all parts, output newline via putchar
@@ -1972,6 +2458,19 @@ static void emit_arm64_footer(Arm64Emitter *e)
                 esc = strdup(val ? val : "");
             fprintf(e->out, "%s:\n    .asciz \"%s\"\n", lbl, esc);
             free(esc);
+        }
+    }
+
+    // Emitir buffers para String.valueOf
+    if (e->svbuf_count > 0)
+    {
+        if (e->str_count == 0)
+            fprintf(e->out, "\n.data\n");
+        for (size_t i = 0; i < e->svbuf_count; ++i)
+        {
+            const char *lbl = e->svbuf_labels[i];
+            size_t sz = e->svbuf_sizes[i];
+            fprintf(e->out, "%s:\n    .space %zu\n", lbl, sz);
         }
     }
 
@@ -2187,7 +2686,29 @@ bool generate_arm64_from_ast_with_source(AbstractExpresion *ast, Context *contex
                 if (n->interpret == interpretFuncionExpresion)
                 {
                     FuncionExpresion *f = (FuncionExpresion *)n;
-                    emit_function_node(emitter, f);
+                    // Basic sanity checks before emitting a function to avoid crashes
+                    bool safe_to_emit = true;
+                    if (f->base.numHijos > 1024)
+                        safe_to_emit = false;
+                    AbstractExpresion *last = NULL;
+                    if (f->base.numHijos > 0)
+                        last = f->base.hijos[f->base.numHijos - 1];
+                    if (last && last->numHijos > 10000)
+                        safe_to_emit = false;
+                    if (!safe_to_emit)
+                    {
+                        FILE *dbg3 = fopen("arm64_debug.log", "a");
+                        if (dbg3)
+                        {
+                            fprintf(dbg3, "Skipping emit_function_node for function %s due to unsafe shape: numHijos=%zu last_numHijos=%zu\n",
+                                    f->nombre ? f->nombre : "(anon)", f->base.numHijos, last ? last->numHijos : 0);
+                            fclose(dbg3);
+                        }
+                    }
+                    else
+                    {
+                        emit_function_node(emitter, f);
+                    }
                     continue; // no need to descend into function body here
                 }
                 // Emitir constantes globales si aparecen en el AST de nivel superior

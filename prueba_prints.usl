@@ -1,0 +1,7 @@
+public static void main(){
+
+    int numero = 42;
+    String mensaje = "El número es: ";
+    System.out.println(mensaje + String.valueOf(numero));
+
+}
