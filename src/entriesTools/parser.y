@@ -38,6 +38,9 @@
 TOKEN_DBOOLEAN TOKEN_DCHAR TOKEN_UNSIGNED_INTEGER TOKEN_REAL TOKEN_DOUBLE TOKEN_STRING TOKEN_CHAR TOKEN_IDENTIFIER TOKEN_RETURN TOKEN_FINAL TOKEN_LEFT_SHIFT TOKEN_RIGHT_SHIFT TOKEN_EQ TOKEN_NE TOKEN_GE TOKEN_LE TOKEN_AND TOKEN_OR TOKEN_INCREMENT TOKEN_DECREMENT
 TOKEN_PLUS_ASSIGN TOKEN_MINUS_ASSIGN TOKEN_MULT_ASSIGN TOKEN_DIV_ASSIGN TOKEN_MOD_ASSIGN TOKEN_AND_ASSIGN TOKEN_OR_ASSIGN TOKEN_XOR_ASSIGN TOKEN_LSHIFT_ASSIGN TOKEN_RSHIFT_ASSIGN TOKEN_SWITCH TOKEN_CASE TOKEN_BREAK TOKEN_DEFAULT TOKEN_WHILE TOKEN_CONTINUE TOKEN_FOR TOKEN_NEW TOKEN_NULL
 
+/* Token para potencia */
+TOKEN_POW
+
 /* Tipo de los no-terminales que llevan valor */
 %type <nodo> s programa declaraciones_globales declaracion_global funcion_main lSentencia sentencia expr imprimir lista_Expr bloque declaracion_var declaracion_const asignacion primitivo sentencia_if sentencia_funcion lista_parametros sentencia_switch lista_casos caso sentencia_while sentencia_for declaracion_array lista_elementos acceso_array declaracion_matrix lista_filas lista_fila acceso_matrix
 
@@ -51,6 +54,7 @@ TOKEN_PLUS_ASSIGN TOKEN_MINUS_ASSIGN TOKEN_MULT_ASSIGN TOKEN_DIV_ASSIGN TOKEN_MO
 %left TOKEN_EQ TOKEN_NE // == != (igualdad/desigualdad)
 %left '<' '>' TOKEN_LE TOKEN_GE // < > <= >= (comparación)
 %left '+' '-' //suma y resta
+%right TOKEN_POW        // potencia (asociatividad derecha, mayor precedencia que */%)
 %left '*' '/' '%' //multiplicación, división y módulo
 %left NEG
 
@@ -285,6 +289,7 @@ expr: expr '+' expr   { $$ =  nuevoSumaExpresion($1, $3);  }
     | expr '-' expr { $$ =  nuevoRestaExpresion($1, $3); }
     | expr '*' expr { $$ =  nuevoMultiplicacionExpresion($1, $3); }
     | expr '/' expr { $$ =  nuevoDivisionExpresion($1, $3); }
+    | expr TOKEN_POW expr { $$ = nuevoPotenciaExpresion($1, $3); }
     | expr '%' expr { $$ =  nuevoModuloExpresion($1, $3); }
     | expr '&' expr { $$ =  nuevoBitwiseAndExpresion($1, $3); }
     | expr '|' expr { $$ =  nuevoBitwiseOrExpresion($1, $3); }

@@ -128,6 +128,28 @@ Result moduloDoubleFloat(Result, Result);
 
 extern Operacion tablaOperacionesModulo[TIPO_COUNT][TIPO_COUNT];
 
+/* POTENCIA */
+Result potenciaIntInt(Result, Result);
+Result potenciaFloatFloat(Result, Result);
+Result potenciaIntFloat(Result, Result);
+Result potenciaFloatInt(Result, Result);
+
+// Operaciones con CHAR
+Result potenciaCharChar(Result, Result);
+Result potenciaCharInt(Result, Result);
+Result potenciaIntChar(Result, Result);
+Result potenciaCharFloat(Result, Result);
+Result potenciaFloatChar(Result, Result);
+
+// Operaciones con DOUBLE
+Result potenciaDoubleDouble(Result, Result);
+Result potenciaIntDouble(Result, Result);
+Result potenciaDoubleInt(Result, Result);
+Result potenciaFloatDouble(Result, Result);
+Result potenciaDoubleFloat(Result, Result);
+
+extern Operacion tablaOperacionesPotencia[TIPO_COUNT][TIPO_COUNT];
+
 /* UNARIO */
 Result negarAritmeticoInt(Result, Result);
 Result negarAritmeticoFloat(Result, Result);

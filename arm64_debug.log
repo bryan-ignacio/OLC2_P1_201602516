@@ -6670,3 +6670,35 @@ emit_expression: node=0x3ef7a4b0 interpret=0x40adf3 linea=0 numHijos=0 target=x0
 About to emit footer
 Footer emitted
 generate_arm64_from_ast_with_source end
+generate_arm64_from_ast_with_source start
+AST root present, numHijos=1
+Context is NULL
+output_path=salida_arm64.s
+source_text length=92
+Emitter created, label_counter=0
+After parsing comments
+collect_locals: visiting node=0x10c508850 interpret=0x1003c6fd0 linea=2 numHijos=4
+collect_locals: visiting node=0x10c5094a0 interpret=0x1003cac78 linea=0 numHijos=1
+collect_locals: visiting node=0x10c508bd0 interpret=0x0 linea=5 numHijos=1
+collect_locals: visiting node=0x10c504540 interpret=0x1003be098 linea=5 numHijos=0
+collect_locals: visiting node=0x10c508b90 interpret=0x1003c7644 linea=4 numHijos=1
+collect_locals: visiting node=0x10c504510 interpret=0x1003bda20 linea=0 numHijos=2
+collect_locals: visiting node=0x10c50c330 interpret=0x1003be098 linea=4 numHijos=0
+collect_locals: visiting node=0x10c508c70 interpret=0x1003be098 linea=4 numHijos=0
+collect_locals: visiting node=0x10c5053c0 interpret=0x1003c7644 linea=3 numHijos=1
+collect_locals: visiting node=0x10c505d50 interpret=0x1003bdd20 linea=0 numHijos=0
+collect_locals: visiting node=0x10c50c590 interpret=0x1003c7644 linea=2 numHijos=1
+collect_locals: visiting node=0x10c509ef0 interpret=0x1003bdd20 linea=0 numHijos=0
+emit_expression: node=0x10c509ef0 interpret=0x1003bdd20 linea=0 numHijos=0 target=x0
+emit_expression: node=0x10c505d50 interpret=0x1003bdd20 linea=0 numHijos=0 target=x0
+emit_expression: node=0x10c504510 interpret=0x1003bda20 linea=0 numHijos=2 target=x0
+emit_expression: node=0x10c508c70 interpret=0x1003be098 linea=4 numHijos=0 target=x0
+  identificador name=a
+emit_expression: node=0x10c50c330 interpret=0x1003be098 linea=4 numHijos=0 target=x1
+  identificador name=b
+PRINTNODE expr=0x10c504540 interpret=0x1003be098 numHijos=0
+emit_expression: node=0x10c504540 interpret=0x1003be098 linea=5 numHijos=0 target=x1
+  identificador name=c
+About to emit footer
+Footer emitted
+generate_arm64_from_ast_with_source end

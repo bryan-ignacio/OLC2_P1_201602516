@@ -36,6 +36,7 @@ AbstractExpresion *nuevoRestaExpresion(AbstractExpresion *izquierda, AbstractExp
 AbstractExpresion *nuevoMultiplicacionExpresion(AbstractExpresion *izquierda, AbstractExpresion *derecha);
 AbstractExpresion *nuevoDivisionExpresion(AbstractExpresion *izquierda, AbstractExpresion *derecha);
 AbstractExpresion *nuevoModuloExpresion(AbstractExpresion *izquierda, AbstractExpresion *derecha);
+AbstractExpresion *nuevoPotenciaExpresion(AbstractExpresion *izquierda, AbstractExpresion *derecha);
 AbstractExpresion *nuevoUnarioExpresion(AbstractExpresion *expresion);
 AbstractExpresion *nuevoCastingExpresion(AbstractExpresion *expresion, TipoDato tipoDestino);
 
