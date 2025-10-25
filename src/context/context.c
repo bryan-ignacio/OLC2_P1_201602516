@@ -13,17 +13,24 @@
 Context *nuevoContext(Context *anterior)
 {
     Context *nuevo = malloc(sizeof(Context));
+    // inicializar memoria conservadora para evitar datos basura
     nuevo->anterior = anterior;
     if (anterior)
     {
+        // contexto hijo: hereda el id incrementado y referencia al global
         nuevo->nombre = anterior->nombre + 1;
         nuevo->global = anterior->global;
     }
     else
     {
+        // contexto raíz: asignar id 0 y establecer global a sí mismo
+        nuevo->nombre = 0;
         nuevo->global = nuevo;
     }
+
+    // Inicializar otros campos importantes a valores por defecto
     nuevo->ultimoSymbol = NULL;
+    nuevo->archivo = NULL;
 
     return nuevo;
 }

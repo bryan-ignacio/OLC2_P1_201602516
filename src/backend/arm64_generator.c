@@ -23,6 +23,12 @@ extern Operacion tablaOperacionesSuma[TIPO_COUNT][TIPO_COUNT];
 extern Operacion tablaOperacionesResta[TIPO_COUNT][TIPO_COUNT];
 extern Operacion tablaOperacionesMultiplicacion[TIPO_COUNT][TIPO_COUNT];
 extern Operacion tablaOperacionesDivision[TIPO_COUNT][TIPO_COUNT];
+extern Operacion tablaOperacionesBitwiseAnd[TIPO_COUNT][TIPO_COUNT];
+extern Operacion tablaOperacionesBitwiseOr[TIPO_COUNT][TIPO_COUNT];
+extern Operacion tablaOperacionesBitwiseXor[TIPO_COUNT][TIPO_COUNT];
+extern Operacion tablaOperacionesBitwiseNot[TIPO_COUNT][TIPO_COUNT];
+extern Operacion tablaOperacionesBitwiseLeftShift[TIPO_COUNT][TIPO_COUNT];
+extern Operacion tablaOperacionesBitwiseRightShift[TIPO_COUNT][TIPO_COUNT];
 
 // Debido a que el header de primitivos comparte un include-guard no ideal,
 // declaramos localmente la estructura mínima necesaria para inspeccionar
@@ -182,7 +188,7 @@ static bool parse_comments_from_source(const char *src, Comment **out_list, size
         ++p;
     }
 
-        *out_list = arr;
+    *out_list = arr;
     return true;
 }
 
@@ -998,6 +1004,14 @@ void arm64_emit_eor_reg_reg(Arm64Emitter *emitter, const char *dst_reg, const ch
     fprintf(emitter->out, "    eor %s, %s, %s\n", dst_reg, lhs_reg, rhs_reg);
 }
 
+// Emit MVN (bitwise NOT) : mvn <dst>, <src>
+void arm64_emit_mvn_reg(Arm64Emitter *emitter, const char *dst_reg, const char *src_reg)
+{
+    if (!emitter || !emitter->out || !dst_reg || !src_reg)
+        return;
+    fprintf(emitter->out, "    mvn %s, %s\n", dst_reg, src_reg);
+}
+
 void arm64_emit_lslv_reg_reg(Arm64Emitter *emitter, const char *dst_reg, const char *lhs_reg, const char *rhs_reg)
 {
     if (!emitter || !emitter->out || !dst_reg || !lhs_reg || !rhs_reg)
@@ -1152,6 +1166,27 @@ static int align_to(int v, int a)
     return ((v + a - 1) / a) * a;
 }
 
+// Safety limits used when traversing the AST from the generator to avoid
+// crashes caused by malformed/corrupt nodes with absurd child counts.
+#define ARM64_MAX_CHILDREN_SAFE 1000000
+#define ARM64_MAX_PRINT_CHILDREN 10000
+
+// Safe accessor for AST children — returns NULL if the node is NULL, the
+// children pointer is NULL, the requested index is out-of-bounds, or the
+// node reports an unreasonably large number of children.
+static AbstractExpresion *safe_get_child(AbstractExpresion *n, size_t idx)
+{
+    if (!n)
+        return NULL;
+    if (n->hijos == NULL)
+        return NULL;
+    if (n->numHijos > ARM64_MAX_CHILDREN_SAFE)
+        return NULL;
+    if (idx >= n->numHijos)
+        return NULL;
+    return n->hijos[idx];
+}
+
 // Escanea un subtree (funcion->bloque) y recopila todas las declaraciones de variables
 // asignándoles offsets sucesivos. Retorna frame_size calculado (ya alineado a 16).
 static int collect_locals_and_offsets(AbstractExpresion *node, LocalVar **out_vars, int *out_count)
@@ -1185,14 +1220,14 @@ static int collect_locals_and_offsets(AbstractExpresion *node, LocalVar **out_va
         FILE *dbg = fopen("arm64_debug.log", "a");
         if (dbg)
         {
-            fprintf(dbg, "collect_locals: visiting node=%p interpret=%p linea=%d numHijos=%d\n",
+            fprintf(dbg, "collect_locals: visiting node=%p interpret=%p linea=%d numHijos=%zu\n",
                     (void *)n, (void *)n->interpret, n->linea, n->numHijos);
             fflush(dbg);
             fclose(dbg);
         }
 
-        // Si es una declaración de variable, registrarla
-        if (n->interpret == interpretDeclaracionVariable)
+        // Si es una declaración de variable o constante local, registrarla
+        if (n->interpret == interpretDeclaracionVariable || n->interpret == interpretDeclaracionConstante)
         {
             DeclaracionVariable *dv = (DeclaracionVariable *)n;
             size_t sz = size_of_tipo(dv->tipo);
@@ -1364,7 +1399,7 @@ static void emit_expression(Arm64Emitter *e, AbstractExpresion *node, const char
     FILE *dbg2 = fopen("arm64_debug.log", "a");
     if (dbg2)
     {
-        fprintf(dbg2, "emit_expression: node=%p interpret=%p linea=%d numHijos=%d target=%s\n",
+        fprintf(dbg2, "emit_expression: node=%p interpret=%p linea=%d numHijos=%zu target=%s\n",
                 (void *)node, (void *)node->interpret, node->linea, node->numHijos, target_reg);
         if (node->interpret == interpretIdentificadorExpresion)
         {
@@ -1477,7 +1512,8 @@ static void emit_expression(Arm64Emitter *e, AbstractExpresion *node, const char
         if (lf && lf->id && strcmp(lf->id, "String.valueOf") == 0)
         {
             // esperar un argumento: hijo[0] = listaExpresiones ; lista.hijos[0] = argumento
-            if (node->numHijos == 0 || !node->hijos[0] || node->hijos[0]->numHijos == 0)
+            AbstractExpresion *listnode = safe_get_child(node, 0);
+            if (!listnode || listnode->numHijos == 0)
             {
                 arm64_emit_comment(e, "String.valueOf sin argumentos\n");
                 // poner cadena vacia
@@ -1487,7 +1523,14 @@ static void emit_expression(Arm64Emitter *e, AbstractExpresion *node, const char
                 return;
             }
 
-            AbstractExpresion *arg = node->hijos[0]->hijos[0];
+            AbstractExpresion *arg = safe_get_child(listnode, 0);
+            if (!arg)
+            {
+                const char *lbl = arm64_register_string(e, "");
+                if (lbl)
+                    arm64_emit_adr_label(e, target_reg, lbl);
+                return;
+            }
             // determinar tipo de argumento cuando sea posible
             TipoDato at = INT;
             if (arg->interpret == interpretPrimitivoExpresion)
@@ -1529,6 +1572,42 @@ static void emit_expression(Arm64Emitter *e, AbstractExpresion *node, const char
             {
                 // argument already a string literal or variable: evaluate into target_reg
                 emit_expression(e, arg, target_reg);
+                return;
+            }
+            else if (at == FLOAT)
+            {
+                const char *buf = arm64_register_sv_buffer(e, 64);
+                const char *fmtf = arm64_register_string(e, "%g");
+                if (!buf || !fmtf)
+                {
+                    arm64_emit_comment(e, "String.valueOf: no se pudo reservar buffer/format\n");
+                    return;
+                }
+                arm64_emit_adr_label(e, "x0", buf);
+                arm64_emit_mov_imm_reg(e, "x1", 64);
+                arm64_emit_adr_label(e, "x2", fmtf);
+                // evaluate float into s3 then convert to d3 for variadic
+                emit_expression(e, arg, "s3");
+                fprintf(e->out, "    fcvt d3, s3\n");
+                arm64_emit_bl(e, "snprintf");
+                arm64_emit_adr_label(e, target_reg, buf);
+                return;
+            }
+            else if (at == DOUBLE)
+            {
+                const char *buf = arm64_register_sv_buffer(e, 64);
+                const char *fmtd = arm64_register_string(e, "%.15g");
+                if (!buf || !fmtd)
+                {
+                    arm64_emit_comment(e, "String.valueOf: no se pudo reservar buffer/format\n");
+                    return;
+                }
+                arm64_emit_adr_label(e, "x0", buf);
+                arm64_emit_mov_imm_reg(e, "x1", 64);
+                arm64_emit_adr_label(e, "x2", fmtd);
+                emit_expression(e, arg, "d3");
+                arm64_emit_bl(e, "snprintf");
+                arm64_emit_adr_label(e, target_reg, buf);
                 return;
             }
             else
@@ -1598,6 +1677,41 @@ static void emit_expression(Arm64Emitter *e, AbstractExpresion *node, const char
             emit_expression(e, arg, target_reg);
             return;
         }
+        else if (at == FLOAT)
+        {
+            const char *buf = arm64_register_sv_buffer(e, 64);
+            const char *fmtf = arm64_register_string(e, "%g");
+            if (!buf || !fmtf)
+            {
+                arm64_emit_comment(e, "String.valueOf: no se pudo reservar buffer/format\n");
+                return;
+            }
+            arm64_emit_adr_label(e, "x0", buf);
+            arm64_emit_mov_imm_reg(e, "x1", 64);
+            arm64_emit_adr_label(e, "x2", fmtf);
+            emit_expression(e, arg, "s3");
+            fprintf(e->out, "    fcvt d3, s3\n");
+            arm64_emit_bl(e, "snprintf");
+            arm64_emit_adr_label(e, target_reg, buf);
+            return;
+        }
+        else if (at == DOUBLE)
+        {
+            const char *buf = arm64_register_sv_buffer(e, 64);
+            const char *fmtd = arm64_register_string(e, "%.15g");
+            if (!buf || !fmtd)
+            {
+                arm64_emit_comment(e, "String.valueOf: no se pudo reservar buffer/format\n");
+                return;
+            }
+            arm64_emit_adr_label(e, "x0", buf);
+            arm64_emit_mov_imm_reg(e, "x1", 64);
+            arm64_emit_adr_label(e, "x2", fmtd);
+            emit_expression(e, arg, "d3");
+            arm64_emit_bl(e, "snprintf");
+            arm64_emit_adr_label(e, target_reg, buf);
+            return;
+        }
         else
         {
             const char *buf = arm64_register_sv_buffer(e, 64);
@@ -1626,8 +1740,67 @@ static void emit_expression(Arm64Emitter *e, AbstractExpresion *node, const char
                 return;
             }
         }
-        arm64_emit_comment(e, "identificador %s no encontrado en locals (fallback no implementado)", id->nombre);
+        // intentar cargar desde símbolos globales (contexto)
+        if (e && e->context)
+        {
+            Symbol *s = buscarTablaSimbolos(e->context, id->nombre);
+            if (s)
+            {
+                arm64_emit_comment(e, "cargar identificador global %s en %s", id->nombre, target_reg);
+                char label[256];
+                snprintf(label, sizeof(label), "g_%s", id->nombre);
+                if (s->tipo == FLOAT)
+                {
+                    arm64_emit_ldr_s_from_label(e, target_reg, label);
+                    return;
+                }
+                else if (s->tipo == DOUBLE)
+                {
+                    arm64_emit_ldr_d_from_label(e, target_reg, label);
+                    return;
+                }
+                else
+                {
+                    // adr x12, label ; ldr <target_reg>, [x12]
+                    arm64_emit_adr_label(e, "x12", label);
+                    arm64_emit_ldr_reg(e, target_reg, "x12");
+                    return;
+                }
+            }
+        }
+        // Fallback: si no existe en locals ni en contexto, asumir global por defecto
+        arm64_emit_comment(e, "identificador %s no encontrado en locals ni en context; emitiendo carga desde etiqueta global g_%s (fallback)", id->nombre, id->nombre);
+        // Registrar global por defecto (tipo INT) para que el footer reserve espacio
+        if (e)
+            arm64_register_global(e, id->nombre, INT);
+        char fallback_label[256];
+        snprintf(fallback_label, sizeof(fallback_label), "g_%s", id->nombre);
+        // Emitir ADR + LDR por defecto (cubre punteros/enteros). Esto puede ser refinado
+        // si luego se registra el tipo real en el contexto.
+        arm64_emit_adr_label(e, "x12", fallback_label);
+        arm64_emit_ldr_reg(e, target_reg, "x12");
         return;
+    }
+
+    // Unarios de lenguaje (ej: bitwise NOT ~)
+    if (node->interpret == interpretUnarioLenguaje)
+    {
+        ExpresionLenguaje *exu = (ExpresionLenguaje *)node;
+        if (exu && exu->tablaOperaciones == &tablaOperacionesBitwiseNot)
+        {
+            // esperar un operando en hijo[0]
+            if (node->numHijos > 0 && node->hijos[0])
+            {
+                emit_expression(e, node->hijos[0], target_reg);
+                arm64_emit_comment(e, "emitir bitwise NOT en %s", target_reg);
+                arm64_emit_mvn_reg(e, target_reg, target_reg);
+            }
+            else
+            {
+                arm64_emit_comment(e, "bitwise NOT sin operando");
+            }
+            return;
+        }
     }
 
     // Expresiones de lenguaje (operaciones aritméticas usan la misma estructura)
@@ -1669,6 +1842,46 @@ static void emit_expression(Arm64Emitter *e, AbstractExpresion *node, const char
             arm64_emit_sdiv_reg_reg(e, target_reg, target_reg, "x1");
             return;
         }
+        else if (ex->tablaOperaciones == &tablaOperacionesBitwiseAnd)
+        {
+            emit_expression(e, node->hijos[0], target_reg);
+            emit_expression(e, node->hijos[1], "x1");
+            arm64_emit_comment(e, "emitir bitwise AND %s = %s & x1", target_reg, target_reg);
+            arm64_emit_and_reg_reg(e, target_reg, target_reg, "x1");
+            return;
+        }
+        else if (ex->tablaOperaciones == &tablaOperacionesBitwiseOr)
+        {
+            emit_expression(e, node->hijos[0], target_reg);
+            emit_expression(e, node->hijos[1], "x1");
+            arm64_emit_comment(e, "emitir bitwise OR %s = %s | x1", target_reg, target_reg);
+            arm64_emit_orr_reg_reg(e, target_reg, target_reg, "x1");
+            return;
+        }
+        else if (ex->tablaOperaciones == &tablaOperacionesBitwiseXor)
+        {
+            emit_expression(e, node->hijos[0], target_reg);
+            emit_expression(e, node->hijos[1], "x1");
+            arm64_emit_comment(e, "emitir bitwise XOR %s = %s ^ x1", target_reg, target_reg);
+            arm64_emit_eor_reg_reg(e, target_reg, target_reg, "x1");
+            return;
+        }
+        else if (ex->tablaOperaciones == &tablaOperacionesBitwiseLeftShift)
+        {
+            emit_expression(e, node->hijos[0], target_reg);
+            emit_expression(e, node->hijos[1], "x1");
+            arm64_emit_comment(e, "emitir left shift %s = %s << x1", target_reg, target_reg);
+            arm64_emit_lslv_reg_reg(e, target_reg, target_reg, "x1");
+            return;
+        }
+        else if (ex->tablaOperaciones == &tablaOperacionesBitwiseRightShift)
+        {
+            emit_expression(e, node->hijos[0], target_reg);
+            emit_expression(e, node->hijos[1], "x1");
+            arm64_emit_comment(e, "emitir right shift %s = %s >> x1", target_reg, target_reg);
+            arm64_emit_asrv_reg_reg(e, target_reg, target_reg, "x1");
+            return;
+        }
 
         // Por defecto, intentar evaluar el primer hijo
         if (node->numHijos > 0 && node->hijos[0])
@@ -1706,11 +1919,39 @@ static void emit_statement(Arm64Emitter *e, AbstractExpresion *stmt, LocalVar *l
             LocalVar *lv = find_local(locals, local_count, dv->nombre);
             if (lv)
             {
-                emit_store_to_local(e, "x0", lv);
+                /* Use the same target register used for evaluation (was hardcoded to "x0" causing
+                   incorrect stores for float/double locals). */
+                emit_store_to_local(e, target, lv);
             }
             else
             {
                 arm64_emit_comment(e, "Advertencia: variable local %s no encontrada en la tabla de offsets", dv->nombre);
+            }
+        }
+        return;
+    }
+
+    // Declaración de constante local: tratar similar a variable (evaluar inicializador y almacenar)
+    if (stmt->interpret == interpretDeclaracionConstante)
+    {
+        DeclaracionConstante *dc = (DeclaracionConstante *)stmt;
+        arm64_emit_comment(e, "declaracion constante local %s (tipo=%d)", dc->nombre, dc->tipo);
+        if (stmt->numHijos > 0 && stmt->hijos[0])
+        {
+            const char *target = "x0";
+            if (dc->tipo == FLOAT)
+                target = "s0";
+            else if (dc->tipo == DOUBLE)
+                target = "d0";
+            emit_expression(e, stmt->hijos[0], target);
+            LocalVar *lv = find_local(locals, local_count, dc->nombre);
+            if (lv)
+            {
+                emit_store_to_local(e, target, lv);
+            }
+            else
+            {
+                arm64_emit_comment(e, "Advertencia: constante local %s no encontrada en la tabla de offsets", dc->nombre);
             }
         }
         return;
@@ -1781,7 +2022,16 @@ static void emit_statement(Arm64Emitter *e, AbstractExpresion *stmt, LocalVar *l
                 }
                 else
                 {
-                    arm64_emit_comment(e, "Asignacion a symbol global o no encontrada: %s (no implementado)", av->nombre);
+                    // No se encontró en context: fallback registrar global por defecto
+                    arm64_emit_comment(e, "Asignacion a symbol global no encontrada: %s (fallback registrando global INT)", av->nombre);
+                    if (e)
+                        arm64_register_global(e, av->nombre, INT);
+                    char label[256];
+                    snprintf(label, sizeof(label), "g_%s", av->nombre);
+                    // evaluar en registro entero por defecto
+                    emit_expression(e, stmt->hijos[0], "x0");
+                    arm64_emit_adr_label(e, "x12", label);
+                    arm64_emit_str_reg(e, "x0", "x12");
                 }
             }
         }
@@ -1921,10 +2171,16 @@ static void emit_statement(Arm64Emitter *e, AbstractExpresion *stmt, LocalVar *l
                 sym = buscarTablaSimbolos(e->context, ac->nombre);
             if (!sym)
             {
-                arm64_emit_comment(e, "Asignacion compuesta a symbol global no encontrada: %s", ac->nombre);
-                return;
+                // No se encontró el símbolo en context: registrar global por defecto INT
+                arm64_emit_comment(e, "Asignacion compuesta: symbol global %s no encontrado (fallback registrando INT)", ac->nombre);
+                arm64_register_global(e, ac->nombre, INT);
+                // set sym to NULL but registration ensures a g_<name> label exists; continue
+                sym = NULL;
             }
-            arm64_register_global(e, ac->nombre, sym->tipo);
+            else
+            {
+                arm64_register_global(e, ac->nombre, sym->tipo);
+            }
             char label[256];
             snprintf(label, sizeof(label), "g_%s", ac->nombre);
 
@@ -2585,7 +2841,73 @@ bool generate_arm64_from_ast_with_source(AbstractExpresion *ast, Context *contex
         return false;
     }
     // Guardar el contexto en el emisor para que las rutinas puedan buscar símbolos
-    emitter->context = contexto;
+    // Si el llamador no proporcionó un contexto (por ejemplo la GUI), crear
+    // uno temporal para registrar símbolos localmente. No intentamos liberar
+    // este contexto aquí porque varios módulos del proyecto esperan que el
+    // contexto persista durante la generación; el CLI tampoco lo libera.
+    Context *local_ctx = NULL;
+    if (contexto)
+    {
+        emitter->context = contexto;
+    }
+    else
+    {
+        local_ctx = nuevoContext(NULL);
+        emitter->context = local_ctx;
+    }
+
+    // Antes de generar código, recorrer el AST y registrar en el contexto sólo
+    // las declaraciones de variables/constantes y las funciones. Llamar a los
+    // intérpretes correspondientes (que sólo registran símbolos) permite que
+    // el emisor consulte tipos y valores iniciales desde el contexto del
+    // emisor. Usamos emitter->context en lugar de la variable 'contexto'
+    // porque el generador puede haber creado un Context temporal cuando el
+    // llamador (GUI) pasó NULL.
+    if (ast && emitter->context)
+    {
+        AbstractExpresion **stack = NULL;
+        size_t stack_cap = 0, stack_sz = 0;
+        stack_cap = 128;
+        stack = malloc(stack_cap * sizeof(AbstractExpresion *));
+        if (stack)
+        {
+            Context *reg_ctx = emitter->context;
+            stack[stack_sz++] = ast;
+            while (stack_sz > 0)
+            {
+                AbstractExpresion *n = stack[--stack_sz];
+                if (!n)
+                    continue;
+
+                // Sólo ejecutar intérpretes que registran símbolos y no ejecutan
+                // código runtime: declaraciones y funciones.
+                if (n->interpret == interpretDeclaracionVariable || n->interpret == interpretDeclaracionConstante || n->interpret == interpretFuncionExpresion)
+                {
+                    // Llamada deliberada al intérprete para que agregue símbolos al contexto
+                    n->interpret(n, reg_ctx);
+                    continue; // no descendemos dentro de nodos de declaración/función
+                }
+
+                if (n->hijos && n->numHijos > 0)
+                {
+                    for (size_t i = 0; i < n->numHijos; ++i)
+                    {
+                        if (stack_sz + 1 > stack_cap)
+                        {
+                            size_t newcap = stack_cap * 2;
+                            AbstractExpresion **tmp = realloc(stack, newcap * sizeof(AbstractExpresion *));
+                            if (!tmp)
+                                break;
+                            stack = tmp;
+                            stack_cap = newcap;
+                        }
+                        stack[stack_sz++] = n->hijos[i];
+                    }
+                }
+            }
+            free(stack);
+        }
+    }
     if (dbg)
     {
         fprintf(dbg, "Emitter created, label_counter=%d\n", emitter->label_counter);

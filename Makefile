@@ -37,7 +37,10 @@ gui: $(BUILD)/calc-gui
 # Herramienta para generar ARM64 desde CLI a partir de un archivo .usl
 gencli: $(BUILD)/gen_arm64_cli
 
-$(BUILD)/gen_arm64_cli: $(OBJ_ALL_CONSOLE)
+$(BUILD)/gen_arm64_cli: $(OBJ_ALL_CONSOLE) src/tools/gen_arm64_cli.c
+	# Build gen_arm64_cli by linking the console objects but excluding main.o,
+	# and compile the CLI source at link time to provide the proper main
+	# symbol and references (avoids duplicate main when building the full calc binary).
 	$(CC) $(CFLAGS) -o $@ $(filter-out $(BUILD)/main.o,$^) -lm
 
 $(BUILD):

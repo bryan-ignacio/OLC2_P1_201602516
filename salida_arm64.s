@@ -7,39 +7,44 @@
 main:
     stp x29, x30, [sp, #-16]!
     mov x29, sp
-    sub sp, sp, #16
-# declaracion variable numero (tipo=3)
-# cargar literal 42 en x0
-    mov x0, #42
-    // almacenar x0 en variable local numero (offset=16)
+    sub sp, sp, #32
+# declaracion variable a (tipo=3)
+# cargar literal 3 en x0
+    mov x0, #3
+    // almacenar x0 en variable local a (offset=24)
+    sub x12, x29, #24
+    str x0, [x12]
+# declaracion variable b (tipo=3)
+# cargar literal 2 en x0
+    mov x0, #2
+    // almacenar x0 en variable local b (offset=16)
     sub x12, x29, #16
     str x0, [x12]
-# declaracion variable mensaje (tipo=6)
-# cargar literal string El número es:  en x0 via LS_1
-    adr x0, LS_1
-    // almacenar x0 en variable local mensaje (offset=8)
+# declaracion variable c (tipo=3)
+# cargar literal 3 en x0
+    mov x0, #3
+# cargar literal 5 en x1
+    mov x1, #5
+# emitir suma x0 = x0 + x1
+    add x0, x0, x1
+    // almacenar x0 en variable local c (offset=8)
     sub x12, x29, #8
     str x0, [x12]
-    adr x0, SVBUF_8
-    mov x1, #64
-    adr x2, LS_9
-# cargar identificador numero en x3
-    // cargar variable local numero (offset=16) en x3
-    sub x12, x29, #16
-    ldr x3, [x12]
-    bl snprintf
-    adr x0, SVBUF_8
-    mov x2, x0
-# cargar identificador mensaje en x0
-    // cargar variable local mensaje (offset=8) en x0
-    sub x12, x29, #8
-    ldr x0, [x12]
-    mov x1, x0
-    adr x0, LS_7
-    bl printf
+# cargar literal string hola mundo en x0 via LS_6
+    adr x0, LS_6
+    cmp x0, xzr
+    b.eq L_print_null_7
+    bl puts
+    b L_print_end_8
+
+L_print_null_7:
+    adr x0, LS_9
+    bl puts
+
+L_print_end_8:
     mov x0, #10
     bl putchar
-    add sp, sp, #16
+    add sp, sp, #32
     ldp x29, x30, [sp], #16
     ret
 
@@ -47,20 +52,16 @@ main:
 
 .data
 LS_1:
-    .asciz "El número es: "
+    .asciz "%d"
 LS_2:
-    .asciz "%d"
-LS_3:
     .asciz "%g"
-LS_4:
+LS_3:
     .asciz "%.15g"
-LS_5:
+LS_4:
     .asciz "%c"
-LS_6:
+LS_5:
     .asciz "%s"
-LS_7:
-    .asciz "%s%s"
+LS_6:
+    .asciz "hola mundo"
 LS_9:
-    .asciz "%d"
-SVBUF_8:
-    .space 64
+    .asciz "null"
